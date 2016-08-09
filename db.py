@@ -10,37 +10,55 @@ import config
 import mysql.connector as sql_con
 
 
+
+
 DATABASE_TABLES = {}
 DATABASE_TABLES['pairs'] = (
-	"CREATE TABLE 'pairs' ("
-	"	'entry_id' int(11) NOT NULL AUTO_INCREMENT,"
-	"   'circuit_id' varchar(48) NOT NULL,"
-	"	'type' varchar(24) NOT NULL,"
-	"	'cl_pair' int(6) NOT NULL,"
-	"	'uo_pair' int(6) NOT NULL,"
-	"	'customer' varchar(96),"
-	"	'cust_phone' varchar(16),"
-	"	'notes' varchar(1024),"
-	"	'date_added' date NOT NULL,"
-	"	PRIMARY KEY ('entry_id')"
-	") ENGINE=InnoDB")
+	'''CREATE TABLE pairs (
+		entry_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	   	circuit_id VARCHAR(48) NOT NULL,
+		type VARCHAR(24) NOT NULL,
+		cl_pair INT(6) NOT NULL,
+		uo_pair INT(6) NOT NULL,
+		customer VARCHAR(96),
+		cust_phone VARCHAR(16),
+		notes VARCHAR(1024),
+		date_added DATE NOT NULL
+	)''')
+
 
 DATABASE_TABLES['pairs_audit'] = (
-	"CREATE TABLE 'pairs' ("
-	"	'entry_id' int(11) NOT NULL AUTO_INCREMENT,"
-	"   'circuit_id' varchar(48) NOT NULL,"
-	"	'type' varchar(24) NOT NULL,"
-	"	'cl_pair' int(6) NOT NULL,"
-	"	'uo_pair' int(6) NOT NULL,"
-	"	'customer' varchar(96),"
-	"	'cust_phone' varchar(16),"
-	"	'notes' varchar(1024),"
-	"	'date_added' date NOT NULL,"
-	"	'audit_type' varchar(8) NOT NULL,"
-	"	'audit_date' date NOT NULL,"
-	"	'audit_user' char(12) NOT NULL,"
-	"	PRIMARY KEY ('entry_id')"
-	") ENGINE=InnoDB")
+	'''CREATE TABLE pairs_audit (
+		entry_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	   	circuit_id VARCHAR(48) NOT NULL,
+		type VARCHAR(24) NOT NULL,
+		cl_pair INT(6) NOT NULL,
+		uo_pair INT(6) NOT NULL,
+		customer VARCHAR(96),
+		cust_phone VARCHAR(16),
+		notes VARCHAR(1024),
+		date_added DATE NOT NULL,
+		audit_type VARCHAR(8) NOT NULL,
+		audit_date DATE NOT NULL,
+		audit_user CHAR(12) NOT NULL
+	)''')
+
+# DATABASE_TABLES['pairs_audit'] = (
+# 	"CREATE TABLE 'pairs_audit' ("
+# 	"	'entry_id' int(11) NOT NULL AUTO_INCREMENT,"
+# 	"   'circuit_id' varchar(48) NOT NULL,"
+# 	"	'type' varchar(24) NOT NULL,"
+# 	"	'cl_pair' int(6) NOT NULL,"
+# 	"	'uo_pair' int(6) NOT NULL,"
+# 	"	'customer' varchar(96),"
+# 	"	'cust_phone' varchar(16),"
+# 	"	'notes' varchar(1024),"
+# 	"	'date_added' date NOT NULL,"
+# 	"	'audit_type' varchar(8) NOT NULL,"
+# 	"	'audit_date' date NOT NULL,"
+# 	"	'audit_user' char(12) NOT NULL,"
+# 	"	PRIMARY KEY ('entry_id')"
+# 	") ENGINE=InnoDB")
 
 
 
@@ -74,13 +92,13 @@ def create_database():
 def create_database_tables(cursor):
 	"""
 	"""
-	for name, ddl in DATABASE_TABLES:
+	for name, ddl in DATABASE_TABLES.items():
 		try:
 			print("Creating table {}: ".format(name), end='')
 			cursor.execute(ddl)
 		
 		except sql_con.Error as err:
-			if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
+			if err.errno == sql_con.errorcode.ER_TABLE_EXISTS_ERROR:
 				print("already exists.")
 			
 			else:

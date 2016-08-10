@@ -43,7 +43,7 @@ DATABASE_TABLES['pairs_audit'] = (
 	)''')
 
 
-def create_database():
+def connect_database():
 	"""
 	"""
 	try:
@@ -139,14 +139,15 @@ def get_full_db():
 
 	db_cursor.execute(query_database)
 
-	for circuit_id, type, cl_pair, uo_pair, customer, cust_phone, notes in db_cursor:
-		print(circuit_id, type, cl_pair, uo_pair, customer, cust_phone, notes)
+	for (entry_id, circuit_id, circuit_type, cl_pair, uo_pair, customer, cust_phone, notes, date_added) in db_cursor:
+		print(entry_id, circuit_id, circuit_type, cl_pair, uo_pair, customer, cust_phone, notes, date_added)
 
 	db_connect.close()
 	
 
 
 if __name__ == "__main__":
-	create_database()
+	connect_database()
+	# create_database_tables()
 	insert_entry()
 	get_full_db()

@@ -43,31 +43,15 @@ DATABASE_TABLES['pairs_audit'] = (
 	)''')
 
 
-def connect_database():
-	"""
-	"""
-	try:
-		db_connect = sql_con.connect(**config.config_dictionary)
-		db_cursor = db_connect.cursor()
+# def connect_database():
+	# """
+	# """
 
-	except sql_con.Error as err:
-		if err.errno == sql_con.errorcode.ER_ACCESS_DENIED_ERROR:
-			print("Incorrect username or password")
-	
-		elif err.errno == sql_con.errorcode.ER_BAD_DB_ERROR:
-			print("Database does not exist")
-	
-		else:
-			print(err)
-
-	else:
-		print("Connected to database.")
-		create_database_tables(db_cursor)
-		db_connect.close()
+	# db_connect.close()
 
 
 def create_database_tables(cursor):
-	"""
+	"""Creates database tables defined in DATABASE_TABLES dictionary.
 	"""
 	for name, ddl in DATABASE_TABLES.items():
 		try:
@@ -94,9 +78,9 @@ def db_commit(database):
 def insert_entry():
 	"""
 	"""
-	print("Inserting entry")
-	db_connect = sql_con.connect(**config.config_dictionary)
-	db_cursor = db_connect.cursor()
+	print("Inserting entry...")
+	# db_connect = sql_con.connect(**config.config_dictionary)
+	# db_cursor = db_connect.cursor()
 
 	add_entry = ('''INSERT INTO pairs (
 					circuit_id, type, cl_pair, uo_pair, customer, cust_phone, 
@@ -107,13 +91,19 @@ def insert_entry():
 
 	db_cursor.execute(add_entry, data_entry1)
 	db_commit(db_connect)
-	db_connect.close()
+	# db_connect.close()
 
 
 def delete_entry(entry_id):
 	"""
 	"""
-	return
+	# db_connect = sql_con.connect(**con)
+	# entry_id = 14
+
+	delete_query = ('''DELETE FROM pairs WHERE entry_id = %s''')
+
+	db_cursor.execute(delete_query, (entry_id,))
+	db_commit(db_connect)
 
 
 def edit_entry(entry_id):
@@ -129,11 +119,11 @@ def get_entry(entry_id):
 
 
 def get_full_db():
-	"""
-	"""
-	print("Retrieving full db")
-	db_connect = sql_con.connect(**config.config_dictionary)
-	db_cursor = db_connect.cursor()
+	"""Retrieves the entire contents of the database."""
+
+	print("Retrieving full db...")
+	# db_connect = sql_con.connect(**config.config_dictionary)
+	# db_cursor = db_connect.cursor()
 
 	query_database = ('''SELECT * FROM pairs''')
 
@@ -142,12 +132,34 @@ def get_full_db():
 	for (entry_id, circuit_id, circuit_type, cl_pair, uo_pair, customer, cust_phone, notes, date_added) in db_cursor:
 		print(entry_id, circuit_id, circuit_type, cl_pair, uo_pair, customer, cust_phone, notes, date_added)
 
-	db_connect.close()
+	# db_connect.close()
 	
 
 
 if __name__ == "__main__":
-	connect_database()
+	# connect_database()
 	# create_database_tables()
+
+	try:
+		db_connect = sql_con.connect(**config.config_dictionary)
+		db_cursor = db_connect.cursor()
+
+	except sql_con.Error as err:
+		if err.errno == sql_con.errorcode.ER_ACCESS_DENIED_ERROR:
+			print("Incorrect username or password")
+
+		elif err.errno == sql_con.errorcode.ER_BAD_DB_ERROR:
+			print("Database does not exist")
+
+		else:
+			print(err)
+
+	else:
+		print("Connected to database.")
+		create_database_tables(db_cursor)
+
 	insert_entry()
+	get_full_db()
+	print("Deleted previously inserted entry")
+	delete_entry(29)
 	get_full_db()

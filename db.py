@@ -5,6 +5,7 @@ Author: Travis Barnes, Aug 08 2016
 This program functions as the API for manipulating the MySQL backend for the 
 Switchroom Pairs app.
 """
+
 from datetime import date, datetime
 import config
 import mysql.connector as sql_con
@@ -78,28 +79,23 @@ def db_commit(database):
 def insert_entry():
 	"""
 	"""
-	print("Inserting entry...")
-	# db_connect = sql_con.connect(**config.config_dictionary)
-	# db_cursor = db_connect.cursor()
+	print("\nInserting entry...")
 
 	add_entry = ('''INSERT INTO pairs (
 					circuit_id, type, cl_pair, uo_pair, customer, cust_phone, 
 					notes, date_added) 
 					VALUES (%s, %s, %s, %s, %s, %s, %s, %s)''')
 
-	data_entry1 = ('testCircuitID', 'ISDN', 123, 456, 'John Doe', '541-555-5555', 'afdsfffsdfasfd', datetime.now().date())
+	data_entry1 = ('testCircuitID', 'ISDN', 123, 456, 'John Doe', '541-555-5555',
+	 'afdsfffsdfasfd', datetime.now().date())
 
 	db_cursor.execute(add_entry, data_entry1)
 	db_commit(db_connect)
-	# db_connect.close()
 
 
 def delete_entry(entry_id):
 	"""
 	"""
-	# db_connect = sql_con.connect(**con)
-	# entry_id = 14
-
 	delete_query = ('''DELETE FROM pairs WHERE entry_id = %s''')
 
 	db_cursor.execute(delete_query, (entry_id,))
@@ -115,33 +111,31 @@ def edit_entry(entry_id):
 def get_entry(entry_id):
 	"""
 	"""
-	return
+	
 
 
 def get_full_db():
 	"""Retrieves the entire contents of the database."""
 
-	print("Retrieving full db...")
-	# db_connect = sql_con.connect(**config.config_dictionary)
-	# db_cursor = db_connect.cursor()
+	print("\nRetrieving full db...")
 
 	query_database = ('''SELECT * FROM pairs''')
 
 	db_cursor.execute(query_database)
 
-	for (entry_id, circuit_id, circuit_type, cl_pair, uo_pair, customer, cust_phone, notes, date_added) in db_cursor:
-		print(entry_id, circuit_id, circuit_type, cl_pair, uo_pair, customer, cust_phone, notes, date_added)
+	for (entry_id, circuit_id, circuit_type, cl_pair, uo_pair, customer, 
+		cust_phone, notes, date_added) in db_cursor:
+		
+		print(entry_id, circuit_id, circuit_type, cl_pair, uo_pair, 
+			customer, cust_phone, notes, date_added)
 
 	# db_connect.close()
 	
 
 
 if __name__ == "__main__":
-	# connect_database()
-	# create_database_tables()
-
 	try:
-		db_connect = sql_con.connect(**config.config_dictionary)
+		db_connect = sql_con.connect(**config.sql_config_dictionary)
 		db_cursor = db_connect.cursor()
 
 	except sql_con.Error as err:
@@ -160,6 +154,6 @@ if __name__ == "__main__":
 
 	insert_entry()
 	get_full_db()
-	print("Deleted previously inserted entry")
+	print("\nDeleting previously inserted entry...")
 	delete_entry(29)
 	get_full_db()

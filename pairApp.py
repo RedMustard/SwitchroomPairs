@@ -34,4 +34,4 @@ if __name__ == "__main__":
 	app.secret_key = str(uuid.uuid4())
 	app.debug = cfg.DEBUG
 	app.logger.setLevel(logging.DEBUG)
-	app.run(port = cfg.PORT)
+	app.run(port=cfg.PORT)

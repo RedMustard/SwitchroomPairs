@@ -1,78 +1,186 @@
 <html>
 	<head>
 		<title>NTS Pair App</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="static/css/pairs.css">
 	</head>
 
 	<body>
-	<!-- {% for i in range(10) %} {% print(i) %} {% endfor %} -->
+		<div class="container">
+			<div class="row">
+				<div class="col-md-9">
+					<div class="row">
+						<div class="col-md-3">
+						</div>
+						<div class="col-md-3">
+						</div>
+						<div class="col-md-3" align="right">
+							<a href="/login">Admin Login</a>
+						</div>
+					</div>
+						
+					<br />
 
-	<a href="/login">Login</a>
-	<br />
-	<br />
-	<form action="" method="post">
-		<table>
-			<tr>
-				<td>
-					Circuit ID:<h4>*</h4>
-					<br />
-					<input type="text" name="circuit_id" required="required">
-					<br />
-				</td>
-				<td>
-					Circuit Type:<h4>*</h4>
-					<br />
-					<select required="required">
-						<option value="Tel_#">Tel #</option>
-						<option value="ISDN">ISDN</option>
-						<option value="DSL">DSL</option>
-						<option value="56k">56k</option>
-						<option value="64k">64k</option>
-						<option value="Special">Dry Pair/OPX/Special</option>
-						<option value="Other">Other</option>
-					</select>
-				</td>
-				<td>
-					Customer Name:
-					<br />
-					<input type="text" name="customer_name">
-					<br />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Century Link Pair:<h4>*</h4>
-					<br />
-					<select required="required">
-						<option value="1501">1501</option>
-					</select>
-				</td>
-				<td>
-					UO Pair:<h4>*</h4>
-					<br />
-					<select required="required">
-						<option value="293">293</option>
-					</select>
-				</td>
-				<td>
-					Customer Phone #:
-					<br />
-					<input type="text" name="customer_phone">
-					<br />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					Notes/Comments:
-					<br />
-					<textarea></textarea>
-				</td>
-			</tr>
-			<br />
-		</table>
-		<br />
-		<h4>* Required</h4>
-	</form>
+					<form action="submit" method="post">
+						<div class="row">
+							<div class="col-md-3">
+								Circuit ID:<h4>*</h4>
+								<br />
+								<input type="text" name="circuit_id" required="required">
+							</div>
+							<div class="col-md-3">
+								Circuit Type:<h4>*</h4>
+								<br />
+								<select required="required">
+									<option value="Tel_#">Tel #</option>
+									<option value="ISDN">ISDN</option>
+									<option value="DSL">DSL</option>
+									<option value="56k">56k</option>
+									<option value="64k">64k</option>
+									<option value="Special">Dry Pair/OPX/Special</option>
+									<option value="Other">Other</option>
+								</select>
+							</div>
+							<div class="col-md-3">
+								Customer Name:
+								<br />
+								<input type="text" name="customer_name">
+							</div>
+						</div>
 
+						<br />
+						
+						<div class="row">
+							<div class="col-md-3">
+								Century Link Pair:<h4>*</h4>
+								<br />
+								<select required="required">
+									{% for i in range(1501, 3001) %}
+									<option value="{{i}}">{{i}}</option>
+									{% endfor %}
+								</select>
+							</div>
+							<div class="col-md-3">
+								UO Pair:<h4>*</h4>
+								<br />
+								<select required="required">
+									{% for i in range(001, 301) %}
+									<option value="{{i}}">{{i}}</option>
+									{% endfor %}
+								</select>
+							</div>
+							<div class="col-md-3">
+								Customer Phone #:
+								<br />
+								<input type="text" name="customer_phone">
+							</div>
+						</div>
+
+						<br />
+						
+						<div class="row">
+							<div class="col-md-3">
+								Notes/Comments:
+								<br />
+								<textarea cols="50"></textarea>
+							</div>
+							<div class="col-md-3">
+							</div>
+							<div class="col-md-3" align="right">
+								<br />
+								<br />
+								<br />
+								<input class="btn btn-xs btn-default" type="reset"	value="Clear">
+								<input class="btn btn-xs btn-primary" type="submit" value="Submit">
+								
+							</div>
+						</div>
+					</form>
+
+						<h4>* Required</h4>
+							
+				</div>
+
+				<div class="col-md-3">
+					<div class="row">
+						<!-- <div class="col-md-4"> -->
+						<b>Circuit ID:</b>
+						<!-- </div> -->
+					</div>
+					<div class="row">
+						<b>Type:</b>
+					</div>
+					<div class="row">
+						<b>Century Link Pair:</b>
+					</div>
+					<div class="row">
+						<b>UO Pair:</b>
+					</div>
+					<div class="row">
+						<b>Customer Name:</b>
+					</div>
+					<div class="row">
+						<b>Customer Phone:</b>
+					</div>
+					<div class="row">
+						<b>Notes:</b>
+					</div>
+					<div class="row">
+						<b>Date Added:</b>
+					</div>
+				</div>
+				<!-- <div class="container" align="right">
+					<table>
+						<tr>
+							<td>
+								<b>Circuit ID:</b> 
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>Type:</b>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>CenturyLink Pair:</b>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>UO Pair:</b>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>Customer Name:</b>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>Customer Phone:</b>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>Notes:</b>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>Date Added:</b>
+							</td>
+						</tr>
+					</table>
+				</div> -->
+
+			<!-- 	<div class="container-fluid" align="bottom">
+				dfsdfsdfsdfsdfs
+				</div> -->
+		</div>
+	<!-- 	<div class="container">
+		fdfsdfsdfsdf
+		</div> -->
 	</body>
 </html>

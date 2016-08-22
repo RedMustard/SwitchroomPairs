@@ -5,15 +5,33 @@
  *
  *
  */
-body {
-	font: normal 85% "Lucida Sans Unicode", sans-serif;
-}
+/*body {
+	font: normal 100% "Lucida Sans Unicode", sans-serif;
+	font-size: 12pt;
+}*/
 
 
 h4 {
  	color: #ff0000;
  	font-weight: normal;
  	font-style: italic;
+ 	font-size: 9pt;
  	margin: 0px;
+ 	padding: 0px;
  	display: inline;
  }
+
+table.pair-form {
+ 	/*padding: 5px;*/
+ 	/*margin: 5px;*/
+ 	/*background-color: #ff0000;*/
+}
+
+td {
+	padding: 10px;
+}
+
+td.table-form-buttons {
+ 	vertical-align: bottom;
+ 	text-align: right;
+}

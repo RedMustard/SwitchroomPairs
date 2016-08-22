@@ -1,11 +1,78 @@
 <html>
 	<head>
 		<title>NTS Pair App</title>
+		<link rel="stylesheet" type="text/css" href="static/css/pairs.css">
 	</head>
 
 	<body>
-	{% for i in range(10) %} {% print(i) %} {% endfor %}
+	<!-- {% for i in range(10) %} {% print(i) %} {% endfor %} -->
 
 	<a href="/login">Login</a>
+	<br />
+	<br />
+	<form action="" method="post">
+		<table>
+			<tr>
+				<td>
+					Circuit ID:<h4>*</h4>
+					<br />
+					<input type="text" name="circuit_id" required="required">
+					<br />
+				</td>
+				<td>
+					Circuit Type:<h4>*</h4>
+					<br />
+					<select required="required">
+						<option value="Tel_#">Tel #</option>
+						<option value="ISDN">ISDN</option>
+						<option value="DSL">DSL</option>
+						<option value="56k">56k</option>
+						<option value="64k">64k</option>
+						<option value="Special">Dry Pair/OPX/Special</option>
+						<option value="Other">Other</option>
+					</select>
+				</td>
+				<td>
+					Customer Name:
+					<br />
+					<input type="text" name="customer_name">
+					<br />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Century Link Pair:<h4>*</h4>
+					<br />
+					<select required="required">
+						<option value="1501">1501</option>
+					</select>
+				</td>
+				<td>
+					UO Pair:<h4>*</h4>
+					<br />
+					<select required="required">
+						<option value="293">293</option>
+					</select>
+				</td>
+				<td>
+					Customer Phone #:
+					<br />
+					<input type="text" name="customer_phone">
+					<br />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Notes/Comments:
+					<br />
+					<textarea></textarea>
+				</td>
+			</tr>
+			<br />
+		</table>
+		<br />
+		<h4>* Required</h4>
+	</form>
+
 	</body>
 </html>

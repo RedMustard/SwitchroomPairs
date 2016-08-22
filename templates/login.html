@@ -1,9 +1,11 @@
 <html>
 	<head>
 		<title>NTS Pair App - Admin Login</title>
+		<link rel="stylesheet" type="text/css" href="static/css/pairs.css">
 	</head>
 
 	<body>
+	<h4>{% if error %}{% print(error) %}{% endif %}</h4>
 		<form action="admin" method="post">
 			Username:
 			<br />
@@ -15,6 +17,7 @@
 			<br />
 			<input type="submit" value="Login">
 		</form>
+
 
 	</body>
 </html>

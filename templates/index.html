@@ -33,7 +33,7 @@
 							<div class="col-md-3">
 								Circuit Type:<h4>*</h4>
 								<br />
-								<select required="required">
+								<select name="circuit_type" required="required">
 									<option value="Tel_#">Tel #</option>
 									<option value="ISDN">ISDN</option>
 									<option value="DSL">DSL</option>
@@ -56,7 +56,7 @@
 							<div class="col-md-3">
 								Century Link Pair:<h4>*</h4>
 								<br />
-								<select required="required">
+								<select name="cl_pair" required="required">
 									{% for i in range(1501, 2701) %}
 									<option value="{{i}}">{{i}}</option>
 									{% endfor %}
@@ -65,7 +65,7 @@
 							<div class="col-md-3">
 								UO Pair:<h4>*</h4>
 								<br />
-								<select required="required">
+								<select name="uo_pair" required="required">
 									{% for i in range(001, 601) %}
 									<option value="{{i}}">{{ '%03d' % i }}</option>
 									{% endfor %}
@@ -84,7 +84,7 @@
 							<div class="col-md-3">
 								Notes/Comments:
 								<br />
-								<textarea cols="50"></textarea>
+								<textarea name="notes" cols="50"></textarea>
 							</div>
 							<div class="col-md-3">
 							</div>
@@ -148,6 +148,11 @@
 		<br />
 		<hr>
 		<!-- Bottom Container (Database View) -->
+		<!-- {% for entry in admin_db %}
+			{% print(entry) %}
+		{% endfor %}
+
+		{% print admin_db %} -->
 		<div class="wrap">
 			<table class="table table-hover table-condensed">
 				<th>Circuit ID</th>
@@ -169,78 +174,9 @@
 						<td>Lorem Ipsum lobortis ipsum. Nunc molestie dapibus purus. Proin congue eget accumsan convallis quis.</td>
 						<td>Apr 16 2012</td>
 					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>70.hcga.020465..pn</td>
-						<td>DSL</td>
-						<td>1648</td>
-						<td>206</td>
-						<td>NTS</td>
-						<td>Sam McSamFace</td>
-						<td>Lorem Ipsum lobortis ipsum. Nunc molestie dapibus purus. Proin congue eget accumsan convallis quis.</td>
-						<td>Apr 16 2012</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>70.hcga.020465..pn</td>
-						<td>DSL</td>
-						<td>1648</td>
-						<td>206</td>
-						<td>NTS</td>
-						<td>Sam McSamFace</td>
-						<td>Lorem Ipsum lobortis ipsum. Nunc molestie dapibus purus. Proin congue eget accumsan convallis quis.</td>
-						<td>Apr 16 2012</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>70.hcga.020465..pn</td>
-						<td>DSL</td>
-						<td>1648</td>
-						<td>206</td>
-						<td>NTS</td>
-						<td>Sam McSamFace</td>
-						<td>Lorem Ipsum lobortis ipsum. Nunc molestie dapibus purus. Proin congue eget accumsan convallis quis.</td>
-						<td>Apr 16 2012</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
 				</tbody>
 			</table>
+				
 		<!-- 	<div class="row">
 				<div class="col-md-2">
 

@@ -122,13 +122,13 @@ def db_commit(database):
 	database.commit()
 
 
-def insert_entry(database, entry):
+def insert_entry(database, cursor, entry):
 	"""Inserts an entry into the database.
 
 	Keyword Args:
 		entry - List containing strings for each column in the table
 	"""
-	db_cursor = database.cursor()
+	# db_cursor = database.cursor()
 
 	if len(entry) == 7:
 		print("\nInserting entry...")
@@ -141,8 +141,8 @@ def insert_entry(database, entry):
 						notes, date_added) 
 						VALUES (%s, %s, %s, %s, %s, %s, %s, %s)''')
 
-		db_cursor.execute(add_entry, entry)
-		db_commit(database)
+		cursor.execute(add_entry, entry)
+		# db_commit(database)
 
 	elif len(entry) > 7:
 		print("Your entry has too many variables")
@@ -156,57 +156,60 @@ def insert_entry(database, entry):
 	# database.close()
 
 
-def delete_entry(database, entry_id):
+def delete_entry(database, cursor, entry_id):
 	"""Deletes an entry in the database.
 
 	Keyword Args:
 		entry_id - The database ID number of the entry
 	"""
-	db_cursor = database.cursor()
+	# db_cursor = database.cursor()
 
 	delete_query = ('''DELETE FROM pairs WHERE entry_id = %s''')
 
-	db_cursor.execute(delete_query, (entry_id,))
-	db_commit(database)
+	cursor.execute(delete_query, (entry_id,))
+	# db_commit(database)
 
 
 
-def edit_entry(database, entry_id):
+def edit_entry(database, cursor, entry_id):
 	"""Edits an entry in the database.
 
 	Keyword Args:
 		entry_id - The database ID number of the entry
 	"""
-	db_cursor = database.cursor()
+	# db_cursor = database.cursor()
+	return
 
 
-def get_entry(database, entry_id):
+def get_entry(database, cursor, entry_id):
 	"""Returns an entry from the database.
 
 	Keyword Args:
 		entry_id - The database ID number of the entry
 	"""
-	db_cursor = database.cursor()
+	# db_cursor = database.cursor()
+	return
 
 
-def get_entry_id(database):
+def get_entry_id(database, cursor):
 	"""
 	"""
-	db_cursor = database.cursor()
+	# db_cursor = database.cursor()
+	return
 	
 
-def get_all_entries(database):
+def get_all_entries(database, cursor):
 	"""Retrieves the entire contents of the database."""
 	# database = connect_to_database()
-	db_cursor = database.cursor()
+	# db_cursor = database.cursor()
 
 	print("\nRetrieving full db...")
 
-	query_database = ('''SELECT * FROM pairs''')
+	query_database = ('''SELECT circuit_id, type, cl_pair, uo_pair, customer, cust_phone, notes, date_added FROM pairs''')
 
-	db_cursor.execute(query_database)
+	cursor.execute(query_database)
 
-	return db_cursor
+	return cursor
 
 	# for (entry_id, circuit_id, circuit_type, cl_pair, uo_pair, customer, 
 	# 	cust_phone, notes, date_added) in db_cursor:

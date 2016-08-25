@@ -9,19 +9,24 @@ import logging
 import config as cfg
 import uuid 
 import db
+# import __init__
 
 app = flask.Flask(__name__)
 app.secret_key = str(uuid.uuid4())
 app.debug = cfg.DEBUG
 app.logger.setLevel(logging.DEBUG)
 
+# app.jinja_env.globals.update(return_admin_db=return_admin_db())
+
 DATABASE = db.connect_to_database()
-DB_C = DATABASE.cursor()
+DB_CURSOR = DATABASE.cursor(buffered=True)
 
 
-###
-# PAGES
-###
+##########
+##
+##  PAGES
+##
+##########
 @app.route("/")
 @app.route("/index")
 def index():
@@ -113,13 +118,40 @@ def log_the_user_in(username):
 	return flask.render_template('admin.html')
 
 
+@app.template_filter('admin_db')
 def return_admin_db():
 	"""
 	"""
-	entries = db.get_all_entries(DATABASE)
-
+	entries = db.get_all_entries(DATABASE, DB_CURSOR)
 	for entry in entries:
 		print(entry)
+	return entries
+
+
+@app.route("/submit", methods=['POST'])
+def insert_entry_into_database():
+	"""
+	"""
+	form_fields = ['circuit_id', 'circuit_type', 'cl_pair', 'uo_pair', 'customer_name', 'customer_phone', 'notes']
+	entry = []
+	error = None
+
+	if request.method == 'POST':
+		for item in form_fields:
+			session[item] = request.form[item]
+			entry.append(request.form[item])
+
+
+		db.insert_entry(DATABASE, DB_CURSOR, entry)
+		db.db_commit(DATABASE)
+
+	else:
+		error = 'An error occurred processing your request.'
+
+	return redirect(url_for('index'))
+	# entry1 = ["543543535..n", "DSL", "1648", "208", "NTS", "5415555555", "Lorem Ipsum"]
+	# db.insert_entry(DATABASE, entry1)
+
 
 if __name__ == "__main__":
 	import uuid

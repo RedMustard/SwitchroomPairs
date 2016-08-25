@@ -9,6 +9,7 @@
 	<body>
 		<div class="container">
 			<div class="row">
+				<!-- Left Column (Form View) -->
 				<div class="col-md-9">
 					<div class="row">
 						<div class="col-md-3">
@@ -56,7 +57,7 @@
 								Century Link Pair:<h4>*</h4>
 								<br />
 								<select required="required">
-									{% for i in range(1501, 3001) %}
+									{% for i in range(1501, 2701) %}
 									<option value="{{i}}">{{i}}</option>
 									{% endfor %}
 								</select>
@@ -65,8 +66,8 @@
 								UO Pair:<h4>*</h4>
 								<br />
 								<select required="required">
-									{% for i in range(001, 301) %}
-									<option value="{{i}}">{{i}}</option>
+									{% for i in range(001, 601) %}
+									<option value="{{i}}">{{ '%03d' % i }}</option>
 									{% endfor %}
 								</select>
 							</div>
@@ -102,85 +103,149 @@
 							
 				</div>
 
+				<!-- Right Column (Entry Information) -->
 				<div class="col-md-3">
 					<div class="row">
-						<!-- <div class="col-md-4"> -->
 						<b>Circuit ID:</b>
-						<!-- </div> -->
 					</div>
+					<br />
 					<div class="row">
 						<b>Type:</b>
 					</div>
+					<br />
 					<div class="row">
 						<b>Century Link Pair:</b>
 					</div>
+					<br />
 					<div class="row">
 						<b>UO Pair:</b>
 					</div>
+					<br />
 					<div class="row">
 						<b>Customer Name:</b>
 					</div>
+					<br />
 					<div class="row">
 						<b>Customer Phone:</b>
 					</div>
+					<br />
 					<div class="row">
 						<b>Notes:</b>
 					</div>
+					<br />
 					<div class="row">
 						<b>Date Added:</b>
 					</div>
+					<br />
+					<br />
+					<div class="row" align="right">
+						<input class="btn btn-xs btn-warning" type="submit" value="Edit">
+						<input class="btn btn-xs btn-danger" type="submit" value="Delete">
+					</div>
 				</div>
-				<!-- <div class="container" align="right">
-					<table>
-						<tr>
-							<td>
-								<b>Circuit ID:</b> 
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<b>Type:</b>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<b>CenturyLink Pair:</b>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<b>UO Pair:</b>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<b>Customer Name:</b>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<b>Customer Phone:</b>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<b>Notes:</b>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<b>Date Added:</b>
-							</td>
-						</tr>
-					</table>
-				</div> -->
-
-			<!-- 	<div class="container-fluid" align="bottom">
-				dfsdfsdfsdfsdfs
-				</div> -->
+			</div>
 		</div>
-	<!-- 	<div class="container">
-		fdfsdfsdfsdf
-		</div> -->
+		<br />
+		<hr>
+		<!-- Bottom Container (Database View) -->
+		<div class="wrap">
+			<table class="table table-hover table-condensed">
+				<th>Circuit ID</th>
+				<th>Type</th>
+				<th>CL Pair</th>
+				<th>UO Pair</th>
+				<th>Customer Name</th>
+				<th>Customer Phone</th>
+				<th>Notes</th>
+				<th>Date Added</th>
+				<tbody class="table">
+					<tr>
+						<td>70.hcga.020465..pn</td>
+						<td>DSL</td>
+						<td>1648</td>
+						<td>206</td>
+						<td>NTS</td>
+						<td>Sam McSamFace</td>
+						<td>Lorem Ipsum lobortis ipsum. Nunc molestie dapibus purus. Proin congue eget accumsan convallis quis.</td>
+						<td>Apr 16 2012</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>70.hcga.020465..pn</td>
+						<td>DSL</td>
+						<td>1648</td>
+						<td>206</td>
+						<td>NTS</td>
+						<td>Sam McSamFace</td>
+						<td>Lorem Ipsum lobortis ipsum. Nunc molestie dapibus purus. Proin congue eget accumsan convallis quis.</td>
+						<td>Apr 16 2012</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>70.hcga.020465..pn</td>
+						<td>DSL</td>
+						<td>1648</td>
+						<td>206</td>
+						<td>NTS</td>
+						<td>Sam McSamFace</td>
+						<td>Lorem Ipsum lobortis ipsum. Nunc molestie dapibus purus. Proin congue eget accumsan convallis quis.</td>
+						<td>Apr 16 2012</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>70.hcga.020465..pn</td>
+						<td>DSL</td>
+						<td>1648</td>
+						<td>206</td>
+						<td>NTS</td>
+						<td>Sam McSamFace</td>
+						<td>Lorem Ipsum lobortis ipsum. Nunc molestie dapibus purus. Proin congue eget accumsan convallis quis.</td>
+						<td>Apr 16 2012</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		<!-- 	<div class="row">
+				<div class="col-md-2">
+
+				</div>
+				<div -->
+		</div>
 	</body>
 </html>

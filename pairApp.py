@@ -8,12 +8,15 @@ import json
 import logging
 import config as cfg
 import uuid 
-
+import db
 
 app = flask.Flask(__name__)
 app.secret_key = str(uuid.uuid4())
 app.debug = cfg.DEBUG
 app.logger.setLevel(logging.DEBUG)
+
+DATABASE = db.connect_to_database()
+DB_C = DATABASE.cursor()
 
 
 ###
@@ -23,7 +26,7 @@ app.logger.setLevel(logging.DEBUG)
 @app.route("/index")
 def index():
 	app.logger.debug("Main page entry")
-
+	return_admin_db()
 	return render_template('index.html')
 
 
@@ -68,8 +71,9 @@ def admin_login():
 			return log_the_user_in(request.form['username'])
 		else:
 			error = 'Invalid username/password'
-		
+
 		return render_template('login.html', error=error)
+
 
 @app.route("/logout")
 def logout():
@@ -108,6 +112,14 @@ def log_the_user_in(username):
 	"""
 	return flask.render_template('admin.html')
 
+
+def return_admin_db():
+	"""
+	"""
+	entries = db.get_all_entries(DATABASE)
+
+	for entry in entries:
+		print(entry)
 
 if __name__ == "__main__":
 	import uuid

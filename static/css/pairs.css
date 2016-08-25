@@ -21,10 +21,16 @@ h4 {
  	display: inline;
  }
 
-table.pair-form {
- 	/*padding: 5px;*/
- 	/*margin: 5px;*/
- 	/*background-color: #ff0000;*/
+/*table.pair-form {
+ 	padding: 5px;
+ 	margin: 5px;
+ 	background-color: #ff0000;
+}*/
+
+.wrap {
+	height: 55%;
+	display: flex;
+	overflow-y: scroll;
 }
 
 td {

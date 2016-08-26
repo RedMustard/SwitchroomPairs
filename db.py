@@ -198,10 +198,11 @@ def get_entry_id(database, cursor):
 	return
 	
 
-def get_all_entries(database, cursor):
+def get_db(database, cursor):
 	"""Retrieves the entire contents of the database."""
 	# database = connect_to_database()
 	# db_cursor = database.cursor()
+	entries = []
 
 	print("\nRetrieving full db...")
 
@@ -209,7 +210,10 @@ def get_all_entries(database, cursor):
 
 	cursor.execute(query_database)
 
-	return cursor
+	for entry in cursor:
+		entries.append(entry)
+
+	return entries
 
 	# for (entry_id, circuit_id, circuit_type, cl_pair, uo_pair, customer, 
 	# 	cust_phone, notes, date_added) in db_cursor:

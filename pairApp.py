@@ -9,17 +9,15 @@ import logging
 import config as cfg
 import uuid 
 import db
-# import __init__
 
 app = flask.Flask(__name__)
 app.secret_key = str(uuid.uuid4())
 app.debug = cfg.DEBUG
 app.logger.setLevel(logging.DEBUG)
 
-# app.jinja_env.globals.update(return_admin_db=return_admin_db())
-
 DATABASE = db.connect_to_database()
 DB_CURSOR = DATABASE.cursor(buffered=True)
+
 
 
 ##########
@@ -32,7 +30,7 @@ DB_CURSOR = DATABASE.cursor(buffered=True)
 def index():
 	app.logger.debug("Main page entry")
 	return_admin_db()
-	return render_template('index.html')
+	return render_template('index.html', entries=return_admin_db())
 
 
 @app.route("/login")
@@ -122,9 +120,7 @@ def log_the_user_in(username):
 def return_admin_db():
 	"""
 	"""
-	entries = db.get_all_entries(DATABASE, DB_CURSOR)
-	for entry in entries:
-		print(entry)
+	entries = db.get_db(DATABASE, DB_CURSOR)
 	return entries
 
 
@@ -149,8 +145,6 @@ def insert_entry_into_database():
 		error = 'An error occurred processing your request.'
 
 	return redirect(url_for('index'))
-	# entry1 = ["543543535..n", "DSL", "1648", "208", "NTS", "5415555555", "Lorem Ipsum"]
-	# db.insert_entry(DATABASE, entry1)
 
 
 if __name__ == "__main__":

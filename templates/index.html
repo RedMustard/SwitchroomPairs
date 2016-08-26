@@ -4,6 +4,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="static/css/pairs.css">
+		<script type="text/javascript" src="static/js/tableSelect.js"></script>
 	</head>
 
 	<body>
@@ -147,14 +148,12 @@
 		</div>
 		<br />
 		<hr>
-		<!-- Bottom Container (Database View) -->
-		<!-- {% for entry in admin_db %}
-			{% print(entry) %}
-		{% endfor %}
 
-		{% print admin_db %} -->
+		<!-- Bottom Container (Database View) -->
 		<div class="wrap">
-			<table class="table table-hover table-condensed">
+
+
+			<table class="table table-condensed">
 				<th>Circuit ID</th>
 				<th>Type</th>
 				<th>CL Pair</th>
@@ -164,24 +163,17 @@
 				<th>Notes</th>
 				<th>Date Added</th>
 				<tbody class="table">
-					<tr>
-						<td>70.hcga.020465..pn</td>
-						<td>DSL</td>
-						<td>1648</td>
-						<td>206</td>
-						<td>NTS</td>
-						<td>Sam McSamFace</td>
-						<td>Lorem Ipsum lobortis ipsum. Nunc molestie dapibus purus. Proin congue eget accumsan convallis quis.</td>
-						<td>Apr 16 2012</td>
-					</tr>
+					{% for entry in entries %}
+						<tr class="table-hover">
+						{% for col in entry %}
+							<td>
+							{% print(col) %}
+							</td>
+						{% endfor %}
+						</tr>
+					{% endfor %}
 				</tbody>
 			</table>
-				
-		<!-- 	<div class="row">
-				<div class="col-md-2">
-
-				</div>
-				<div -->
 		</div>
 	</body>
 </html>

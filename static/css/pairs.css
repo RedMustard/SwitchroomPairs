@@ -5,11 +5,6 @@
  *
  *
  */
-/*body {
-	font: normal 100% "Lucida Sans Unicode", sans-serif;
-	font-size: 12pt;
-}*/
-
 
 h4 {
  	color: #ff0000;
@@ -20,24 +15,3 @@ h4 {
  	padding: 0px;
  	display: inline;
  }
-
-/*table.pair-form {
- 	padding: 5px;
- 	margin: 5px;
- 	background-color: #ff0000;
-}*/
-
-.wrap {
-	height: 55%;
-	display: flex;
-	overflow-y: scroll;
-}
-
-td {
-	padding: 10px;
-}
-
-td.table-form-buttons {
- 	vertical-align: bottom;
- 	text-align: right;
-}

@@ -5,6 +5,33 @@
  *
  *
  */
+@media (min-width: 768px) {
+body {
+	overflow: hidden;
+}
+}
+
+.vcenter {
+    display: inline;
+    vertical-align: bottom;
+}
+
+
+.navbar-uo {
+	background-color: #154733; 
+	margin-bottom: 40px;
+}
+
+
+.database-table tbody {
+	overflow-y: scroll;
+	height: 230px;
+}
+
+.database-table td {
+	overflow-x: hidden;
+
+}
 
 h4 {
  	color: #ff0000;
@@ -15,3 +42,14 @@ h4 {
  	padding: 0px;
  	display: inline;
  }
+
+
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}
+
+@media (min-width: 768px) {
+  .navbar {
+    border-radius: 0px;
+  }
+}

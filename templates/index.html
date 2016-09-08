@@ -2,32 +2,41 @@
 	<head>
 		<title>NTS Pair App</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+		<!-- Bootstrap -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
+		<!-- Bootstrap Table -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.css" />
+
+		<!-- Local -->
 		<link rel="stylesheet" type="text/css" href="static/css/pairs.css">
 	</head>
 
 	<body>
-	<div class="navbar" style="background-color: #154733; margin-bottom: 10px; margin-left: -5px; margin-right: -5px;">
-	<img alt="University of Oregon" title="University of Oregon" src="static/images/uo-logo.png" height="43" width="200" />
-	</div>
-
-		<div class="container-fluid">
+		<!-- Header Bar -->
+		<div class="navbar navbar-uo">
 			<div class="row">
 
+				<div class="col-md-2 col-xs-1">
+					<img alt="University of Oregon" title="University of Oregon" src="static/images/uo-logo.png" height="43" width="200"/>
+				</div>
+
+				<br />
+
+				<div class="col-md-2 col-xs-4 offset-md-8 offset-xs-5" align="right">
+					<a href="/login" style="color: #ffffff;">Admin Login</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- Left & Right Containers -->
+		<div class="container-fluid containter-main">
+			<div class="row">
+				<div class="col-md-1">
+				</div>
 				<!-- Left Column (Form View) -->
-				<div class="col-md-8">
-					<div class="row">
-						<div class="col-md-4">
-						</div>
-						<div class="col-md-4">
-						</div>
-						<div class="col-md-4" align="right">
-							<a href="/login">Admin Login</a>
-						</div>
-					</div>
-					
+				<div class="col-md-7">
 					<form action="submit" method="post">	
 						<div class="form-group row">				
 							<div class="form-group col-md-4">
@@ -85,12 +94,12 @@
 								<textarea class="form-control" name="notes" cols="40" ></textarea>
 							</div>
 
-							<div class="form-group  col-md-4" align="center">
-								<br />
-								<br />
-								<br />
+							<div class="form-group col-md-4" align="center">
+							<br />
+							<br />
+							<br />
 								<input class="btn btn-sm btn-default" type="reset"	value="Clear">
-								<input class="btn btn-sm btn-success" type="submit" value="Submit" style="background-color: #047832; border-color: #047832">	
+								<input class="btn btn-sm btn-success" type="submit" value="Submit" style="background-color: #047832; border-color: #047832;">	
 							</div>
 						</div>
 						<h4>* Required</h4>
@@ -151,31 +160,43 @@
 					<br />
 					<br />
 					
-					<div class="row" align="right" style="margin-right: 5px">
-						<input class="btn btn-sm btn-warning" type="submit" value="Edit">
-						<input class="btn btn-sm btn-danger" type="submit" value="Delete">
+					<div class="row">
+						<!-- <div class="col-md-1">
+						</div> -->
+						<div class="offset-md-5" align="center">
+							<input class="btn btn-sm btn-warning" type="submit" value="Edit">
+							<input class="btn btn-sm btn-danger" type="submit" value="Delete">
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<br />
-		<hr>
+		<hr style="margin-bottom: 0px;" />
 
 		<!-- Bottom Container (Database View) -->
-		<div class="container-fluid">
+		<div class="container-fluid container-main">
+			<div id="toolbar">
+				<button id="remove" class="btn btn-danger"></button>
+			</div>
+			<table id="databaseTable" class="databaseTable" 
+				data-search="true" 
+				data-toggle="table" 
+				data-show-export="true"
+				data-toolbar="#toolbar"
+				data-sort-order="desc"
+				data-sort-name="cl-pair">
+				<thead>
+					<th data-width="10%" data-sortable="true">Circuit ID</th>
+					<th data-width="10%" data-sortable="true">Type</th>
+					<th id="cl-pair" data-width="1%" data-sortable="true" data-order="desc">CL Pair</th>
+					<th data-width="1%" data-sortable="true">UO Pair</th>
+					<th data-width="15%" data-sortable="true">Customer Name</th>
+					<th data-width="15%" data-sortable="true">Customer Phone</th>
+					<th data-width="25%" data-sortable="true">Notes</th>
+					<th data-width="10%" data-sortable="true">Date Added</th>
+				</thead>
 
-
-			<table class="table" id="databaseTable">
-			<tr>
-				<th>Circuit ID</th>
-				<th>Type</th>
-				<th>CL Pair</th>
-				<th>UO Pair</th>
-				<th>Customer Name</th>
-				<th>Customer Phone</th>
-				<th>Notes</th>
-				<th>Date Added</th>
-			</tr>
 				<tbody>
 					{% for entry in entries %}
 						<tr >
@@ -188,8 +209,85 @@
 					{% endfor %}
 				</tbody>
 			</table>
+
+
+			<!-- <div class="row"> -->
+		    	<!-- <div class="table-container"> -->
+
+			<!-- <table class="table table-fixed" id="databaseTable" align="center">
+				<thead class="table-inverse">
+					<tr>
+						<th>Circuit ID</th>
+						<th>Type</th>
+						<th>CL Pair</th>
+						<th>UO Pair</th>
+						<th>Customer Name</th>
+						<th>Customer Phone</th>
+						<th>Notes</th>
+						<th>Date Added</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for entry in entries %}
+						<tr >
+						{% for col in entry %}
+							<td>
+							{% print(col) %}
+							</td>
+						{% endfor %}
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table> -->
+			<!-- </div> -->
+			<!-- </div> -->
+
+
+
+			<!-- <table class="table table-hover table-sm table-striped table-bordered" id="databaseTable">
+				<thead class="table-inverse">
+					<tr>
+						<th>Circuit ID</th>
+						<th>Type</th>
+						<th>CL Pair</th>
+						<th>UO Pair</th>
+						<th>Customer Name</th>
+						<th>Customer Phone</th>
+						<th>Notes</th>
+						<th>Date Added</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for entry in entries %}
+						<tr >
+						{% for col in entry %}
+							<td>
+							{% print(col) %}
+							</td>
+						{% endfor %}
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table> -->
 		</div>
 
+		<!-- <footer class="footer">
+			<div class="container" style="margin: 0px; padding: 0px; background-color: #000000;">
+			<p> lfhsdlfshflsdf </p>
+			</div>
+		</footer> -->
+
+		<!-- JQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+		<!-- Bootstrap -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
+
+		<!-- Bootstrap Table -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.js"></script>
+		<script type="text/javascript" src="http://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script>
+		
+		<!-- Local -->
 		<script src="static/js/tableSelect.js" id="tableSelect"></script>
 	</body>
 </html>

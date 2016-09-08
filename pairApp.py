@@ -29,7 +29,6 @@ DB_CURSOR = DATABASE.cursor(buffered=True)
 @app.route("/index")
 def index():
 	app.logger.debug("Main page entry")
-	return_admin_db()
 	return render_template('index.html', entries=return_admin_db())
 
 
@@ -120,7 +119,7 @@ def log_the_user_in(username):
 def return_admin_db():
 	"""
 	"""
-	entries = db.get_db(DATABASE, DB_CURSOR)
+	entries = db.get_db(DB_CURSOR)
 	return entries
 
 
@@ -138,7 +137,7 @@ def insert_entry_into_database():
 			entry.append(request.form[item])
 
 
-		db.insert_entry(DATABASE, DB_CURSOR, entry)
+		db.insert_entry(DB_CURSOR, entry)
 		db.db_commit(DATABASE)
 
 	else:

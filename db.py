@@ -9,6 +9,7 @@ University of Oregon Switchroom Pairs app.
 from datetime import date, datetime
 import config
 import mysql.connector as sql_con
+import json
 
 
 DATABASE_TABLES = {}
@@ -92,7 +93,7 @@ def connect_to_database():
 def create_database_tables(database):
 	"""Creates database tables defined in DATABASE_TABLES dictionary.
 
-	Keyword Args:
+	Keyword Argumentss:
 		database - A MYSQLConnection object
 	"""
 	db_cursor = database.cursor()
@@ -116,16 +117,17 @@ def create_database_tables(database):
 def db_commit(database):
 	"""Permanently saves any change to the database.
 
-	Keyword Args:
+	Keyword Arguments:
 		database - A MYSQLConnection object
 	"""
 	database.commit()
 
 
-def insert_entry(database, cursor, entry):
+def insert_entry(cursor, entry):
 	"""Inserts an entry into the database.
 
-	Keyword Args:
+	Keyword Arguments:
+		cursor - A cursor object for the database to delete from
 		entry - List containing strings for each column in the table
 	"""
 	# db_cursor = database.cursor()
@@ -156,11 +158,12 @@ def insert_entry(database, cursor, entry):
 	# database.close()
 
 
-def delete_entry(database, cursor, entry_id):
+def delete_entry(cursor, entry_id):
 	"""Deletes an entry in the database.
 
-	Keyword Args:
-		entry_id - The database ID number of the entry
+	Keyword Arguments:
+		cursor - A cursor object for the database to delete from
+		entry_id - The database ID number of the entry to be retrieved
 	"""
 	# db_cursor = database.cursor()
 
@@ -171,21 +174,23 @@ def delete_entry(database, cursor, entry_id):
 
 
 
-def edit_entry(database, cursor, entry_id):
+def edit_entry(cursor, entry_id):
 	"""Edits an entry in the database.
 
-	Keyword Args:
-		entry_id - The database ID number of the entry
+	Keyword Arguments:
+		cursor - A cursor object for the database to edit
+		entry_id - The database ID number of the entry to be retrieved
 	"""
 	# db_cursor = database.cursor()
 	return
 
 
-def get_entry(database, cursor, entry_id):
+def get_entry(cursor, entry_id):
 	"""Returns an entry from the database.
 
-	Keyword Args:
-		entry_id - The database ID number of the entry
+	Keyword Arguments:
+		cursor - A cursor object for the database to retrieve from
+		entry_id - The database ID number of the entry to be retrieved
 	"""
 	# db_cursor = database.cursor()
 	return
@@ -198,8 +203,12 @@ def get_entry_id(database, cursor):
 	return
 	
 
-def get_db(database, cursor):
-	"""Retrieves the entire contents of the database."""
+def get_db(cursor):
+	"""Retrieves the entire contents of the database.
+	
+	Keyword Arguments:
+		cursor - A cursor object for the database to be retrieved 
+	"""
 	# database = connect_to_database()
 	# db_cursor = database.cursor()
 	entries = []
@@ -212,6 +221,7 @@ def get_db(database, cursor):
 
 	for entry in cursor:
 		entries.append(entry)
+		# print(entry)
 
 	return entries
 
@@ -223,6 +233,19 @@ def get_db(database, cursor):
 
 	# database.close()
 	
+
+def get_db_json(cursor):
+	"""Retrieves the entire contents of the datbase and generates a JSON
+		representation.
+
+	Keyword arguments:
+		cursor - A cursor object for the database to be retrieved
+	"""
+	
+	return
+
+
+
 
 
 # if __name__ == "__main__":

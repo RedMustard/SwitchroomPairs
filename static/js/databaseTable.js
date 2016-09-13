@@ -1,8 +1,8 @@
-var $table = $('#database-table');
-var $w = $(window)
+var rowData = [];
 
-
+// Initialize table
 $(function () {
+	var $table = $('#database-table');
 	$table.bootstrapTable('resetView', { height: getHeight() } );
 
 	$(window).resize(function () {
@@ -14,132 +14,74 @@ $(function () {
 
 
 function getHeight() {
-	var bodyRect = document.body.getBoundingClientRect();
-	var windowHeight = $(window).height();
 	var windowWidth = $(window).width();
+	var windowHeight = $(window).height();
 	var navHeight = $('#nav-bar').outerHeight(true);
 	var formHeight = $('#field-container').outerHeight(true);
 	var toolbarHeight = $('#toolbar').outerHeight(true);
-	var bottomMargin = 140;
-
-
-	var documentHeight = $(document).height();
-
-
-	console.log(documentHeight);
-
-	// console.log(bodyHeight);
-	console.log(formHeight);
-	console.log($(window).width())
+	var bottomMargin = 100;
 
 	if (windowWidth < 768) {
-		return 750;
+		return 500;
 	} else if (windowWidth >= 768) {
-
-		return windowHeight - navHeight - formHeight - bottomMargin;
+		return windowHeight - navHeight - formHeight - toolbarHeight - bottomMargin;
 	}
-	// return 250;
 }
 
 
 // Highlight table row on click
 $('#database-table').on('click', 'tbody tr', function(event) {
 	$(this).addClass('table-info').siblings().removeClass('table-info');
-	console.log( $(this).text().replace(/ /g,''));
+
+
+	var $row = $(this).closest("tr"),
+		$tds = $row.find("td");
+
+	
+
+	$.each($tds, function() {
+		// console.log($(this).text());
+		rowData.push($(this).text());	
+	});
+
+	// console.log(rowData[0]);
+
+	populateInfoList();
 });
 
+function populateInfoList() {
+	var circuitID = document.getElementById('circuit-id-info'),
+		circuitType = document.getElementById('circuit-type-info'),
+		clPair = document.getElementById('cl-pair-info'),
+		uoPair = document.getElementById('uo-pair-info'),
+		customerName = document.getElementById('customer-name-info'),
+		customerPhone = document.getElementById('customer-phone-info'),
+		notes = document.getElementById('notes-info'),
+		date = document.getElementById('date-info');
+
+
+	circuitID.innerHTML += rowData[0];
+	circuitType.innerHTML += rowData[1];
+	clPair.innerHTML += rowData[2];
+	uoPair.innerHTML += rowData[3];
+	customerName.innerHTML += rowData[4];
+	customerPhone.innerHTML += rowData[5];
+	notes.innerHTML += rowData[6];
+	date.innerHTML += rowData[7];
 
 
 
+	// console.log(rowData[1]);
 
-// function initTable() {
-// 	$table.bootstrapTable({
-// 		height: getHeight()
-// 		// columns: [
-// 		// 	[
-// 		// 		{
-// 		// 			title: 'Circuit ID',
-// 		// 			field: 'id',
-// 		// 			align: 'center',
-// 		// 			sortable: 'true'
-
-// 		// 		}
-// 		// 	]
-// 		// ]
-
-// 	});
-
-// 	setTimeout(function () {
-// 		$table.bootstrapTable('resetView');
-// 	}, 200);
-
-// 	$(window).resize(function () {
-// 		$table.bootstrapTable('resetView', {
-// 			height: getHeight()
-// 		});
-// 	});
-// }
-
-// function getHeight() {
-// 	return $(window).height() - $('h1').outerHeight(true);
-// }
-
-// $(function () {
-// 	var scripts = [
-// 			location.search.substring(1) || 'assets/bootstrap-table/src/bootstrap-table.js',
-// 			'assets/bootstrap-table/src/extensions/export/bootstrap-table-export.js',
-// 			'http://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js',
-// 			'assets/bootstrap-table/src/extensions/editable/bootstrap-table-editable.js',
-// 			'http://rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/js/bootstrap-editable.js'
-// 	],
-// 	eachSeries = function (arr, iterator, callback) {
-// 		callback = callback || function () {};
-// 		if (!arr.length) {
-// 			return callback();
-// 		}
-// 		var completed = 0;
-// 		var iterate = function () {
-// 			iterator(arr[completed], function (err) {
-// 				if (err) {
-// 					callback(err);
-// 					callback = function () {};
-// 				}
-// 				else {
-// 					completed += 1;
-// 					if (completed >= arr.length) {
-// 						callback(null);
-// 					}
-// 					else {
-// 						iterate();
-// 					}
-// 				}
-// 			});
-// 		};
-// 		iterate();
-// 	};
-// 	eachSeries(scripts, getScript, initTable);
-// });
+	// for(var i=0; i < rowData.length; i++) {
+	// 	console.log(rowData[i].toString());
+	// }
 
 
-// function getScript(url, callback) {
-// 	var head = document.getElementsByTagName('head')[0];
-// 	var script = document.createElement('script');
-// 	script.src = url;
-// 	var done = false;
-// 	// Attach handlers for all browsers
-// 	script.onload = script.onreadystatechange = function() {
-// 		if (!done && (!this.readyState ||
-// 				this.readyState == 'loaded' || this.readyState == 'complete')) {
-// 			done = true;
-// 			if (callback)
-// 				callback();
-// 			// Handle memory leak in IE
-// 			script.onload = script.onreadystatechange = null;
-// 		}
-// 	};
-// 	head.appendChild(script);
-// 	// We handle everything using the script element injection
-// 	return undefined;
-// }
+	// document.getElementById('circuit-id-info').innerHTML = 'fdsfasfd';
+	// $.each(rowData, function() {
+	// 	console.log($(this).text());
+	// });
 
-
+	// console.log(circuitID);
+}

@@ -60,6 +60,10 @@ h4 {
 	margin-right: 5px;
 }
 
+.pair-info {
+	padding-right: 10px;
+}
+
 /*.database-table tbody {
 	overflow-y: scroll;
 }

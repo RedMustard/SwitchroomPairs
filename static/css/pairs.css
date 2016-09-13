@@ -6,10 +6,42 @@
  *
  */
 @media (min-width: 768px) {
-body {
-	overflow: hidden;
+	body {
+		/*overflow: hidden;*/
+	}
+
+
 }
+
+@media (max-width: 768px) {
+	a .remove-right-inded {
+
+	}
 }
+
+	.navbar {
+    border-radius: 0px;
+  }
+
+html, body {
+	height: 100%;
+}
+
+/*
+@-moz-document url-prefix() {
+  fieldset { display: table-cell; }
+}*/
+
+h4 {
+ 	color: #ff0000;
+ 	font-weight: normal;
+ 	font-style: italic;
+ 	font-size: 9pt;
+ 	margin: 0px;
+ 	padding: 0px;
+ 	display: inline;
+ }
+
 
 .vcenter {
     display: inline;
@@ -23,33 +55,17 @@ body {
 }
 
 
-.database-table tbody {
-	overflow-y: scroll;
-	height: 230px;
+.database-row {
+	margin-left: 5px;
+	margin-right: 5px;
 }
+
+/*.database-table tbody {
+	overflow-y: scroll;
+}
+
 
 .database-table td {
 	overflow-x: hidden;
 
-}
-
-h4 {
- 	color: #ff0000;
- 	font-weight: normal;
- 	font-style: italic;
- 	font-size: 9pt;
- 	margin: 0px;
- 	padding: 0px;
- 	display: inline;
- }
-
-
-@-moz-document url-prefix() {
-  fieldset { display: table-cell; }
-}
-
-@media (min-width: 768px) {
-  .navbar {
-    border-radius: 0px;
-  }
-}
+}*/

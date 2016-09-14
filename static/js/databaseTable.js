@@ -1,14 +1,15 @@
 var rowData = [];
+var $table = $('#database-table');
 
 // Initialize table
 $(function () {
-	var $table = $('#database-table');
 	$table.bootstrapTable('resetView', { height: getHeight() } );
+});
 
-	$(window).resize(function () {
-		$table.bootstrapTable('resetView', {
-			height: getHeight()
-		});
+
+$(window).resize(function () {
+	$table.bootstrapTable('resetView', {
+		height: getHeight()
 	});
 });
 
@@ -33,11 +34,8 @@ function getHeight() {
 $('#database-table').on('click', 'tbody tr', function(event) {
 	$(this).addClass('table-info').siblings().removeClass('table-info');
 
-
 	var $row = $(this).closest("tr"),
 		$tds = $row.find("td");
-
-	
 
 	$.each($tds, function() {
 		rowData.push($(this).text());	
@@ -67,16 +65,4 @@ function populateInfoList() {
 	date.innerHTML = "" + rowData[7];
 
 	rowData = [];
-
-	// for(var i=0; i < rowData.length; i++) {
-	// 	console.log(rowData[i].toString());
-	// }
-
-
-	// document.getElementById('circuit-id-info').innerHTML = 'fdsfasfd';
-	// $.each(rowData, function() {
-	// 	console.log($(this).text());
-	// });
-
-	// console.log(circuitID);
 }

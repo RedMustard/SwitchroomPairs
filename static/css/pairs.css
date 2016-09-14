@@ -5,32 +5,16 @@
  *
  *
  */
-@media (min-width: 768px) {
-	body {
-		/*overflow: hidden;*/
-	}
 
-
+.navbar {
+	border-radius: 0px;
 }
 
-@media (max-width: 768px) {
-	a .remove-right-inded {
-
-	}
-}
-
-	.navbar {
-    border-radius: 0px;
-  }
 
 html, body {
 	height: 100%;
 }
 
-/*
-@-moz-document url-prefix() {
-  fieldset { display: table-cell; }
-}*/
 
 h4 {
  	color: #ff0000;
@@ -62,14 +46,14 @@ h4 {
 
 .pair-info {
 	padding-right: 10px;
-}
-
-/*.database-table tbody {
-	overflow-y: scroll;
+	padding-left: 20px;
 }
 
 
-.database-table td {
+.info-box {
+	padding-right: 5px;
+	height: 400px;
+	overflow-y: auto;
 	overflow-x: hidden;
-
-}*/
+	/*background-color: #E5E4E2;*/
+}

@@ -4,6 +4,7 @@ var $table = $('#database-table');
 // Initialize table
 $(function () {
 	$table.bootstrapTable('resetView', { height: getHeight() } );
+	
 });
 
 
@@ -12,6 +13,32 @@ $(window).resize(function () {
 		height: getHeight()
 	});
 });
+
+window.icons = {
+	print: 'fa-print',
+	export: 'fa-external-link',
+	columns: 'fa-th-list'
+};
+
+
+// Highlight table row on click
+$('#database-table').on('click', 'tbody tr', function(event) {
+	$(this).addClass('table-info').siblings().removeClass('table-info');
+
+	var $row = $(this).closest("tr"),
+		$tds = $row.find("td");
+
+	$.each($tds, function() {
+		rowData.push($(this).text());	
+	});
+
+	populateInfoList();
+});
+
+
+$('#database-table').on('load', 'tbody tr', function(event) {
+
+})
 
 
 function getHeight() {
@@ -28,21 +55,6 @@ function getHeight() {
 		return windowHeight - navHeight - formHeight - toolbarHeight - bottomMargin;
 	}
 }
-
-
-// Highlight table row on click
-$('#database-table').on('click', 'tbody tr', function(event) {
-	$(this).addClass('table-info').siblings().removeClass('table-info');
-
-	var $row = $(this).closest("tr"),
-		$tds = $row.find("td");
-
-	$.each($tds, function() {
-		rowData.push($(this).text());	
-	});
-
-	populateInfoList();
-});
 
 
 function populateInfoList() {

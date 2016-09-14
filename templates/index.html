@@ -5,10 +5,11 @@
 
 		<!-- Bootstrap -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
-
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 		<!-- Bootstrap Table -->
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.css" />
-
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.css" /> -->
+		<!-- <link rel="stylesheet" type="text/css" href="static/css/bootstrap-table/bootstrap-table.min.css"> -->
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-table/bootstrap-table.css">
 		<!-- Local -->
 		<link rel="stylesheet" type="text/css" href="static/css/pairs.css">
 	</head>
@@ -110,7 +111,7 @@
 				</div>
 
 				<!-- Right Column (Entry Information) -->
-				<div class="col-md-3">
+				<div class="col-md-3 info-div">
 					<div class="info-box">
 						<div class="row pair-info">
 							<p>
@@ -180,8 +181,6 @@
 								</span>
 							</p>
 						</div>
-						
-						<br />
 					</div>
 					
 					<div class="row">
@@ -195,60 +194,67 @@
 			</div>
 		<!-- </div> -->
 		<!-- <br /> -->
-		<hr style="margin-bottom: 0px;" />
+			<hr style="margin-bottom: 0px;" />
 
 		<!-- Bottom Container (Database View) -->
 		<!-- <div class="container-fluid container-main" id="database-div" style="height: 100%"> -->
-		<div class="row">
+		<!-- <div class="row">
 			<div id="toolbar">
-				<button id="remove" class="btn btn-danger"></button>
 			</div>
-		</div>
-		<div class="row database-row">
-			<table id="database-table"
-				data-toolbar="#toolbar"
-				data-search="true" 
-				data-toggle="table" 
-				data-striped="true">
+		</div> -->
+			<div class="database-box">
+				<div class="row database-row">
+					<table id="database-table"
+						data-toggle="table"
+						data-search="true" 
+						data-show-export="true"
+						data-show-columns="true"
+						data-show-print="true"
+						data-striped="true"
+						data-icons-prefix="fa"
+						data-icons="icons">
 
-				<thead>
-					<th data-width="15%" data-sortable="true">Circuit ID</th>
-					<th data-width="5%" data-sortable="true">Type</th>
-					<th data-width="1%" data-sortable="true">CL Pair</th>
-					<th data-width="1%" data-sortable="true">UO Pair</th>
-					<th data-width="15%" data-sortable="true">Customer Name</th>
-					<th data-width="15%" data-sortable="true">Customer Phone</th>
-					<th data-width="25%" data-sortable="true">Notes</th>
-					<th data-width="10%" data-sortable="true">Date Added</th>
-				</thead>
 
-				<tbody>
-					{% for entry in entries %}
-						<tr >
-						{% for col in entry %}
-							<td>
-							{% print(col) %}
-							</td>
-						{% endfor %}
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
+						<thead>
+							<th data-width="15%" data-sortable="true">Circuit ID</th>
+							<th data-width="5%" data-sortable="true">Type</th>
+							<th data-width="1%" data-sortable="true">CL Pair</th>
+							<th data-width="1%" data-sortable="true">UO Pair</th>
+							<th data-width="15%" data-sortable="true">Customer Name</th>
+							<th data-width="15%" data-sortable="true">Customer Phone</th>
+							<th data-width="25%" data-sortable="true">Notes</th>
+							<th data-width="10%" data-sortable="true">Date Added</th>
+						</thead>
 
+						<tbody>
+							{% for entry in entries %}
+								<tr >
+								{% for col in entry %}
+									<td>
+									{% print(col) %}
+									</td>
+								{% endfor %}
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 
 		<!-- JQuery -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-
-		<!-- Bootstrap -->
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/js/bootstrap.min.js" integrity="sha384-ux8v3A6CPtOTqOzMKiuo3d/DomGaaClxFYdCu2HPMBEkf6x2xiDyJ7gkXU0MWwaD" crossorigin="anonymous"></script>
-
-		<!-- Bootstrap Table -->
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.js"></script>
-		<script type="text/javascript" src="http://rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script>
 		
+		<script src="//rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script>
+
+
 		<!-- Local -->
+		<script src="static/js/bootstrap/bootstrap.min.js"></script>
+		<script src="static/js/bootstrap-table/bootstrap-table.min.js"></script>
+		<script src="static/js/bootstrap-table/extras/export/bootstrap-table-export.min.js"></script>
+		<script src="static/js/bootstrap-table/extras/editable/bootstrap-table-editable.min.js"></script>
+		<script src="static/js/bootstrap-table/extras/print/bootstrap-table-print.js"></script>
+		<script src="static/js/ga.js"></script>
 		<script src="static/js/databaseTable.js" id="dataTable"></script>
 	</body>
 </html>

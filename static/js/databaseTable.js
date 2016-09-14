@@ -40,14 +40,12 @@ $('#database-table').on('click', 'tbody tr', function(event) {
 	
 
 	$.each($tds, function() {
-		// console.log($(this).text());
 		rowData.push($(this).text());	
 	});
 
-	// console.log(rowData[0]);
-
 	populateInfoList();
 });
+
 
 function populateInfoList() {
 	var circuitID = document.getElementById('circuit-id-info'),
@@ -59,19 +57,16 @@ function populateInfoList() {
 		notes = document.getElementById('notes-info'),
 		date = document.getElementById('date-info');
 
+	circuitID.innerHTML = "" + rowData[0];
+	circuitType.innerHTML = "" + rowData[1];
+	clPair.innerHTML = "" + rowData[2];
+	uoPair.innerHTML = "" + rowData[3];
+	customerName.innerHTML = "" + rowData[4];
+	customerPhone.innerHTML = "" + rowData[5];
+	notes.innerHTML = "" + rowData[6];
+	date.innerHTML = "" + rowData[7];
 
-	circuitID.innerHTML += rowData[0];
-	circuitType.innerHTML += rowData[1];
-	clPair.innerHTML += rowData[2];
-	uoPair.innerHTML += rowData[3];
-	customerName.innerHTML += rowData[4];
-	customerPhone.innerHTML += rowData[5];
-	notes.innerHTML += rowData[6];
-	date.innerHTML += rowData[7];
-
-
-
-	// console.log(rowData[1]);
+	rowData = [];
 
 	// for(var i=0; i < rowData.length; i++) {
 	// 	console.log(rowData[i].toString());

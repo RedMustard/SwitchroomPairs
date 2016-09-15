@@ -22,7 +22,7 @@ window.icons = {
 
 
 // Highlight table row on click
-$('#database-table').on('click', 'tbody tr', function(event) {
+$table.on('click', 'tbody tr', function(event) {
 	$(this).addClass('table-info').siblings().removeClass('table-info');
 
 	var $row = $(this).closest("tr"),
@@ -36,9 +36,12 @@ $('#database-table').on('click', 'tbody tr', function(event) {
 });
 
 
-$('#database-table').on('load', 'tbody tr', function(event) {
+//////////////////// SELECT FIRST ROW ON PAGE LOAD /////////////////////////
+// $(window).on('load', function(event) {
+// 	var $row = $table.closest("tr:nth-child(1)");
 
-})
+// 	$row.addClass('table-info').siblings().removeClass('table-info');
+// });
 
 
 function getHeight() {

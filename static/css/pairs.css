@@ -48,6 +48,10 @@ h4 {
 	}
 }
 
+.submit-button {
+	background-color: #047832; 
+	border-color: #047832;
+}
 
 .info-div {
 	border-left-style: solid; 

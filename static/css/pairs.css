@@ -6,10 +6,6 @@
  *
  */
 
-.navbar {
-	border-radius: 0px;
-}
-
 
 html, body {
 	height: 100%;
@@ -24,40 +20,83 @@ h4 {
  	margin: 0px;
  	padding: 0px;
  	display: inline;
- }
-
-
-.vcenter {
-    display: inline;
-    vertical-align: bottom;
 }
 
 
 .navbar-uo {
 	background-color: #154733; 
-	margin-bottom: 40px;
+	border-radius: 0px;
+	margin-bottom: 20px;
 }
 
 
-.database-row {
-	margin-left: 5px;
-	margin-right: 5px;
+.form-div {
+	margin-top: 30px;
 }
 
-.pair-info {
-	padding-right: 10px;
-	padding-left: 20px;
+
+@media (min-width: 768px) {
+	.form-button-column {
+		text-align: right;
+		padding-top: 78px;
+	}
 }
+
+@media (max-width: 768px) {
+	.form-button-column {
+		text-align: center;
+	}
+}
+
 
 .info-div {
 	border-left-style: solid; 
 	border-width: 1px; 
 	border-color: #E5E5E5;
+	/*padding-top: 20px;*/
 }
+
+
 .info-box {
 	padding-right: 10px;
 	height: 400px;
 	overflow-y: auto;
 	overflow-x: hidden;
 	/*background-color: #E5E4E2;*/
+}
+
+.info-content {
+	padding-right: 10px;
+	padding-left: 20px;
+}
+
+@media (min-width: 768px) {
+	.info-buttons {
+		text-align: right;
+		padding-right: 20px;
+	}
+}
+
+@media (max-width: 768px) {
+	.info-buttons {
+		text-align: center;
+	}
+}
+
+
+.database-div {
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+@media (min-width: 768px) {
+	.database-table {
+		table-layout: fixed;
+	}
+
+	.database-table td {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 }

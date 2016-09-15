@@ -5,12 +5,12 @@
 
 		<!-- Bootstrap -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-		<!-- Bootstrap Table -->
-		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.0/bootstrap-table.css" /> -->
-		<!-- <link rel="stylesheet" type="text/css" href="static/css/bootstrap-table/bootstrap-table.min.css"> -->
-		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-table/bootstrap-table.css">
+		
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
 		<!-- Local -->
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-table/bootstrap-table.css">
 		<link rel="stylesheet" type="text/css" href="static/css/pairs.css">
 	</head>
 
@@ -31,13 +31,13 @@
 			</div>
 		</div>
 
-		<!-- Left & Right Containers -->
+		<!-- Main Container -->
 		<div class="container-fluid containter-main">
 			<div class="row" id="field-container">
 				<div class="col-md-1">
 				</div>
 				<!-- Left Column (Form View) -->
-				<div class="col-md-7">
+				<div class="col-md-7 form-div">
 					<form action="submit" method="post">	
 						<div class="form-group row">				
 							<div class="form-group col-md-4">
@@ -95,12 +95,9 @@
 								<textarea class="form-control" name="notes" cols="40" ></textarea>
 							</div>
 
-							<div class="form-group col-md-4" align="center">
-							<br />
-							<br />
-							<br />
-								<input class="btn btn-sm btn-default" type="reset"	value="Clear">
-								<input class="btn btn-sm btn-success" type="submit" value="Submit" style="background-color: #047832; border-color: #047832;">	
+							<div class="form-group col-md-4 form-button-column">
+								<input class="btn btn-sm btn-default form-button" type="reset"	value="Clear">
+								<input class="btn btn-sm btn-success form-button" type="submit" value="Submit" style="background-color: #047832; border-color: #047832;">	
 							</div>
 						</div>
 						<h4>* Required</h4>
@@ -110,10 +107,10 @@
 				<div class="col-md-1">
 				</div>
 
-				<!-- Right Column (Entry Information) -->
+				<!-- Right Column (Circuit Information) -->
 				<div class="col-md-3 info-div">
 					<div class="info-box">
-						<div class="row pair-info">
+						<div class="row info-content">
 							<p>
 								<b>Circuit ID:</b>
 									<span id="circuit-id-info">
@@ -121,7 +118,7 @@
 							</p>
 						</div>
 						
-						<div class="row pair-info">
+						<div class="row info-content">
 							<p>
 								<b>Type:</b>
 								<span id="circuit-type-info">
@@ -129,7 +126,7 @@
 							</p>
 						</div>
 						
-						<div class="row pair-info">
+						<div class="row info-content">
 							<p>
 								<b>Century Link Pair:</b>
 								<span id="cl-pair-info">
@@ -138,7 +135,7 @@
 						</div>
 						
 
-						<div class="row pair-info">
+						<div class="row info-content">
 							<p>
 								<b>UO Pair:</b>
 								<span id="uo-pair-info">
@@ -147,7 +144,7 @@
 						</div>
 						
 
-						<div class="row pair-info">
+						<div class="row info-content">
 							<p>
 								<b>Customer Name:</b>
 								<span id="customer-name-info">
@@ -156,7 +153,7 @@
 						</div>
 						
 
-						<div class="row pair-info">
+						<div class="row info-content">
 							<p>
 								<b>Customer Phone:</b>
 								<span id="customer-phone-info">
@@ -165,7 +162,7 @@
 						</div>
 
 						
-						<div class="row pair-info">
+						<div class="row info-content">
 							<p>
 								<b>Notes:</b>
 								<span id="notes-info">
@@ -174,7 +171,7 @@
 						</div>
 
 						
-						<div class="row pair-info">
+						<div class="row info-content">
 							<p>
 								<b>Date Added:</b>
 								<span id="date-info">
@@ -184,7 +181,7 @@
 					</div>
 					
 					<div class="row">
-						<div class="offset-md-5" align="center">
+						<div class="info-buttons">
 							<input class="btn btn-sm btn-warning" type="submit" value="Edit">
 							<input class="btn btn-sm btn-danger" type="submit" value="Delete">
 						</div>
@@ -192,19 +189,13 @@
 
 				</div>
 			</div>
-		<!-- </div> -->
-		<!-- <br /> -->
+
 			<hr style="margin-bottom: 0px;" />
 
-		<!-- Bottom Container (Database View) -->
-		<!-- <div class="container-fluid container-main" id="database-div" style="height: 100%"> -->
-		<!-- <div class="row">
-			<div id="toolbar">
-			</div>
-		</div> -->
+			<!-- Bottom Row (Database Table View) -->
 			<div class="database-box">
-				<div class="row database-row">
-					<table id="database-table"
+				<div class="row database-div">
+					<table class="database-table" id="database-table"
 						data-toggle="table"
 						data-search="true" 
 						data-show-export="true"
@@ -217,12 +208,12 @@
 
 						<thead>
 							<th data-width="15%" data-sortable="true">Circuit ID</th>
-							<th data-width="5%" data-sortable="true">Type</th>
-							<th data-width="1%" data-sortable="true">CL Pair</th>
-							<th data-width="1%" data-sortable="true">UO Pair</th>
+							<th data-width="7%" data-sortable="true">Type</th>
+							<th data-width="7%" data-sortable="true">CL Pair</th>
+							<th data-width="8%" data-sortable="true">UO Pair</th>
 							<th data-width="15%" data-sortable="true">Customer Name</th>
 							<th data-width="15%" data-sortable="true">Customer Phone</th>
-							<th data-width="25%" data-sortable="true">Notes</th>
+							<th data-width="16%" data-sortable="true">Notes</th>
 							<th data-width="10%" data-sortable="true">Date Added</th>
 						</thead>
 
@@ -240,18 +231,16 @@
 					</table>
 				</div>
 			</div>
-		</div>
+		</div> 
 
 		<!-- JQuery -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		
 		<script src="//rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script>
-
 
 		<!-- Local -->
 		<script src="static/js/bootstrap/bootstrap.min.js"></script>
 		<script src="static/js/bootstrap-table/bootstrap-table.min.js"></script>
-		<script src="static/js/bootstrap-table/extras/export/bootstrap-table-export.js"></script>
+		<script src="static/js/bootstrap-table/extras/export/bootstrap-table-export.min.js"></script>
 		<script src="static/js/bootstrap-table/extras/editable/bootstrap-table-editable.min.js"></script>
 		<script src="static/js/bootstrap-table/extras/print/bootstrap-table-print.js"></script>
 		<script src="static/js/ga.js"></script>

@@ -58,23 +58,12 @@ function getHeight() {
 
 
 function populateInfoList() {
-	var circuitID = document.getElementById('circuit-id-info'),
-		circuitType = document.getElementById('circuit-type-info'),
-		clPair = document.getElementById('cl-pair-info'),
-		uoPair = document.getElementById('uo-pair-info'),
-		customerName = document.getElementById('customer-name-info'),
-		customerPhone = document.getElementById('customer-phone-info'),
-		notes = document.getElementById('notes-info'),
-		date = document.getElementById('date-info');
+	infoFieldArray = ['circuit-id-info', 'circuit-type-info', 'cl-pair-info', 'uo-pair-info', 
+		'customer-name-info', 'customer-phone-info', 'notes-info', 'date-info'];
 
-	circuitID.innerHTML = "" + rowData[0];
-	circuitType.innerHTML = "" + rowData[1];
-	clPair.innerHTML = "" + rowData[2];
-	uoPair.innerHTML = "" + rowData[3];
-	customerName.innerHTML = "" + rowData[4];
-	customerPhone.innerHTML = "" + rowData[5];
-	notes.innerHTML = "" + rowData[6];
-	date.innerHTML = "" + rowData[7];
+		for (var i = 0; i < infoFieldArray.length; i++) {
+			document.getElementById(infoFieldArray[i]).innerHTML = "" + rowData[i];
+		}
 
 	rowData = [];
 }

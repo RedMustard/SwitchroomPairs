@@ -16,7 +16,7 @@
             'table { width:94%; margin-left:3%; margin-right:3%}\n' +
             'div.bs-table-print { text-align:center;}\n' +
             '</style></head><title>Print Table</title><body>' +
-            '<p>Printed on: ' + new Date + ' </p>' +
+            // '<p>Printed on: ' + new Date + ' </p>' +
             '<div class="bs-table-print">' + table + "</div></body></html>";
     }
     $.extend($.fn.bootstrapTable.defaults, {
@@ -48,7 +48,7 @@
 
             if (!$print.length) {
                 $print = $([
-                    '<button class="bs-print btn btn-default' + sprintf(' btn-%s"', this.options.iconSize) + ' name="print" title="print" type="button">',
+                    '<button class="bs-print btn btn-default' + sprintf(' btn-%s"', this.options.iconSize) + ' name="print" title="print" type="button" style="padding-top: 10px; padding-bottom: 10px;">',
                     sprintf('<i class="%s %s"></i> ', this.options.iconsPrefix, this.options.icons.print),
                     '</button>'].join('')).appendTo($btnGroup);
 

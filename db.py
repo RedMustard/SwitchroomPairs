@@ -73,16 +73,16 @@ def connect_to_database():
 	else:
 		print("Connected to database.")
 
-		print("\nDeleting previous tables...\n")
-		try:
-			db_cursor.execute('''DROP TABLE `pairs` ''')
-			print("Pairs table deleted")
-			db_cursor.execute('''DROP TABLE `pairs_audit` ''')
-			print("Pairs_audit table deleted")
-			db_cursor.execute('''DROP TABLE `members` ''')
-			print("Members table deleted\n")
-		except:
-			print("Error dropping table")
+		# print("\nDeleting previous tables...\n")
+		# try:
+		# 	db_cursor.execute('''DROP TABLE `pairs` ''')
+		# 	print("Pairs table deleted")
+		# 	db_cursor.execute('''DROP TABLE `pairs_audit` ''')
+		# 	print("Pairs_audit table deleted")
+		# 	db_cursor.execute('''DROP TABLE `members` ''')
+		# 	print("Members table deleted\n")
+		# except:
+		# 	print("Error dropping table")
 
 
 		create_database_tables(database)

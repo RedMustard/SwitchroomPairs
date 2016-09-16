@@ -112,7 +112,7 @@ def valid_login(username, password):
 def log_the_user_in(username):
 	"""
 	"""
-	return flask.render_template('admin.html')
+	return render_template('admin.html')
 
 
 @app.template_filter('admin_db')
@@ -130,10 +130,13 @@ def insert_entry_into_database():
 	form_fields = ['circuit_id', 'circuit_type', 'cl_pair', 'uo_pair', 'customer_name', 'customer_phone', 'notes']
 	entry = []
 	error = None
-
+	print("submit sent")
 	if request.method == 'POST':
+		print('request is post')
+
 		for item in form_fields:
 			session[item] = request.form[item]
+			# print(request.form[item])
 			entry.append(request.form[item])
 
 
@@ -143,7 +146,10 @@ def insert_entry_into_database():
 	else:
 		error = 'An error occurred processing your request.'
 
-	return redirect(url_for('index'))
+	print("redirecting")
+	return render_template('index.html')
+	# return redirect(url_for('index'))
+	# return Response(response=json.dumps({'url': url_for('index')}, mimetype="text/json"))
 
 
 if __name__ == "__main__":

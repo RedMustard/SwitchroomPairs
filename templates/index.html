@@ -38,16 +38,16 @@
 				</div>
 				<!-- Left Column (Form View) -->
 				<div class="col-md-7 form-div">
-					<form action="submit" method="post" id="circuitForm">	
+					<form action="javascript:void(0);" id="circuitForm">	
 						<div class="form-group row">				
 							<div class="form-group col-md-4">
 								<label>Circuit ID:<h4>*</h4></label>
-								<input class="form-control" type="text" name="circuit_id" required="required">
+								<input class="form-control" type="text" name="circuit_id" id="circuit-id" required="required">
 							</div>
 					
 							<div class="form-group col-md-4">
 								<label>Circuit Type:<h4>*</h4></label>
-								<select class="form-control" name="circuit_type" required="required">
+								<select class="form-control" name="circuit_type" id="circuit-type" required="required">
 									<option value="Tel_#">Tel #</option>
 									<option value="ISDN">ISDN</option>
 									<option value="DSL">DSL</option>
@@ -60,14 +60,14 @@
 					
 							<div class="form-group col-md-4">
 								<label>Customer Name:</label>
-								<input class="form-control" type="text" name="customer_name">
+								<input class="form-control" type="text" name="customer_name" id="customer-name">
 							</div>
 						</div>
 
 						<div class="form-group row">
 							<div class="form-group col-md-4">
 								<label>Century Link Pair:<h4>*</h4></label>
-								<select class="form-control" name="cl_pair" required="required">
+								<select class="form-control" name="cl_pair" id="cl-pair" required="required">
 									{% for i in range(1501, 2701) %}
 									<option value="{{i}}">{{i}}</option>
 									{% endfor %}
@@ -76,7 +76,7 @@
 							
 							<div class="form-group col-md-4">
 								<label>UO Pair:<h4>*</h4></label>
-								<select class="form-control" name="uo_pair" required="required">
+								<select class="form-control" name="uo_pair" id="uo-pair" required="required">
 									{% for i in range(001, 601) %}
 									<option value="{{i}}">{{ '%03d' % i }}</option>
 									{% endfor %}
@@ -85,19 +85,19 @@
 							
 							<div class="form-group col-md-4">
 								<label>Customer Phone #:</label>
-								<input class="form-control" type="text" name="customer_phone">
+								<input class="form-control" type="text" name="customer_phone" id="customer-phone">
 							</div>
 						</div>
 
 						<div class="form-group row">
 							<div class="form-group col-md-8">
 								<label>Notes/Comments:</label>
-								<textarea class="form-control" name="notes" cols="40" ></textarea>
+								<textarea class="form-control" name="notes" id="notes-field" cols="40" ></textarea>
 							</div>
 
 							<div class="form-group col-md-4 form-button-column">
-								<input class="btn btn-sm btn-default form-button" type="reset"	value="Clear">
-								<input class="btn btn-sm btn-success form-button submit-button" type="submit" value="Submit" data-toggle="modal" data-target="#submitModal">	
+								<input class="btn btn-sm btn-default form-button" type="reset" value="Clear">
+								<input class="btn btn-sm btn-success form-button submit-button" id="submit-button" type="submit" value="Submit" onclick="submitForm();">	
 							</div>
 						</div>
 						<h4>* Required</h4>
@@ -228,7 +228,7 @@
 		</div> 
 
 		<!-- Modal confirmation window for entry submission -->
-		<div class="modal fade" id="submitModal" role="dialog" aria-labelledby="submitTitle" aria-hidden="true">
+		<div class="modal fade" id="submit-modal" role="dialog" aria-labelledby="submitTitle" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -243,6 +243,7 @@
 						<br />
 						<br />
 						<b>Circuit ID:</b>
+
 						<span id="submit-circuit"></span>
 						<br />
 						<b>Circuit Type:</b>
@@ -264,27 +265,32 @@
 						<span id="submit-notes"></span>
 						<br />
 						<br />
+						<input type="button" class="btn btn-sm btn-default form-button" data-dismiss="modal" value="Cancel"></button>
+						<input type="submit" id="modal-submit-button" class="btn btn-sm btn-success form-button submit-button" value="Submit"></button>
 					</div>
 					
-					<div class="modal-footer">
+				<!-- 	<div class="modal-footer">
 						<button type="button" class="btn btn-sm btn-default form-button" data-dismiss="modal">Cancel</button>
 						<button type="button" class="btn btn-sm btn-success form-button submit-button">Submit</button>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
 
 		<!-- JQuery --> 
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-		<script src="//rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script>
+		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+
+
+		<!-- <script src="//rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script> -->
 
 		<!-- Local -->
+		<script src="static/js/jquery.min.js"></script>
 		<script src="static/js/bootstrap/bootstrap.min.js"></script>
 		<script src="static/js/bootstrap-table/bootstrap-table.min.js"></script>
 		<script src="static/js/bootstrap-table/extras/export/bootstrap-table-export.min.js"></script>
 		<script src="static/js/bootstrap-table/extras/editable/bootstrap-table-editable.min.js"></script>
 		<script src="static/js/bootstrap-table/extras/print/bootstrap-table-print.js"></script>
-		<script src="static/js/ga.js"></script>
+		<!-- <script src="static/js/ga.js"></script> -->
 		<script src="static/js/databaseTable.js" id="dataTable"></script>
 		<script src="static/js/modalSubmit.js"></script>
 	</body>

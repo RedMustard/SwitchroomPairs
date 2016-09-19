@@ -127,13 +127,12 @@ def return_admin_db():
 def insert_entry_into_database():
 	"""
 	"""
-	form_fields = ['circuit_id', 'circuit_type', 'cl_pair', 'uo_pair', 'customer_name', 'customer_phone', 'notes']
+	form_fields = ['circuit_id', 'circuit_type', 'cl_pair', 'uo_pair', 
+		'customer_name', 'customer_phone', 'notes']
 	entry = []
 	error = None
 	print("submit sent")
 	if request.method == 'POST':
-		print('request is post')
-
 		for item in form_fields:
 			session[item] = request.form[item]
 			# print(request.form[item])
@@ -146,10 +145,6 @@ def insert_entry_into_database():
 	else:
 		error = 'An error occurred processing your request.'
 
-	# print("redirecting")
-	# return render_template('index.html')
-	# return redirect(url_for('index'))
-	# return Response(response=json.dumps({'url': url_for('index')}, mimetype="text/json"))
 	return index()
 
 
@@ -174,7 +169,28 @@ def delete_entry_from_database():
 		error = 'An error occurred processing your request.'
 
 	return index()
-	# db.delete_entry(cursor, db.get_entry_id(cursor, ))
+
+
+@app.route("/edit", methods=['POST'])
+def edit_entry_in_database():
+	"""
+	"""
+	form_fields = ['circuit_id', 'circuit_type', 'cl_pair', 'uo_pair', 
+		'customer_name', 'customer_phone', 'notes']
+	entry = []
+	error = None
+
+	if request.method == 'POST':
+		for field in form_fields:
+			entry.append(request.form[field])
+
+		print("getting id...")
+		entry_id = db.get_entry_id(DB_CURSOR, entry[0], entry[2], entry[3])
+
+		db.edit_entry(DB_CURSOR, entry_id, entry)
+
+	else:
+		error = 'An error occurred processing your request.'
 
 
 if __name__ == "__main__":

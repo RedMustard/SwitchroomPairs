@@ -167,7 +167,7 @@
 					
 					<div class="row">
 						<div class="info-buttons">
-							<input class="btn btn-sm btn-warning" type="submit" value="Edit">
+							<input class="btn btn-sm btn-warning" type="submit" value="Edit" onclick="editEntry();">
 							<input class="btn btn-sm btn-danger" type="button" value="Delete" onclick="deleteEntry();">
 						</div>
 					</div>
@@ -273,7 +273,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h1 class="modal-title" id="submitTitle">Delete?</h1>
+						<h1 class="modal-title" id="deleteTitle">Delete?</h1>
 					</div>
 
 					<div class="modal-body">
@@ -291,6 +291,96 @@
 		</div> <!-- End delete modal -->
 
 
+		<!-- Modal window for entry editing -->
+		<div class="modal fade" id="edit-modal" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h1 class="modal-title" id="editTitle">Edit?</h1>
+					</div>
+
+					<div class="modal-body">
+						Please update the entry:
+						<div class="modal-box">
+							<form action="javascript:void(0);" id="circuitForm">	
+								<div class="form-group row">				
+									<div class="form-group col-md-5">
+										<label>Circuit ID or Phone #:<h4> *</h4></label>
+										<input class="form-control" type="text"  name="circuit_id" id="edit-circuit-id" required="required" disabled>
+									</div>
+							
+									<div class="form-group col-md-5">
+										<label>Circuit Type:<h4> *</h4></label>
+										<select class="form-control" name="circuit_type" id="edit-circuit-type" required="required">
+											<option value="Tel_#">Tel #</option>
+											<option value="ISDN">ISDN</option>
+											<option value="DSL">DSL</option>
+											<option value="56k">56k</option>
+											<option value="64k">64k</option>
+											<option value="Special">Dry Pair/OPX/Special</option>
+											<option value="Other">Other</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="form-group col-md-5">
+										<label>CenturyLink Pair:<h4> *</h4></label>
+										<select class="form-control" name="cl_pair" id="edit-cl-pair" required="required">
+											{% for i in range(1501, 2701) %}
+											<option value="{{i}}">{{i}}</option>
+											{% endfor %}
+										</select>
+									</div>
+									
+									<div class="form-group col-md-5">
+										<label>UO Cross-Connect Pair:<h4> *</h4></label>
+										<select class="form-control" name="uo_pair" id="edit-uo-pair" required="required">
+											{% for i in range(001, 601) %}
+											<option value="{{i}}">{{ '%03d' % i }}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="form-group col-md-5">
+										<label>Customer Name (optional):</label>
+										<input class="form-control" type="text" name="customer_name" id="edit-customer-name">
+									</div>
+
+									<div class="form-group col-md-5">
+										<label>Customer Phone # (optional):</label>
+										<input class="form-control" type="text" name="customer_phone" id="edit-customer-phone">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="form-group col-md-8">
+										<label>Notes/Comments:</label>
+										<textarea class="form-control" name="notes" id="edit-notes-field" cols="40" ></textarea>
+									</div>
+								</div>
+
+								<h4>* REQUIRED</h4>
+							</form>
+						</div> <!-- End modal content box -->
+						
+						<hr style="margin-bottom: 0px;" />
+
+						<div class="modal-buttons">
+							<input type="button" class="btn btn-sm btn-default form-button" data-dismiss="modal" value="Cancel"></button>
+							<input type="submit" id="modal-edit-button" class="btn btn-sm btn-success form-button submit-button" value="Submit"></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- End edit modal -->
+
+
 		<!-- Local -->
 		<script src="static/js/jquery.min.js"></script>
 		<script src="static/js/bootstrap/bootstrap.min.js"></script>
@@ -302,5 +392,6 @@
 		<script src="static/js/databaseTable.js" id="dataTable"></script>
 		<script src="static/js/modalSubmit.js"></script>
 		<script src="static/js/modalDelete.js"></script>
+		<script src="static/js/modalEdit.js"></script>
 	</body>
 </html>

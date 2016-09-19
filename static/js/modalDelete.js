@@ -1,11 +1,5 @@
 var entryData = {};
 
-function deleteEntry() {
-	$('#delete-modal').modal('show');
-	getEntryInfo();
-}
-
-
 $("#modal-delete-button").on('click', function(event) {
 	$('#delete-modal').modal('hide');
 
@@ -20,8 +14,14 @@ $("#modal-delete-button").on('click', function(event) {
 });
 
 
+function deleteEntry() {
+	$('#delete-modal').modal('show');
+	getEntryInfo();
+}
+
+
 function getEntryInfo() {
-	var entryFields = ["circuit-id-info", "cl-pair-info", "uo-pair-info"]
+	var entryFields = ["circuit-id-info", "cl-pair-info", "uo-pair-info"];
 
 	entryData = {
 		"circuit_id" : document.getElementById(entryFields[0]).innerText,

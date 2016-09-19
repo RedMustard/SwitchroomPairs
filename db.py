@@ -130,8 +130,6 @@ def insert_entry(cursor, entry):
 		cursor - A cursor object for the database to delete from
 		entry - List containing strings for each column in the table
 	"""
-	# db_cursor = database.cursor()
-
 	if len(entry) == 7:
 		print("\nInserting entry...")
 		
@@ -154,8 +152,6 @@ def insert_entry(cursor, entry):
 	else:
 		print("An unexpected error occurred")
 
-	# database.close()
-
 
 def delete_entry(cursor, entry_id):
 	"""Deletes an entry in the database.
@@ -165,19 +161,24 @@ def delete_entry(cursor, entry_id):
 		entry_id - The database ID number of the entry to be retrieved
 	"""
 	delete_query = ('''DELETE FROM pairs WHERE entry_id = %s''')
-
 	cursor.execute(delete_query, (entry_id,))
 
 
-def edit_entry(cursor, entry_id):
+def edit_entry(cursor, entry_id, entry):
 	"""Edits an entry in the database.
 
 	Keyword Arguments:
 		cursor - A cursor object for the database to edit
-		entry_id - The database ID number of the entry to be retrieved
+		entry_id - The database ID number of the entry to be edited
+		entry - List containing strings for each column in the table
 	"""
-	# db_cursor = database.cursor()
-	return
+	edit_query = ('''UPDATE pairs SET circuit_id = %s, type = %s, cl_pair = %s,
+	uo_pair = %s, customer = %s, cust_phone = %s, notes = %s WHERE entry_id = %s''')
+
+	print("editing entry")
+	cursor.execute(edit_entry, (entry[0], entry[1], entry[2], entry[3], entry[4], 
+		entry[5], entry[6]))
+
 
 
 def get_entry(cursor, entry_id):
@@ -231,14 +232,6 @@ def get_db(cursor):
 
 	return entries
 
-	# for (entry_id, circuit_id, circuit_type, cl_pair, uo_pair, customer, 
-	# 	cust_phone, notes, date_added) in db_cursor:
-		
-	# 	print(entry_id, circuit_id, circuit_type, cl_pair, uo_pair, 
-	# 		customer, cust_phone, notes, date_added)
-
-	# database.close()
-
 
 # if __name__ == "__main__":
 	
@@ -262,45 +255,3 @@ def get_db(cursor):
 # 	print('\n')
 # 	insert_entry(database, entry4)
 # 	get_all_entries(database)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	# try:
-	# 	db_connect = sql_con.connect(**config.sql_config_dictionary)
-	# 	db_cursor = db_connect.cursor()
-
-	# except sql_con.Error as err:
-	# 	if err.errno == sql_con.errorcode.ER_ACCESS_DENIED_ERROR:
-	# 		print("Incorrect username or password")
-
-	# 	elif err.errno == sql_con.errorcode.ER_BAD_DB_ERROR:
-	# 		print("Database does not exist")
-
-	# 	else:
-	# 		print(err)
-
-	# else:
-	# 	print("Connected to database.")
-	# 	create_database_tables(db_cursor)
-
-# 	insert_entry()
-	# get_full_db()
-# 	print("\nDeleting previously inserted entry...")
-# 	# delete_entry(29)
-# 	get_full_db()

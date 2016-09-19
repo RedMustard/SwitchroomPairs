@@ -146,10 +146,11 @@ def insert_entry_into_database():
 	else:
 		error = 'An error occurred processing your request.'
 
-	print("redirecting")
-	return render_template('index.html')
+	# print("redirecting")
+	# return render_template('index.html')
 	# return redirect(url_for('index'))
 	# return Response(response=json.dumps({'url': url_for('index')}, mimetype="text/json"))
+	return index()
 
 
 if __name__ == "__main__":

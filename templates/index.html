@@ -31,22 +31,28 @@
 			</div>
 		</div>
 
+
 		<!-- Main Container -->
 		<div class="container-fluid containter-main">
 			<div class="row" id="field-container">
 				<div class="col-md-1">
 				</div>
+
 				<!-- Left Column (Form View) -->
 				<div class="col-md-7 form-div">
+					
+						<h3>Please fill out and click Submit when delivering a circuit.</h3>
+					<br />
+
 					<form action="javascript:void(0);" id="circuitForm">	
 						<div class="form-group row">				
 							<div class="form-group col-md-4">
-								<label>Circuit ID:<h4>*</h4></label>
+								<label>Circuit ID or Phone #:<h4> *</h4></label>
 								<input class="form-control" type="text" name="circuit_id" id="circuit-id" required="required">
 							</div>
 					
 							<div class="form-group col-md-4">
-								<label>Circuit Type:<h4>*</h4></label>
+								<label>Circuit Type:<h4> *</h4></label>
 								<select class="form-control" name="circuit_type" id="circuit-type" required="required">
 									<option value="Tel_#">Tel #</option>
 									<option value="ISDN">ISDN</option>
@@ -59,14 +65,14 @@
 							</div>
 					
 							<div class="form-group col-md-4">
-								<label>Customer Name:</label>
+								<label>Customer Name (optional):</label>
 								<input class="form-control" type="text" name="customer_name" id="customer-name">
 							</div>
 						</div>
 
 						<div class="form-group row">
 							<div class="form-group col-md-4">
-								<label>Century Link Pair:<h4>*</h4></label>
+								<label>CenturyLink Pair:<h4> *</h4></label>
 								<select class="form-control" name="cl_pair" id="cl-pair" required="required">
 									{% for i in range(1501, 2701) %}
 									<option value="{{i}}">{{i}}</option>
@@ -75,7 +81,7 @@
 							</div>
 							
 							<div class="form-group col-md-4">
-								<label>UO Pair:<h4>*</h4></label>
+								<label>UO Cross-Connect Pair:<h4> *</h4></label>
 								<select class="form-control" name="uo_pair" id="uo-pair" required="required">
 									{% for i in range(001, 601) %}
 									<option value="{{i}}">{{ '%03d' % i }}</option>
@@ -84,7 +90,7 @@
 							</div>
 							
 							<div class="form-group col-md-4">
-								<label>Customer Phone #:</label>
+								<label>Customer Phone # (optional):</label>
 								<input class="form-control" type="text" name="customer_phone" id="customer-phone">
 							</div>
 						</div>
@@ -100,85 +106,69 @@
 								<input class="btn btn-sm btn-success form-button submit-button" id="submit-button" type="submit" value="Submit" onclick="submitForm();">	
 							</div>
 						</div>
-						<h4>* Required</h4>
+						<h4>* REQUIRED</h4>
 					</form>
 				</div>
 
 				<div class="col-md-1">
 				</div>
 
+
 				<!-- Right Column (Circuit Information) -->
 				<div class="col-md-3 info-div">
 					<div class="info-box">
 						<div class="row info-content">
-							<p>
-								<b>Circuit ID:</b>
-									<span id="circuit-id-info">
-									</span>
-							</p>
+							<h2>Circuit ID:</h2>
+							<span id="circuit-id-info">
+							</span>
 						</div>
-						
 						<div class="row info-content">
-							<p>
-								<b>Circuit Type:</b>
+								<h2>Circuit Type:</h2>
 								<span id="circuit-type-info">
 								</span>
-							</p>
 						</div>
 						
 						<div class="row info-content">
-							<p>
-								<b>Century Link Pair:</b>
-								<span id="cl-pair-info">
-								</span>
-							</p>
+							<h2>Century Link Pair:</h2>
+							<span id="cl-pair-info">
+							</span>
 						</div>
 
 						<div class="row info-content">
-							<p>
-								<b>UO Pair:</b>
-								<span id="uo-pair-info">
-								</span>
-							</p>
+							<h2>UO Pair:</h2>
+							<span id="uo-pair-info">
+							</span>
 						</div>
 
 						<div class="row info-content">
-							<p>
-								<b>Customer Name:</b>
-								<span id="customer-name-info">
-								</span>
-							</p>
+							<h2>Customer Name:</h2>
+							<span id="customer-name-info">
+							</span>
 						</div>
 						
 						<div class="row info-content">
-							<p>
-								<b>Customer Phone:</b>
-								<span id="customer-phone-info">
-								</span>
-							</p>
+							<h2>Customer Phone:</h2>
+							<span id="customer-phone-info">
+							</span>
 						</div>
 
 						<div class="row info-content">
-							<p>
-								<b>Notes:</b>
-								<span id="notes-info">
-								</span>
-							</p>
+							<h2>Notes:</h2>
+							<span id="notes-info">
+							</span>
 						</div>
 						
 						<div class="row info-content">
-							<p>
-								<b>Date Added:</b>
-								<span id="date-info">
-								</span>
-							</p>
+							<h2>Date Added:</h2>
+							<span id="date-info">
+							</span>
 						</div>
 					</div>
 					
 					<div class="row">
 						<div class="info-buttons">
 							<input class="btn btn-sm btn-warning" type="submit" value="Edit">
-							<input class="btn btn-sm btn-danger" type="submit" value="Delete">
+							<input class="btn btn-sm btn-danger" type="button" value="Delete" onclick="deleteEntry();">
 						</div>
 					</div>
 
@@ -186,6 +176,7 @@
 			</div>
 
 			<hr style="margin-bottom: 0px;" />
+
 
 			<!-- Bottom Row (Database Table View) -->
 			<div class="database-box">
@@ -225,7 +216,8 @@
 					</table>
 				</div>
 			</div>
-		</div> 
+		</div> <!-- End main container -->
+
 
 		<!-- Modal confirmation window for entry submission -->
 		<div class="modal fade" id="submit-modal" role="dialog" aria-labelledby="submitTitle" aria-hidden="true">
@@ -240,48 +232,64 @@
 
 					<div class="modal-body">
 						Please make sure the following information is correct:
-						<br />
-						<br />
-						<b>Circuit ID:</b>
-
-						<span id="submit-circuit"></span>
-						<br />
-						<b>Circuit Type:</b>
-						<span id="submit-type"></span>
-						<br />
-						<b>Century Link Pair:</b>
-						<span id="submit-cl-pair"></span>
-						<br />
-						<b>UO Pair:</b>
-						<span id="submit-uo-pair"></span>
-						<br />
-						<b>Customer Name:</b>
-						<span id="submit-name"></span>
-						<br />
-						<b>Customer Phone:</b>
-						<span id="submit-phone"></span>
-						<br />
-						<b>Notes:</b>
-						<span id="submit-notes"></span>
-						<br />
-						<br />
-						<input type="button" class="btn btn-sm btn-default form-button" data-dismiss="modal" value="Cancel"></button>
-						<input type="submit" id="modal-submit-button" class="btn btn-sm btn-success form-button submit-button" value="Submit"></button>
+						<div class="modal-box">
+							<h2>Circuit ID:</h2>
+							<span id="submit-circuit"></span>
+							<br />
+							<h2>Circuit Type:</h2>
+							<span id="submit-type"></span>
+							<br />
+							<h2>Century Link Pair:</h2>
+							<span id="submit-cl-pair"></span>
+							<br />
+							<h2>UO Pair:</h2>
+							<span id="submit-uo-pair"></span>
+							<br />
+							<h2>Customer Name:</h2>
+							<span id="submit-name"></span>
+							<br />
+							<h2>Customer Phone:</h2>
+							<span id="submit-phone"></span>
+							<br />
+							<h2>Notes:</h2>
+							<span id="submit-notes"></span>
+						</div>
+						<hr style="margin-bottom: 0px;" />
+						<div class="modal-buttons">
+							<input type="button" class="btn btn-sm btn-default form-button" data-dismiss="modal" value="Cancel"></button>
+							<input type="submit" id="modal-submit-button" class="btn btn-sm btn-success form-button submit-button" value="Submit"></button>
+						</div>
 					</div>
-					
-				<!-- 	<div class="modal-footer">
-						<button type="button" class="btn btn-sm btn-default form-button" data-dismiss="modal">Cancel</button>
-						<button type="button" class="btn btn-sm btn-success form-button submit-button">Submit</button>
-					</div> -->
 				</div>
 			</div>
-		</div>
-
-		<!-- JQuery --> 
-		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+		</div> <!-- End submit modal -->
 
 
-		<!-- <script src="//rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js"></script> -->
+		<!-- Modal confirmation window for entry deletion -->
+		<div class="modal fade" id="delete-modal" role="dialog" aria-labelledby="deleteTitle" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h1 class="modal-title" id="submitTitle">Delete?</h1>
+					</div>
+
+					<div class="modal-body">
+						Are you sure you wish to delete this entry?
+
+						<hr style="margin-bottom: 0px;" />
+						
+						<div class="modal-buttons">
+							<input type="button" class="btn btn-sm btn-default" data-dismiss="modal" value="Cancel"></button>
+							<input type="button" id="modal-delete-button" class="btn btn-sm btn-danger" value="Delete"></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- End delete modal -->
+
 
 		<!-- Local -->
 		<script src="static/js/jquery.min.js"></script>
@@ -293,5 +301,6 @@
 		<!-- <script src="static/js/ga.js"></script> -->
 		<script src="static/js/databaseTable.js" id="dataTable"></script>
 		<script src="static/js/modalSubmit.js"></script>
+		<script src="static/js/modalDelete.js"></script>
 	</body>
 </html>

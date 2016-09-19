@@ -4,7 +4,6 @@ var $table = $('#database-table');
 // Initialize table
 $(function () {
 	$table.bootstrapTable('resetView', { height: getHeight() } );
-	
 });
 
 
@@ -14,34 +13,34 @@ $(window).resize(function () {
 	});
 });
 
+
 window.icons = {
 	print: 'fa-print',
 	export: 'fa-external-link',
-	columns: 'fa-th-list'
+	columns: 'fa-th-list',
+	refresh: 'fa-refresh'
 };
+
+
+window.onload = function() {
+	selectFirstTableRow();
+}
 
 
 // Highlight table row on click
 $table.on('click', 'tbody tr', function(event) {
+	var $row = $(this).closest("tr");
 	$(this).addClass('table-info').siblings().removeClass('table-info');
-
-	var $row = $(this).closest("tr"),
-		$tds = $row.find("td");
-
-	$.each($tds, function() {
-		rowData.push($(this).text());	
-	});
-
-	populateInfoList();
+	populateInfoList($row);
 });
 
 
-//////////////////// SELECT FIRST ROW ON PAGE LOAD /////////////////////////
-// $(window).on('load', function(event) {
-// 	var $row = $table.closest("tr:nth-child(1)");
-
-// 	$row.addClass('table-info').siblings().removeClass('table-info');
-// });
+function selectFirstTableRow() {
+	var $body = $table.find("tbody"),
+		$row = $body.find("tr:first");
+	$row.addClass('table-info').siblings().removeClass('table-info');
+	populateInfoList($row);
+}
 
 
 function getHeight() {
@@ -60,13 +59,19 @@ function getHeight() {
 }
 
 
-function populateInfoList() {
-	infoFieldArray = ['circuit-id-info', 'circuit-type-info', 'cl-pair-info', 'uo-pair-info', 
+function populateInfoList(row) {
+	var $tds = row.find("td");
+
+	var infoFieldArray = ['circuit-id-info', 'circuit-type-info', 'cl-pair-info', 'uo-pair-info', 
 		'customer-name-info', 'customer-phone-info', 'notes-info', 'date-info'];
 
-		for (var i = 0; i < infoFieldArray.length; i++) {
-			document.getElementById(infoFieldArray[i]).innerHTML = "" + rowData[i];
-		}
+	$.each($tds, function() {
+		rowData.push($(this).text());	
+	});
+
+	for (var i = 0; i < infoFieldArray.length; i++) {
+		document.getElementById(infoFieldArray[i]).innerHTML = "" + rowData[i];
+	}
 
 	rowData = [];
 }

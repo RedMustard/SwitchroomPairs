@@ -1,12 +1,25 @@
 var formData = {};
 
 
+$("#modal-submit-button").on('click', function(event) {
+	$('#submit-modal').modal('hide');
+
+	$.ajax({
+		url: "/submit",
+		type: "POST",
+		data: formData,
+		success: function(response) {
+			setTimeout('goToIndex()', 500);
+		}
+	});
+});
+
+
 function submitForm() {
 	var valid = validateInput();
 
 	if(valid) {
 		$('#submit-modal').modal('show');
-
 		getFormInput();
 	}
 }
@@ -35,8 +48,8 @@ function getFormInput() {
 		'submit-name', 'submit-phone', 'submit-notes'];
 
 	for (var i = 0; i < modalFields.length; i++) {
-			currentFormField = document.getElementById(formFields[i]).value;
-			document.getElementById(modalFields[i]).innerHTML = "" + currentFormField;
+		currentFormField = document.getElementById(formFields[i]).value;
+		document.getElementById(modalFields[i]).innerHTML = "" + currentFormField;
 	}
 
 	formData = {
@@ -54,17 +67,3 @@ function getFormInput() {
 function goToIndex() {
 	window.location = 'index';
 }
-
-
-$("#modal-submit-button").on('click', function(event) {
-	$('#submit-modal').modal('hide');
-
-	$.ajax({
-		url: "/submit",
-		type: "POST",
-		data: formData,
-		success: function(response) {
-			setTimeout('goToIndex()', 500);
-		}
-	});
-});

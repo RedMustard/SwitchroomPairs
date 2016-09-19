@@ -144,7 +144,6 @@ def insert_entry(cursor, entry):
 						VALUES (%s, %s, %s, %s, %s, %s, %s, %s)''')
 
 		cursor.execute(add_entry, entry)
-		# db_commit(database)
 
 	elif len(entry) > 7:
 		print("Your entry has too many variables")
@@ -165,13 +164,9 @@ def delete_entry(cursor, entry_id):
 		cursor - A cursor object for the database to delete from
 		entry_id - The database ID number of the entry to be retrieved
 	"""
-	# db_cursor = database.cursor()
-
 	delete_query = ('''DELETE FROM pairs WHERE entry_id = %s''')
 
 	cursor.execute(delete_query, (entry_id,))
-	# db_commit(database)
-
 
 
 def edit_entry(cursor, entry_id):
@@ -196,11 +191,25 @@ def get_entry(cursor, entry_id):
 	return
 
 
-def get_entry_id(database, cursor):
+def get_entry_id(cursor, circuit_id, cl_pair, uo_pair):
+	"""Retrieves an entry id of an entry based on the Circuit ID, CL Pair, and
+		UO Pair.
+
+	Keyword Arguments:
+		cursor - A cursor object for the database to retrieve from
+		circuit_id - A string containing the Circuit ID
+		cl_pair - A string containing the CL Pair
+		uo_pair - A string containing the UO Pair
 	"""
-	"""
-	# db_cursor = database.cursor()
-	return
+	get_id = ('''SELECT entry_id FROM pairs WHERE circuit_id = %s 
+		AND cl_pair = %s AND uo_pair = %s''')
+
+	cursor.execute(get_id, (circuit_id, cl_pair, uo_pair))
+
+	for entry in cursor:
+		entry_id = entry
+
+	return entry_id[0]
 	
 
 def get_db(cursor):
@@ -209,8 +218,6 @@ def get_db(cursor):
 	Keyword Arguments:
 		cursor - A cursor object for the database to be retrieved 
 	"""
-	# database = connect_to_database()
-	# db_cursor = database.cursor()
 	entries = []
 
 	print("\nRetrieving full db...")
@@ -221,7 +228,6 @@ def get_db(cursor):
 
 	for entry in cursor:
 		entries.append(entry)
-		# print(entry)
 
 	return entries
 
@@ -232,20 +238,6 @@ def get_db(cursor):
 	# 		customer, cust_phone, notes, date_added)
 
 	# database.close()
-	
-
-def get_db_json(cursor):
-	"""Retrieves the entire contents of the datbase and generates a JSON
-		representation.
-
-	Keyword arguments:
-		cursor - A cursor object for the database to be retrieved
-	"""
-	
-	return
-
-
-
 
 
 # if __name__ == "__main__":

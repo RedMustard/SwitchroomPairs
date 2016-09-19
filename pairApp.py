@@ -153,6 +153,30 @@ def insert_entry_into_database():
 	return index()
 
 
+@app.route("/delete", methods=['POST'])
+def delete_entry_from_database():
+	"""
+	"""
+	error = None
+
+	if request.method == 'POST':
+		circuit_id = request.form['circuit_id']
+		cl_pair = request.form['cl_pair']
+		uo_pair = request.form['uo_pair']
+
+		print("getting id...")
+		entry_id = db.get_entry_id(DB_CURSOR, circuit_id, cl_pair, uo_pair)
+
+		db.delete_entry(DB_CURSOR, entry_id)
+		db.db_commit(DATABASE)
+
+	else:
+		error = 'An error occurred processing your request.'
+
+	return index()
+	# db.delete_entry(cursor, db.get_entry_id(cursor, ))
+
+
 if __name__ == "__main__":
 	import uuid
 	app.secret_key = str(uuid.uuid4())

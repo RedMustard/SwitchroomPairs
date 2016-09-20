@@ -1,11 +1,402 @@
 <html>
 	<head>
 		<title>NTS Pair App - ADMIN</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
+		
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+		<!-- Local -->
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-table/bootstrap-table.css">
 		<link rel="stylesheet" type="text/css" href="static/css/pairs.css">
 	</head>
 
 	<body>
-	{% for i in range(10) %} {% print(i) %} {% endfor %}
-	<a href="/logout">Logout</a>
+		<!-- Header Bar -->
+		<div class="navbar navbar-uo">
+			<div class="row" id="nav-bar">
+
+				<div class="col-md-2 col-xs-1 nav-logo">
+					<img alt="University of Oregon" title="University of Oregon" src="static/images/uo-logo.png" height="43" width="200" style="margin-top: 5px;" />
+				</div>
+
+				<div class="col-md-8 col-sm-7 col-xs-7 nav-title" align="center">
+					Century Link Demarc & Cross-Connect Admin
+				</div>
+				<!-- <br /> -->
+
+				<div class="col-md-2 col-xs-4 nav-link" style="height:50px;" align="right">
+					<a href="/login" style="color: #ffffff;">Log</a>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Main Container -->
+		<div class="container-fluid containter-main">
+			<div class="row" id="field-container">
+				<div class="col-md-1">
+				</div>
+
+				<!-- Left Column (Form View) -->
+				<div class="col-md-7 form-div">
+					
+						<h3>Please fill out and click Submit when delivering a circuit.</h3>
+					<br />
+
+					<form action="javascript:void(0);" id="circuitForm">	
+						<div class="form-group row">				
+							<div class="form-group col-md-4">
+								<label>Circuit ID or Phone #:<h4> *</h4></label>
+								<input class="form-control" type="text" name="circuit_id" id="circuit-id" required="required">
+							</div>
+					
+							<div class="form-group col-md-4">
+								<label>Circuit Type:<h4> *</h4></label>
+								<select class="form-control" name="circuit_type" id="circuit-type" required="required">
+									<option value="Tel_#">Tel #</option>
+									<option value="ISDN">ISDN</option>
+									<option value="DSL">DSL</option>
+									<option value="56k">56k</option>
+									<option value="64k">64k</option>
+									<option value="Special">Dry Pair/OPX/Special</option>
+									<option value="Other">Other</option>
+								</select>
+							</div>
+					
+							<div class="form-group col-md-4">
+								<label>Customer Name (optional):</label>
+								<input class="form-control" type="text" name="customer_name" id="customer-name">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<div class="form-group col-md-4">
+								<label>CenturyLink Pair:<h4> *</h4></label>
+								<select class="form-control" name="cl_pair" id="cl-pair" required="required">
+									{% for i in range(1501, 2701) %}
+									<option value="{{i}}">{{i}}</option>
+									{% endfor %}
+								</select>
+							</div>
+							
+							<div class="form-group col-md-4">
+								<label>UO Cross-Connect Pair:<h4> *</h4></label>
+								<select class="form-control" name="uo_pair" id="uo-pair" required="required">
+									{% for i in range(001, 601) %}
+									<option value="{{i}}">{{ '%03d' % i }}</option>
+									{% endfor %}
+								</select>
+							</div>
+							
+							<div class="form-group col-md-4">
+								<label>Customer Phone # (optional):</label>
+								<input class="form-control" type="text" name="customer_phone" id="customer-phone">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<div class="form-group col-md-8">
+								<label>Notes/Comments:</label>
+								<textarea class="form-control" name="notes" id="notes-field" cols="40" ></textarea>
+							</div>
+
+							<div class="form-group col-md-4 form-button-column">
+								<input class="btn btn-sm btn-default form-button" type="reset" value="Clear">
+								<input class="btn btn-sm btn-success form-button submit-button" id="submit-button" type="submit" value="Submit" onclick="submitForm();">	
+							</div>
+						</div>
+						<h4>* REQUIRED</h4>
+					</form>
+				</div>
+
+				<div class="col-md-1">
+				</div>
+
+
+				<!-- Right Column (Circuit Information) -->
+				<div class="col-md-3 info-div">
+					<div class="info-box">
+						<div class="row info-content">
+							<h2>Circuit ID:</h2>
+							<span id="circuit-id-info">
+							</span>
+						</div>
+						<div class="row info-content">
+								<h2>Circuit Type:</h2>
+								<span id="circuit-type-info">
+								</span>
+						</div>
+						
+						<div class="row info-content">
+							<h2>Century Link Pair:</h2>
+							<span id="cl-pair-info">
+							</span>
+						</div>
+
+						<div class="row info-content">
+							<h2>UO Pair:</h2>
+							<span id="uo-pair-info">
+							</span>
+						</div>
+
+						<div class="row info-content">
+							<h2>Customer Name:</h2>
+							<span id="customer-name-info">
+							</span>
+						</div>
+						
+						<div class="row info-content">
+							<h2>Customer Phone:</h2>
+							<span id="customer-phone-info">
+							</span>
+						</div>
+
+						<div class="row info-content">
+							<h2>Notes:</h2>
+							<span id="notes-info">
+							</span>
+						</div>
+						
+						<div class="row info-content">
+							<h2>Date Added:</h2>
+							<span id="date-info">
+							</span>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="info-buttons">
+							<input class="btn btn-sm btn-warning" type="submit" value="Edit" onclick="editEntry();">
+							<input class="btn btn-sm btn-danger" type="button" value="Delete" onclick="deleteEntry();">
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<hr style="margin-bottom: 0px;" />
+
+
+			<!-- Bottom Row (Database Table View) -->
+			<div class="database-box">
+				<div class="row database-div">
+					<table class="database-table" id="database-table"
+						data-toggle="table"
+						data-search="true" 
+						data-show-export="true"
+						data-show-columns="true"
+						data-show-print="true"
+						data-striped="true"
+						data-icons-prefix="fa"
+						data-icons="icons">
+
+						<thead>
+							<th data-width="15%" data-sortable="true">Circuit ID</th>
+							<th data-width="7%" data-sortable="true">Type</th>
+							<th data-width="7%" data-sortable="true">CL Pair</th>
+							<th data-width="8%" data-sortable="true">UO Pair</th>
+							<th data-width="15%" data-sortable="true">Customer Name</th>
+							<th data-width="15%" data-sortable="true">Customer Phone</th>
+							<th data-width="16%" data-sortable="true">Notes</th>
+							<th data-width="10%" data-sortable="true">Date Added</th>
+						</thead>
+
+						<tbody>
+							{% for entry in entries %}
+								<tr >
+								{% for col in entry %}
+									<td>
+									{% print(col) %}
+									</td>
+								{% endfor %}
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div> <!-- End main container -->
+
+
+		<!-- Modal confirmation window for entry submission -->
+		<div class="modal fade" id="submit-modal" role="dialog" aria-labelledby="submitTitle" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h1 class="modal-title" id="submitTitle">Submit?</h1>
+					</div>
+
+					<div class="modal-body">
+						Please make sure the following information is correct:
+						<div class="modal-box">
+							<h2>Circuit ID:</h2>
+							<span id="submit-circuit"></span>
+							<br />
+							<h2>Circuit Type:</h2>
+							<span id="submit-type"></span>
+							<br />
+							<h2>Century Link Pair:</h2>
+							<span id="submit-cl-pair"></span>
+							<br />
+							<h2>UO Pair:</h2>
+							<span id="submit-uo-pair"></span>
+							<br />
+							<h2>Customer Name:</h2>
+							<span id="submit-name"></span>
+							<br />
+							<h2>Customer Phone:</h2>
+							<span id="submit-phone"></span>
+							<br />
+							<h2>Notes:</h2>
+							<span id="submit-notes"></span>
+						</div>
+						<hr style="margin-bottom: 0px;" />
+						<div class="modal-buttons">
+							<input type="button" class="btn btn-sm btn-default form-button" data-dismiss="modal" value="Cancel"></button>
+							<input type="submit" id="modal-submit-button" class="btn btn-sm btn-success form-button submit-button" value="Submit"></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- End submit modal -->
+
+
+		<!-- Modal confirmation window for entry deletion -->
+		<div class="modal fade" id="delete-modal" role="dialog" aria-labelledby="deleteTitle" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h1 class="modal-title" id="deleteTitle">Delete?</h1>
+					</div>
+
+					<div class="modal-body">
+						Are you sure you wish to delete this entry?
+
+						<hr style="margin-bottom: 0px;" />
+						
+						<div class="modal-buttons">
+							<input type="button" class="btn btn-sm btn-default" data-dismiss="modal" value="Cancel"></button>
+							<input type="button" id="modal-delete-button" class="btn btn-sm btn-danger" value="Delete"></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- End delete modal -->
+
+
+		<!-- Modal window for entry editing -->
+		<div class="modal fade" id="edit-modal" role="dialog" aria-labelledby="editTitle" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h1 class="modal-title" id="editTitle">Edit?</h1>
+					</div>
+
+					<div class="modal-body">
+						Please update the entry:
+						<div class="modal-box">
+							<form action="edit" method="post" id="circuitForm">	
+								<div class="form-group row">				
+									<div class="form-group col-md-5">
+										<label>Circuit ID or Phone #:<h4> *</h4></label>
+										<input class="form-control" type="text"  name="circuit_id" id="edit-circuit-id" required="required">
+									</div>
+							
+									<div class="form-group col-md-5">
+										<label>Circuit Type:<h4> *</h4></label>
+										<select class="form-control" name="circuit_type" id="edit-circuit-type" required="required">
+											<option value="Tel_#">Tel #</option>
+											<option value="ISDN">ISDN</option>
+											<option value="DSL">DSL</option>
+											<option value="56k">56k</option>
+											<option value="64k">64k</option>
+											<option value="Special">Dry Pair/OPX/Special</option>
+											<option value="Other">Other</option>
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="form-group col-md-5">
+										<label>CenturyLink Pair:<h4> *</h4></label>
+										<select class="form-control" name="cl_pair" id="edit-cl-pair" required="required">
+											{% for i in range(1501, 2701) %}
+											<option value="{{i}}">{{i}}</option>
+											{% endfor %}
+										</select>
+									</div>
+									
+									<div class="form-group col-md-5">
+										<label>UO Cross-Connect Pair:<h4> *</h4></label>
+										<select class="form-control" name="uo_pair" id="edit-uo-pair" required="required">
+											{% for i in range(001, 601) %}
+											<option value="{{i}}">{{ '%03d' % i }}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="form-group col-md-5">
+										<label>Customer Name (optional):</label>
+										<input class="form-control" type="text" name="customer_name" id="edit-customer-name">
+									</div>
+
+									<div class="form-group col-md-5">
+										<label>Customer Phone # (optional):</label>
+										<input class="form-control" type="text" name="customer_phone" id="edit-customer-phone">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<div class="form-group col-md-8">
+										<label>Notes/Comments:</label>
+										<textarea class="form-control" name="notes" id="edit-notes-field" cols="40" ></textarea>
+									</div>
+								</div>
+
+								<h4>* REQUIRED</h4>
+
+								<hr style="margin-bottom: 0px;" />
+
+								<div class="modal-buttons">
+									<input type="button" class="btn btn-sm btn-default form-button" data-dismiss="modal" value="Cancel"></button>
+									<input type="submit" id="modal-edit-button" class="btn btn-sm btn-success form-button submit-button" value="Submit"></button>
+								</div>
+							</form>
+						</div> <!-- End modal content box -->
+						
+						
+					</div>
+				</div>
+			</div>
+		</div> <!-- End edit modal -->
+
+
+		<!-- Libraries -->
+		<script src="static/js/jquery.min.js"></script>
+		<script src="static/js/bootstrap/bootstrap.min.js"></script>
+		<script src="static/js/bootstrap-table/bootstrap-table.min.js"></script>
+		<script src="static/js/bootstrap-table/extras/export/bootstrap-table-export.min.js"></script>
+		<script src="static/js/bootstrap-table/extras/editable/bootstrap-table-editable.min.js"></script>
+		<script src="static/js/bootstrap-table/extras/print/bootstrap-table-print.js"></script>
+		<!-- Local -->
+		<script src="static/js/adDatabaseTable.js" id="dataTable"></script>
+		<script src="static/js/modalSubmit.js"></script>
+		<script src="static/js/modalDelete.js"></script>
+		<script src="static/js/modalEdit.js"></script>
 	</body>
 </html>

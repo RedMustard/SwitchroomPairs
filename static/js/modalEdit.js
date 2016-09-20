@@ -1,26 +1,6 @@
 var editData = {};
 
 
-// $("#modal-edit-button").on('click', function(event) {
-// 	var valid = validateInput();
-
-// 	if (valid) {
-// 		getEditFormInput();
-
-// 		$('#edit-modal').modal('hide');
-
-// 		$.ajax({
-// 			url: "/edit",
-// 			type: "POST",
-// 			data: editData,
-// 			success: function(response) {
-// 				setTimeout('goToIndex()', 500);
-// 			}
-// 		});
-// 	}
-// });
-
-
 function setEditFormInputs() {
 	var formFields = ["circuit-id-info", "circuit-type-info","cl-pair-info",
 		"uo-pair-info", "customer-name-info", "customer-phone-info", "notes-info"];
@@ -34,23 +14,6 @@ function setEditFormInputs() {
 		document.getElementById(modalFields[i]).value = currentFormField;
 	}
 }
-
-
-// function getEditFormInput() {
-// 	var formFields = ['edit-circuit-id', 'edit-circuit-type', 'edit-cl-pair', 
-// 		'edit-uo-pair', 'edit-customer-name', 'edit-customer-phone', 
-// 		'edit-notes-field'];
-
-// 	editData = {
-// 		"circuit_id" : document.getElementById(formFields[0]).value,
-// 		"circuit_type" :document.getElementById(formFields[1]).value,
-// 		"cl_pair" : document.getElementById(formFields[2]).value,
-// 		"uo_pair" : document.getElementById(formFields[3]).value,
-// 		"customer_name" : document.getElementById(formFields[4]).value,
-// 		"customer_phone" : document.getElementById(formFields[5]).value,
-// 		"notes" : document.getElementById(formFields[6]).value
-// 	};
-// }
 
 
 function editEntry() {

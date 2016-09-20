@@ -34,6 +34,27 @@ h2 {
 	margin-bottom: 20px;
 }
 
+.nav-logo {
+	height: 50px;
+	vertical-align: center;
+}
+
+.nav-title {
+	font-weight: 600;
+	font-style: normal;
+	display: inline;
+	font-size: 18pt;
+	color: white;
+	height: 50px;
+	padding-top: 5px;
+}
+
+.nav-link {
+	color: #ffffff;
+	display: inline;
+	padding-top: 25px;
+}
+
 
 .form-div {
 	margin-top: 0px;

@@ -112,7 +112,7 @@ def valid_login(username, password):
 def log_the_user_in(username):
 	"""
 	"""
-	return render_template('admin.html')
+	return render_template('admin.html', entries=return_admin_db())
 
 
 @app.template_filter('admin_db')
@@ -135,10 +135,9 @@ def insert_entry_into_database():
 	if request.method == 'POST':
 		for item in form_fields:
 			session[item] = request.form[item]
-			# print(request.form[item])
 			entry.append(request.form[item])
 
-
+		print("Inserting entry...")
 		db.insert_entry(DB_CURSOR, entry)
 		db.db_commit(DATABASE)
 
@@ -159,9 +158,10 @@ def delete_entry_from_database():
 		cl_pair = request.form['cl_pair']
 		uo_pair = request.form['uo_pair']
 
-		print("getting id...")
+		print("Getting entry id...")
 		entry_id = db.get_entry_id(DB_CURSOR, circuit_id, cl_pair, uo_pair)
 
+		print("Deleting entry...")
 		db.delete_entry(DB_CURSOR, entry_id)
 		db.db_commit(DATABASE)
 
@@ -181,19 +181,13 @@ def edit_entry_in_database():
 	error = None
 
 	if request.method == 'POST':
-		print("request is post for edit")
-		# for field in request.form:
-		# 	print(field)
 		for field in form_fields:
-			# print(request.form[field])
-			# entry.append(request.form[field])
-			# session[field] = request.form[field]
-			# print(request.form[item])
 			entry.append(request.form[field])
 
-		print("getting id...")
+		print("Getting entry id...")	
 		entry_id = db.get_entry_id(DB_CURSOR, entry[3], entry[1], entry[5])
 
+		print("Editing entry...")
 		db.edit_entry(DB_CURSOR, entry_id, entry)
 
 	else:

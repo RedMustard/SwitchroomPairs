@@ -19,13 +19,16 @@
 		<div class="navbar navbar-uo">
 			<div class="row" id="nav-bar">
 
-				<div class="col-md-2 col-xs-1">
-					<img alt="University of Oregon" title="University of Oregon" src="static/images/uo-logo.png" height="43" width="200"/>
+				<div class="col-md-2 col-xs-1 nav-logo">
+					<img alt="University of Oregon" title="University of Oregon" src="static/images/uo-logo.png" height="43" width="200" style="margin-top: 5px;" />
 				</div>
 
-				<br />
+				<div class="col-md-8 col-sm-7 col-xs-7 nav-title" align="center">
+					Century Link Demarc & Cross-Connect
+				</div>
+				<!-- <br /> -->
 
-				<div class="col-md-2 col-xs-4 offset-md-8 offset-sm-7 offset-xs-7" align="right">
+				<div class="col-md-2 col-xs-4 nav-link" style="height:50px;" align="right">
 					<a href="/login" style="color: #ffffff;">Admin Login</a>
 				</div>
 			</div>
@@ -117,11 +120,11 @@
 				<!-- Right Column (Circuit Information) -->
 				<div class="col-md-3 info-div">
 					<div class="info-box">
-						<div class="row info-content">
+						<!-- <div class="row info-content">
 							<h2>Circuit ID:</h2>
 							<span id="circuit-id-info">
 							</span>
-						</div>
+						</div> -->
 						<div class="row info-content">
 								<h2>Circuit Type:</h2>
 								<span id="circuit-type-info">
@@ -140,7 +143,7 @@
 							</span>
 						</div>
 
-						<div class="row info-content">
+						<!-- <div class="row info-content">
 							<h2>Customer Name:</h2>
 							<span id="customer-name-info">
 							</span>
@@ -150,7 +153,7 @@
 							<h2>Customer Phone:</h2>
 							<span id="customer-phone-info">
 							</span>
-						</div>
+						</div> -->
 
 						<div class="row info-content">
 							<h2>Notes:</h2>
@@ -158,11 +161,11 @@
 							</span>
 						</div>
 						
-						<div class="row info-content">
+						<!-- <div class="row info-content">
 							<h2>Date Added:</h2>
 							<span id="date-info">
 							</span>
-						</div>
+						</div> -->
 					</div>
 					
 					<div class="row">
@@ -192,23 +195,27 @@
 						data-icons="icons">
 
 						<thead>
-							<th data-width="15%" data-sortable="true">Circuit ID</th>
+							<!-- <th data-width="15%" data-sortable="true">Circuit ID</th> -->
 							<th data-width="7%" data-sortable="true">Type</th>
 							<th data-width="7%" data-sortable="true">CL Pair</th>
 							<th data-width="8%" data-sortable="true">UO Pair</th>
-							<th data-width="15%" data-sortable="true">Customer Name</th>
-							<th data-width="15%" data-sortable="true">Customer Phone</th>
+							<!-- <th data-width="15%" data-sortable="true">Customer Name</th> -->
+							<!-- <th data-width="15%" data-sortable="true">Customer Phone</th> -->
 							<th data-width="16%" data-sortable="true">Notes</th>
-							<th data-width="10%" data-sortable="true">Date Added</th>
+							<!-- <th data-width="10%" data-sortable="true">Date Added</th> -->
 						</thead>
 
 						<tbody>
 							{% for entry in entries %}
 								<tr >
+								{% set i = 0 %}
 								{% for col in entry %}
-									<td>
-									{% print(col) %}
-									</td>
+									{% if (i != 0 and i != 4 and i != 5 and i != 7) %}
+										<td>
+										{% print(col) %}
+										</td>
+									{% endif %}
+									{% set i = i+1 %}
 								{% endfor %}
 								</tr>
 							{% endfor %}
@@ -254,6 +261,8 @@
 							<h2>Notes:</h2>
 							<span id="submit-notes"></span>
 						</div>
+						<br />
+						<b style="color: red;">WARNING:</b> You will only be able to edit/delete this entry for 60 minutes after submitting it.
 						<hr style="margin-bottom: 0px;" />
 						<div class="modal-buttons">
 							<input type="button" class="btn btn-sm btn-default form-button" data-dismiss="modal" value="Cancel"></button>
@@ -383,15 +392,15 @@
 		</div> <!-- End edit modal -->
 
 
-		<!-- Local -->
+		<!-- Libraries -->
 		<script src="static/js/jquery.min.js"></script>
 		<script src="static/js/bootstrap/bootstrap.min.js"></script>
 		<script src="static/js/bootstrap-table/bootstrap-table.min.js"></script>
 		<script src="static/js/bootstrap-table/extras/export/bootstrap-table-export.min.js"></script>
 		<script src="static/js/bootstrap-table/extras/editable/bootstrap-table-editable.min.js"></script>
 		<script src="static/js/bootstrap-table/extras/print/bootstrap-table-print.js"></script>
-		<!-- <script src="static/js/ga.js"></script> -->
-		<script src="static/js/databaseTable.js" id="dataTable"></script>
+		<!-- Local -->
+		<script src="static/js/stdDatabaseTable.js" id="dataTable"></script>
 		<script src="static/js/modalSubmit.js"></script>
 		<script src="static/js/modalDelete.js"></script>
 		<script src="static/js/modalEdit.js"></script>

@@ -20,7 +20,7 @@ function submitForm() {
 
 	if(valid) {
 		$('#submit-modal').modal('show');
-		getFormInput();
+		getSubmitFormInput();
 	}
 }
 
@@ -40,7 +40,7 @@ function validateInput() {
 }
 
 
-function getFormInput() {
+function getSubmitFormInput() {
 	var formFields = ['circuit-id', 'circuit-type', 'cl-pair', 'uo-pair', 'customer-name', 
 		'customer-phone', 'notes-field'];
 

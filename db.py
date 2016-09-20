@@ -172,13 +172,14 @@ def edit_entry(cursor, entry_id, entry):
 		entry_id - The database ID number of the entry to be edited
 		entry - List containing strings for each column in the table
 	"""
-	edit_query = ('''UPDATE pairs SET circuit_id = %s, type = %s, cl_pair = %s,
-	uo_pair = %s, customer = %s, cust_phone = %s, notes = %s WHERE entry_id = %s''')
+
+	edit_query = ('''UPDATE pairs SET customer = %s, cl_pair = %s, 
+		type = %s, circuit_id = %s, cust_phone = %s, uo_pair = %s, 
+		notes = %s WHERE entry_id = %s''')
 
 	print("editing entry")
-	cursor.execute(edit_entry, (entry[0], entry[1], entry[2], entry[3], entry[4], 
-		entry[5], entry[6]))
-
+	cursor.execute(edit_query, (entry[0], entry[1], entry[2], entry[3], entry[4], 
+		entry[5], entry[6], entry_id))
 
 
 def get_entry(cursor, entry_id):
@@ -203,7 +204,7 @@ def get_entry_id(cursor, circuit_id, cl_pair, uo_pair):
 		uo_pair - A string containing the UO Pair
 	"""
 	get_id = ('''SELECT entry_id FROM pairs WHERE circuit_id = %s 
-		AND cl_pair = %s AND uo_pair = %s''')
+		OR cl_pair = %s OR uo_pair = %s''')
 
 	cursor.execute(get_id, (circuit_id, cl_pair, uo_pair))
 

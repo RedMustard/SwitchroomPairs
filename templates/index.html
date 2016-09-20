@@ -305,11 +305,11 @@
 					<div class="modal-body">
 						Please update the entry:
 						<div class="modal-box">
-							<form action="javascript:void(0);" id="circuitForm">	
+							<form action="edit" method="post" id="circuitForm">	
 								<div class="form-group row">				
 									<div class="form-group col-md-5">
 										<label>Circuit ID or Phone #:<h4> *</h4></label>
-										<input class="form-control" type="text"  name="circuit_id" id="edit-circuit-id" required="required" disabled>
+										<input class="form-control" type="text"  name="circuit_id" id="edit-circuit-id" required="required">
 									</div>
 							
 									<div class="form-group col-md-5">
@@ -366,15 +366,17 @@
 								</div>
 
 								<h4>* REQUIRED</h4>
+
+								<hr style="margin-bottom: 0px;" />
+
+								<div class="modal-buttons">
+									<input type="button" class="btn btn-sm btn-default form-button" data-dismiss="modal" value="Cancel"></button>
+									<input type="submit" id="modal-edit-button" class="btn btn-sm btn-success form-button submit-button" value="Submit"></button>
+								</div>
 							</form>
 						</div> <!-- End modal content box -->
 						
-						<hr style="margin-bottom: 0px;" />
-
-						<div class="modal-buttons">
-							<input type="button" class="btn btn-sm btn-default form-button" data-dismiss="modal" value="Cancel"></button>
-							<input type="submit" id="modal-edit-button" class="btn btn-sm btn-success form-button submit-button" value="Submit"></button>
-						</div>
+						
 					</div>
 				</div>
 			</div>

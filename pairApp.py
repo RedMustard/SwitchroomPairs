@@ -175,22 +175,31 @@ def delete_entry_from_database():
 def edit_entry_in_database():
 	"""
 	"""
-	form_fields = ['circuit_id', 'circuit_type', 'cl_pair', 'uo_pair', 
-		'customer_name', 'customer_phone', 'notes']
+	form_fields = ['customer_name', 'cl_pair', 'circuit_type', 'circuit_id', 
+		'customer_phone', 'uo_pair', 'notes']
 	entry = []
 	error = None
 
 	if request.method == 'POST':
+		print("request is post for edit")
+		# for field in request.form:
+		# 	print(field)
 		for field in form_fields:
+			# print(request.form[field])
+			# entry.append(request.form[field])
+			# session[field] = request.form[field]
+			# print(request.form[item])
 			entry.append(request.form[field])
 
 		print("getting id...")
-		entry_id = db.get_entry_id(DB_CURSOR, entry[0], entry[2], entry[3])
+		entry_id = db.get_entry_id(DB_CURSOR, entry[3], entry[1], entry[5])
 
 		db.edit_entry(DB_CURSOR, entry_id, entry)
 
 	else:
 		error = 'An error occurred processing your request.'
+
+	return redirect(url_for("index"))
 
 
 if __name__ == "__main__":

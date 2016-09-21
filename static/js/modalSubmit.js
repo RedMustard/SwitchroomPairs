@@ -9,7 +9,7 @@ $("#modal-submit-button").on('click', function(event) {
 		type: "POST",
 		data: formData,
 		success: function(response) {
-			setTimeout('goToIndex()', 500);
+			setTimeout('reloadPage()', 500);
 		}
 	});
 });
@@ -64,6 +64,11 @@ function getSubmitFormInput() {
 }
 
 
-function goToIndex() {
-	window.location = 'admin';
+function reloadPage() {
+	console.log(location.pathname);
+	if (location.pathname == '/index') {
+		window.location = 'index';
+	} else if (location.pathname == '/admin') {
+		window.location = 'admin';
+	}
 }

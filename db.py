@@ -72,19 +72,6 @@ def connect_to_database():
 
 	else:
 		print("Connected to database.")
-
-		# print("\nDeleting previous tables...\n")
-		# try:
-		# 	db_cursor.execute('''DROP TABLE `pairs` ''')
-		# 	print("Pairs table deleted")
-		# 	db_cursor.execute('''DROP TABLE `pairs_audit` ''')
-		# 	print("Pairs_audit table deleted")
-		# 	db_cursor.execute('''DROP TABLE `members` ''')
-		# 	print("Members table deleted\n")
-		# except:
-		# 	print("Error dropping table")
-
-
 		create_database_tables(database)
 
 		return database
@@ -178,8 +165,8 @@ def edit_entry(cursor, entry_id, entry):
 		notes = %s WHERE entry_id = %s''')
 
 	print("editing entry")
-	cursor.execute(edit_query, (entry[0], entry[1], entry[2], entry[3], entry[4], 
-		entry[5], entry[6], entry_id))
+	cursor.execute(edit_query, (entry[0], entry[1], entry[2], entry[3], 
+		entry[4], entry[5], entry[6], entry_id))
 
 
 def get_entry(cursor, entry_id):
@@ -193,8 +180,8 @@ def get_entry(cursor, entry_id):
 	return
 
 
-def get_entry_id(cursor, circuit_id, cl_pair, uo_pair):
-	"""Retrieves an entry id of an entry based on the Circuit ID, CL Pair, and
+def get_entry_id(cursor, cl_pair, uo_pair):
+	"""Retrieves an entry ID of an entry based on the Circuit ID, CL Pair, and
 		UO Pair.
 
 	Keyword Arguments:
@@ -202,29 +189,70 @@ def get_entry_id(cursor, circuit_id, cl_pair, uo_pair):
 		circuit_id - A string containing the Circuit ID
 		cl_pair - A string containing the CL Pair
 		uo_pair - A string containing the UO Pair
-	"""
-	get_id = ('''SELECT entry_id FROM pairs WHERE circuit_id = %s 
-		OR cl_pair = %s OR uo_pair = %s''')
 
-	cursor.execute(get_id, (circuit_id, cl_pair, uo_pair))
+	Returns:
+		entry_id - The retrieved ID number for the given entry
+	"""
+	get_id = ('''SELECT entry_id FROM pairs WHERE cl_pair = %s OR 
+		uo_pair = %s''')
+
+	cursor.execute(get_id, (cl_pair, uo_pair))
 
 	for entry in cursor:
 		entry_id = entry
 
 	return entry_id[0]
+
+
+def get_entry_timestamp(cursor, entry_id):
+	"""Retrieves the insertion timestamp for an entry.
+
+	Keyword Arguments:
+		cursor - A cursor object for the database to retrieve from
+		entry_id - The database ID number of the entry to retrieve the timestamp
 	
+	Returns:
+		timestamp - A date object
+	"""
+	get_time = ('''SELECT date_added FROM pairs WHERE entry_id = %s''')
+
+	cursor.execute(get_time, (entry_id,))
+
+	for entry in cursor:
+		timestamp = entry
+
+	return timestamp
+
+
+def get_used_pairs(cursor):
+	"""
+	"""
+	pairs = []
+
+	get_pairs = ('''SELECT cl_pair, uo_pair FROM pairs''')
+	cursor.execute(get_pairs)
+
+	for entry in cursor:
+		pairs.append(entry[0])
+		pairs.append(entry[1])
+
+	return pairs
 
 def get_db(cursor):
 	"""Retrieves the entire contents of the database.
 	
 	Keyword Arguments:
 		cursor - A cursor object for the database to be retrieved 
+
+	Returns:
+		entries - A list containing each database entry
 	"""
 	entries = []
 
 	print("\nRetrieving full db...")
 
-	query_database = ('''SELECT circuit_id, type, cl_pair, uo_pair, customer, cust_phone, notes, date_added FROM pairs''')
+	query_database = ('''SELECT circuit_id, type, cl_pair, uo_pair, customer, 
+		cust_phone, notes, date_added FROM pairs''')
 
 	cursor.execute(query_database)
 

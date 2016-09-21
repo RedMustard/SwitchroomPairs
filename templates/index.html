@@ -78,7 +78,11 @@
 								<label>CenturyLink Pair:<h4> *</h4></label>
 								<select class="form-control" name="cl_pair" id="cl-pair" required="required">
 									{% for i in range(1501, 2701) %}
-									<option value="{{i}}">{{i}}</option>
+										{% if (i in used_pairs) %}
+											<option class="disabled-option" value="{{i}}" disabled="true">{{i}}</option>
+										{% else %}
+											<option value="{{i}}">{{i}}</option>
+										{% endif %}
 									{% endfor %}
 								</select>
 							</div>
@@ -87,7 +91,11 @@
 								<label>UO Cross-Connect Pair:<h4> *</h4></label>
 								<select class="form-control" name="uo_pair" id="uo-pair" required="required">
 									{% for i in range(001, 601) %}
-									<option value="{{i}}">{{ '%03d' % i }}</option>
+										{% if (i in used_pairs) %}
+											<option class="disabled-option" value="{{i}}" disabled="true">{{ '%03d' % i }}</option>
+										{% else %}
+											<option value="{{i}}">{{ '%03d' % i }}</option>
+										{% endif %}
 									{% endfor %}
 								</select>
 							</div>
@@ -118,13 +126,14 @@
 
 
 				<!-- Right Column (Circuit Information) -->
+				<!-- Right Column (Circuit Information) -->
 				<div class="col-md-3 info-div">
 					<div class="info-box">
-						<!-- <div class="row info-content">
+						<div class="row info-content" hidden>
 							<h2>Circuit ID:</h2>
 							<span id="circuit-id-info">
 							</span>
-						</div> -->
+						</div>
 						<div class="row info-content">
 								<h2>Circuit Type:</h2>
 								<span id="circuit-type-info">
@@ -143,17 +152,17 @@
 							</span>
 						</div>
 
-						<!-- <div class="row info-content">
+						<div class="row info-content" hidden>
 							<h2>Customer Name:</h2>
 							<span id="customer-name-info">
 							</span>
 						</div>
 						
-						<div class="row info-content">
+						<div class="row info-content" hidden>
 							<h2>Customer Phone:</h2>
 							<span id="customer-phone-info">
 							</span>
-						</div> -->
+						</div>
 
 						<div class="row info-content">
 							<h2>Notes:</h2>
@@ -161,11 +170,11 @@
 							</span>
 						</div>
 						
-						<!-- <div class="row info-content">
+						<div class="row info-content" hidden>
 							<h2>Date Added:</h2>
 							<span id="date-info">
 							</span>
-						</div> -->
+						</div>
 					</div>
 					
 					<div class="row">
@@ -195,14 +204,10 @@
 						data-icons="icons">
 
 						<thead>
-							<!-- <th data-width="15%" data-sortable="true">Circuit ID</th> -->
-							<th data-width="7%" data-sortable="true">Type</th>
-							<th data-width="7%" data-sortable="true">CL Pair</th>
-							<th data-width="8%" data-sortable="true">UO Pair</th>
-							<!-- <th data-width="15%" data-sortable="true">Customer Name</th> -->
-							<!-- <th data-width="15%" data-sortable="true">Customer Phone</th> -->
-							<th data-width="16%" data-sortable="true">Notes</th>
-							<!-- <th data-width="10%" data-sortable="true">Date Added</th> -->
+							<th data-width="15%" data-sortable="true">Type</th>
+							<th data-width="15%" data-sortable="true">CL Pair</th>
+							<th data-width="15%" data-sortable="true">UO Pair</th>
+							<th data-width="55%" data-sortable="true">Notes</th>
 						</thead>
 
 						<tbody>
@@ -403,6 +408,6 @@
 		<script src="static/js/stdDatabaseTable.js" id="dataTable"></script>
 		<script src="static/js/modalSubmit.js"></script>
 		<script src="static/js/modalDelete.js"></script>
-		<script src="static/js/modalEdit.js"></script>
+		<script src="static/js/modalEditStd.js"></script>
 	</body>
 </html>

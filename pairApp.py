@@ -29,7 +29,7 @@ DB_CURSOR = DATABASE.cursor(buffered=True)
 @app.route("/index")
 def index():
 	app.logger.debug("Main page entry")
-	return render_template('index.html', entries=return_admin_db())
+	return render_template('index.html', entries=get_db(), used_pairs=get_used_pairs())
 
 
 @app.route("/login")
@@ -116,11 +116,21 @@ def log_the_user_in(username):
 
 
 @app.template_filter('admin_db')
-def return_admin_db():
-	"""
+def get_db():
+	"""Retrieves 
 	"""
 	entries = db.get_db(DB_CURSOR)
 	return entries
+
+
+def get_used_pairs():
+	"""Retrieves all pairs stored in the database.
+
+	Returns:
+		pairs - A list containing all used pairs
+	"""
+	pairs = db.get_used_pairs(DB_CURSOR)
+	return pairs
 
 
 @app.route("/submit", methods=['POST'])
@@ -154,12 +164,11 @@ def delete_entry_from_database():
 	error = None
 
 	if request.method == 'POST':
-		circuit_id = request.form['circuit_id']
 		cl_pair = request.form['cl_pair']
 		uo_pair = request.form['uo_pair']
 
 		print("Getting entry id...")
-		entry_id = db.get_entry_id(DB_CURSOR, circuit_id, cl_pair, uo_pair)
+		entry_id = db.get_entry_id(DB_CURSOR, cl_pair, uo_pair)
 
 		print("Deleting entry...")
 		db.delete_entry(DB_CURSOR, entry_id)
@@ -185,7 +194,7 @@ def edit_entry_in_database():
 			entry.append(request.form[field])
 
 		print("Getting entry id...")	
-		entry_id = db.get_entry_id(DB_CURSOR, entry[3], entry[1], entry[5])
+		entry_id = db.get_entry_id(DB_CURSOR, entry[1], entry[5])
 
 		print("Editing entry...")
 		db.edit_entry(DB_CURSOR, entry_id, entry)

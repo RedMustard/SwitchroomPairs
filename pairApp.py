@@ -39,8 +39,7 @@ def login():
 	return render_template('login.html')
 
 
-# @app.route("/admin")
-# @app.route("/admin", methods=['POST'])
+@app.route("/admin")
 def admin():
 	app.logger.debug("Admin page entry")
 	## INSERT LOGIN LOGIC ##
@@ -49,16 +48,11 @@ def admin():
 	# #########
 
 	if 'username' in session:
-		return 'Logged in as %s' % escape(session['username'])
+		return log_the_user_in(session['username'])
+	else:
+		error = 'You are not logged in'
 
-	return 'You are not logged in'
-
-
-	# if request.method != 'POST':
-	# 	return flask.render_template('login.html')
-	# else:
-		
-	# 	return flask.render_template('admin.html') ## Only return if login is successful
+	return render_template('login.html', error=error)
 
 
 @app.route("/admin", methods=['POST'])
@@ -112,7 +106,7 @@ def valid_login(username, password):
 def log_the_user_in(username):
 	"""
 	"""
-	return render_template('admin.html', entries=return_admin_db())
+	return render_template('admin.html', entries=get_db(), used_pairs=get_used_pairs())
 
 
 @app.template_filter('admin_db')
@@ -154,7 +148,7 @@ def insert_entry_into_database():
 	else:
 		error = 'An error occurred processing your request.'
 
-	return index()
+	return admin()
 
 
 @app.route("/delete", methods=['POST'])

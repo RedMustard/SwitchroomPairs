@@ -65,5 +65,5 @@ function getSubmitFormInput() {
 
 
 function goToIndex() {
-	window.location = 'index';
+	window.location = 'admin';
 }

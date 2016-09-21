@@ -243,7 +243,7 @@
 					</div>
 
 					<div class="modal-body">
-						Please make sure the following information is correct:
+						<h3>Please make sure the following information is correct:</h3>
 						<div class="modal-box">
 							<h2>Circuit ID:</h2>
 							<span id="submit-circuit"></span>
@@ -317,7 +317,7 @@
 					</div>
 
 					<div class="modal-body">
-						Please update the entry:
+						<h3>Please update the entry:</h3>
 						<div class="modal-box">
 							<form action="edit" method="post" id="circuitForm">	
 								<div class="form-group row">				
@@ -343,7 +343,7 @@
 								<div class="form-group row">
 									<div class="form-group col-md-5">
 										<label>CenturyLink Pair:<h4> *</h4></label>
-										<select class="form-control" name="cl_pair" id="edit-cl-pair" required="required">
+										<select class="form-control" name="cl_pair" id="edit-cl-pair" required="required" disabled="true">
 											{% for i in range(1501, 2701) %}
 											<option value="{{i}}">{{i}}</option>
 											{% endfor %}
@@ -352,7 +352,7 @@
 									
 									<div class="form-group col-md-5">
 										<label>UO Cross-Connect Pair:<h4> *</h4></label>
-										<select class="form-control" name="uo_pair" id="edit-uo-pair" required="required">
+										<select class="form-control" name="uo_pair" id="edit-uo-pair" required="required" disabled="true">
 											{% for i in range(001, 601) %}
 											<option value="{{i}}">{{ '%03d' % i }}</option>
 											{% endfor %}

@@ -3,7 +3,7 @@
 
 import flask
 from flask import render_template, session, redirect, url_for, escape, request
-from datetime import date, datetime
+from datetime import date, time, datetime, timedelta
 
 import json
 import logging
@@ -168,12 +168,18 @@ def insert_entry_into_database():
 			entry.append(request.form[item])
 
 		date_added = datetime.now().date()
+		time_added = datetime.now()
+
+		print(datetime.now())
+		print("TIME ADDED: {}".format(time_added))
+
 		entry.append(date_added)
+		entry.append(time_added)
 
 		if 'username' in session:
 			entry.append(session['username'])
 		else:
-			entry.append('cl')
+			entry.append('centlink')
 
 		print("Inserting entry...")
 		db.insert_entry(DB_CURSOR, entry)
@@ -224,8 +230,33 @@ def edit_entry_in_database():
 		print("Getting entry id...")	
 		entry_id = db.get_entry_id(DB_CURSOR, entry[1], entry[5])
 
-		print("Editing entry...")
-		db.edit_entry(DB_CURSOR, entry_id, entry)
+		# If admin is logged in, edit the entry
+		if 'username' in session:
+			print("Editing entry as admin...")
+			db.edit_entry(DB_CURSOR, entry_id, entry)
+			return redirect(url_for("admin"))
+
+		# Else, did a centlink user submit the entry? Was it less than 60 minutes ago?
+		else:
+			print("Checking which user submitted entry...")
+			if db.get_entry_author(DB_CURSOR, entry_id) == 'centlink':
+				print("Checking timestamp for std user....")
+				time_now = datetime.now()
+				time_delta = timedelta(hours=1)
+				time_entry = db.get_entry_timestamp(DB_CURSOR, entry_id)
+
+				if time_entry > (time_now - time_delta):
+					print("Entry is less than 1 hour old and can be edited by centlink user...")
+					db.edit_entry(DB_CURSOR, entry_id, entry)
+					return redirect(url_for("index"))
+
+				else:
+					error = "This entry is greater than 1 hour old and cannot be edited by centlink user."
+					# print("Entry is greater than 1 hour old and cannot be edited by centlink user.") 
+					return render_template("index.html", error=error)
+
+			else:
+				print("Admin created the entry and cannot be edited by centlink user")
 
 	else:
 		error = 'An error occurred processing your request.'

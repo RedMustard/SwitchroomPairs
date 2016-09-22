@@ -36,6 +36,7 @@ function validateInput() {
 }
 
 
-function goToIndex() {
-	window.location = 'index';
-}
+$('#editCircuitForm').submit(function() {
+	$('#edit-cl-pair').removeAttr('disabled');
+	$('#edit-uo-pair').removeAttr('disabled');
+});

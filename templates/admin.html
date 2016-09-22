@@ -318,7 +318,7 @@
 					<div class="modal-body">
 						<h3>Please update the entry:</h3>
 						<div class="modal-box">
-							<form action="edit" method="post" id="circuitForm">	
+							<form action="edit" method="post" id="editCircuitForm">	
 								<div class="form-group row">				
 									<div class="form-group col-md-5">
 										<label>Circuit ID or Phone #:<h4> *</h4></label>
@@ -342,7 +342,7 @@
 								<div class="form-group row">
 									<div class="form-group col-md-5">
 										<label>CenturyLink Pair:<h4> *</h4></label>
-										<select class="form-control" name="cl_pair" id="edit-cl-pair" required="required" disabled="true">
+										<select class="form-control" name="cl_pair" id="edit-cl-pair" required="required" disabled>
 											{% for i in range(1501, 2701) %}
 											<option value="{{i}}">{{i}}</option>
 											{% endfor %}
@@ -351,7 +351,7 @@
 									
 									<div class="form-group col-md-5">
 										<label>UO Cross-Connect Pair:<h4> *</h4></label>
-										<select class="form-control" name="uo_pair" id="edit-uo-pair" required="required" disabled="true">
+										<select class="form-control" name="uo_pair" id="edit-uo-pair" required="required" disabled>
 											{% for i in range(001, 601) %}
 											<option value="{{i}}">{{ '%03d' % i }}</option>
 											{% endfor %}
@@ -405,6 +405,6 @@
 		<script src="static/js/adDatabaseTable.js" id="dataTable"></script>
 		<script src="static/js/modalSubmit.js"></script>
 		<script src="static/js/modalDelete.js"></script>
-		<script src="static/js/modalEditAd.js"></script>
+		<script src="static/js/modalEdit.js"></script>
 	</body>
 </html>

@@ -6,7 +6,7 @@ This program functions as the API for manipulating the MySQL backend for the
 University of Oregon Switchroom Pairs app.
 """
 
-from datetime import date, datetime
+from datetime import date, time, datetime
 import config
 import mysql.connector as sql_con
 import json
@@ -23,8 +23,9 @@ DATABASE_TABLES['pairs'] = (
 		customer VARCHAR(96),
 		cust_phone VARCHAR(16),
 		notes VARCHAR(1024),
-		user CHAR(12) NOT NULL,
-		date_added DATE NOT NULL
+		date_added DATE NOT NULL,
+		time_added DATETIME NOT NULL,
+		user CHAR(12) NOT NULL
 	)''')
 
 
@@ -38,8 +39,8 @@ DATABASE_TABLES['pairs_audit'] = (
 		customer VARCHAR(96),
 		cust_phone VARCHAR(16),
 		notes VARCHAR(1024),
-		user CHAR(12) NOT NULL,
 		date_added DATE NOT NULL,
+		user CHAR(12) NOT NULL,
 		audit_type VARCHAR(8) NOT NULL,
 		audit_date DATE NOT NULL
 	)''')
@@ -130,20 +131,20 @@ def insert_entry(cursor, entry):
 		cursor - A cursor object for the database to delete from
 		entry - List containing strings for each column in the table
 	"""
-	if len(entry) == 9:
+	if len(entry) == 10:
 		print("\nInserting entry...")
 
 		add_entry = ('''INSERT INTO pairs (
 						circuit_id, type, cl_pair, uo_pair, customer, cust_phone, 
-						notes, date_added, user) 
-						VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)''')
+						notes, date_added, time_added, user) 
+						VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''')
 
 		cursor.execute(add_entry, entry)
 
-	elif len(entry) > 9:
+	elif len(entry) > 10:
 		print("Your entry has too many variables")
 
-	elif len(entry) < 9:
+	elif len(entry) < 10:
 		print("Your entry has too few variables")
 
 	else:
@@ -222,16 +223,36 @@ def get_entry_timestamp(cursor, entry_id):
 		entry_id - The database ID number of the entry to retrieve the timestamp
 	
 	Returns:
-		timestamp - A date object
+		timestamp - A time object
 	"""
-	get_time = ('''SELECT date_added FROM pairs WHERE entry_id = %s''')
+	get_time = ('''SELECT time_added FROM pairs WHERE entry_id = %s''')
 
 	cursor.execute(get_time, (entry_id,))
-
 	for entry in cursor:
 		timestamp = entry
+	
+	return timestamp[0]
 
-	return timestamp
+
+def get_entry_author(cursor, entry_id):
+	"""Retrieves the author of a given entry.
+
+	Keyword Arguments:
+		cursor - A cursor object for the database to be retrieved from
+		entry_id - The database ID number of the entry to retrieve the author
+
+	Returns:
+		author - A string containing the author of the entry
+	"""
+	get_author = ('''SELECT user FROM pairs WHERE entry_id = %s''')
+
+	cursor.execute(get_author, (entry_id,))
+
+	for entry in cursor:
+		author = entry
+
+	return author[0]
+
 
 
 def get_used_pairs(cursor):
@@ -286,7 +307,8 @@ def get_log_db(cursor):
 	entries = []
 
 	print("Retrieving full log db...")
-	query_database = ('''SELECT * FROM pairs''')
+	query_database = ('''SELECT circuit_id, type, cl_pair, uo_pair, customer, 
+		cust_phone, notes, date_added, user FROM pairs''')
 
 	cursor.execute(query_database)
 

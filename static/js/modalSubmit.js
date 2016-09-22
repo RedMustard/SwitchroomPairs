@@ -66,7 +66,7 @@ function getSubmitFormInput() {
 
 function reloadPage() {
 	console.log(location.pathname);
-	if (location.pathname == '/index') {
+	if (location.pathname == '/index' || location.pathname =='/') {
 		window.location = 'index';
 	} else if (location.pathname == '/admin') {
 		window.location = 'admin';

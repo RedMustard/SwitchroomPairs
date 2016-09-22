@@ -31,9 +31,15 @@ DB_CURSOR = DATABASE.cursor(buffered=True)
 def index():
 	app.logger.debug("Main page entry")
 
+	error = None
 	if 'username' in session:
 		session.pop('username', None)
-	return render_template('index.html', entries=get_db(), used_pairs=get_used_pairs())
+
+	if 'error' in session:
+		error = session['error']
+		session.pop('error', None)
+
+	return render_template('index.html', error=error, entries=get_db(), used_pairs=get_used_pairs())
 
 
 @app.route("/login")
@@ -187,6 +193,7 @@ def insert_entry_into_database():
 
 	else:
 		error = 'An error occurred processing your request.'
+		session['error'] = error
 
 	return admin()
 
@@ -210,6 +217,7 @@ def delete_entry_from_database():
 
 	else:
 		error = 'An error occurred processing your request.'
+		session['error'] = error
 
 	return index()
 
@@ -242,7 +250,7 @@ def edit_entry_in_database():
 			if db.get_entry_author(DB_CURSOR, entry_id) == 'centlink':
 				print("Checking timestamp for std user....")
 				time_now = datetime.now()
-				time_delta = timedelta(hours=1)
+				time_delta = timedelta(seconds=1)
 				time_entry = db.get_entry_timestamp(DB_CURSOR, entry_id)
 
 				if time_entry > (time_now - time_delta):
@@ -252,14 +260,17 @@ def edit_entry_in_database():
 
 				else:
 					error = "This entry is greater than 1 hour old and cannot be edited by centlink user."
-					# print("Entry is greater than 1 hour old and cannot be edited by centlink user.") 
-					return render_template("index.html", error=error)
+					session['error'] = error
+					return redirect(url_for("index"))
 
 			else:
-				print("Admin created the entry and cannot be edited by centlink user")
+				error = "Admin created the entry and cannot be edited by centlink user"
+				session['error'] = error
+				return redirect(url_for("index"))
 
 	else:
 		error = 'An error occurred processing your request.'
+		session['error'] = error
 
 	return redirect(url_for("index"))
 

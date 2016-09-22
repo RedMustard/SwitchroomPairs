@@ -45,7 +45,13 @@
 				<div class="col-md-7 form-div">
 					
 						<h3>Please fill out and click Submit when delivering a circuit.</h3>
-					<br />
+						<h4 class="error">
+							{% if (error != None) %}
+								{% print(error) %}
+							{% endif %}
+						</h4>
+						<br />
+
 
 					<form action="javascript:void(0);" id="circuitForm">	
 						<div class="form-group row">				

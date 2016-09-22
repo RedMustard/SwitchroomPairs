@@ -1,0 +1,94 @@
+<html>
+	<head>
+		<title>NTS Pair App - Database Log</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
+		
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+		<!-- Local -->
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-table/bootstrap-table.css">
+		<link rel="stylesheet" type="text/css" href="static/css/pairs.css">
+	</head>
+
+	<body>
+		<!-- Header Bar -->
+		<div class="navbar navbar-uo">
+			<div class="row" id="nav-bar">
+
+				<div class="col-md-2 col-xs-1 nav-logo">
+					<img alt="University of Oregon" title="University of Oregon" src="static/images/uo-logo.png" height="43" width="200" style="margin-top: 5px;" />
+				</div>
+
+				<div class="col-md-8 col-sm-7 col-xs-7 nav-title" align="center">
+					Century Link Demarc & Cross-Connect - Audit Log
+				</div>
+
+				<div class="col-md-2 col-xs-4 nav-link" style="height:50px;" align="right">
+					<a href="/admin" style="color: #ffffff;">Home</a>
+					|
+					<a href="/logout" style="color: #ffffff;">Logout</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- Main Container -->
+		<div class="container-fluid containter-main">
+		<!-- Bottom Row (Database Table View) -->
+			<div class="database-box">
+				<div class="row database-div">
+					<table class="database-table" id="database-table"
+						data-toggle="table"
+						data-search="true" 
+						data-show-export="true"
+						data-show-columns="true"
+						data-show-print="true"
+						data-striped="true"
+						data-icons-prefix="fa"
+						data-icons="icons">
+
+						<thead>
+							<th data-width="10%" data-sortable="true">Circuit ID</th>
+							<th data-width="7%" data-sortable="true">Type</th>
+							<th data-width="7%" data-sortable="true">CL Pair</th>
+							<th data-width="8%" data-sortable="true">UO Pair</th>
+							<th data-width="15%" data-sortable="true">Customer Name</th>
+							<th data-width="15%" data-sortable="true">Customer Phone</th>
+							<th data-width="16%" data-sortable="true">Notes</th>
+							<th data-width="10%" data-sortable="true">Date Added</th>
+							<th data-sortable="true">User</th>
+							<th data-sortable="true">Audit Type</th>
+							<th data-sortable="true">Audit Date</th>
+						</thead>
+
+						<tbody>
+							{% for entry in entries %}
+								<tr >
+								{% for col in entry %}
+									<td>
+									{% print(col) %}
+									</td>
+								{% endfor %}
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div> <!-- End main container -->
+
+		<!-- Libraries -->
+		<script src="static/js/jquery.min.js"></script>
+		<script src="static/js/bootstrap/bootstrap.min.js"></script>
+		<script src="static/js/bootstrap-table/bootstrap-table.min.js"></script>
+		<script src="static/js/bootstrap-table/extras/export/bootstrap-table-export.min.js"></script>
+		<script src="static/js/bootstrap-table/extras/editable/bootstrap-table-editable.min.js"></script>
+		<script src="static/js/bootstrap-table/extras/print/bootstrap-table-print.js"></script>
+		<!-- Local -->
+		<script src="static/js/logTable.js" id="dataTable"></script>
+
+	</body>
+</html>

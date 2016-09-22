@@ -3,6 +3,7 @@
 
 import flask
 from flask import render_template, session, redirect, url_for, escape, request
+from datetime import date, datetime
 
 import json
 import logging
@@ -29,6 +30,9 @@ DB_CURSOR = DATABASE.cursor(buffered=True)
 @app.route("/index")
 def index():
 	app.logger.debug("Main page entry")
+
+	if 'username' in session:
+		session.pop('username', None)
 	return render_template('index.html', entries=get_db(), used_pairs=get_used_pairs())
 
 
@@ -37,6 +41,13 @@ def login():
 	app.logger.debug("Login page entry")
 
 	return render_template('login.html')
+
+
+@app.route("/logout")
+def logout():
+	session.pop('username', None)
+
+	return redirect(url_for('index'))
 
 
 @app.route("/admin")
@@ -63,6 +74,7 @@ def admin_login():
 
 	if request.method == 'POST':
 		session['username'] = request.form['username']
+
 		if valid_login(request.form['username'], request.form['password']):
 			return log_the_user_in(request.form['username'])
 		else:
@@ -71,11 +83,15 @@ def admin_login():
 		return render_template('login.html', error=error)
 
 
-@app.route("/logout")
-def logout():
-	session.pop('username', None)
+@app.route("/log")
+def db_log():
+	if 'username' in session:
+		# if session['username'] == is_admin()
+		return render_template('log.html', entries=get_log_db())
+	else:
+		error = 'You are not logged in'
 
-	return redirect(url_for('index'))
+	return render_template('login.html', error=error)
 
 
 @app.errorhandler(404)
@@ -106,7 +122,10 @@ def valid_login(username, password):
 def log_the_user_in(username):
 	"""
 	"""
-	return render_template('admin.html', entries=get_db(), used_pairs=get_used_pairs())
+
+	################################### CHANGE TO SELECT ADMIN USER FROM DB 'is_admin()'
+	if username == 'admin':
+		return render_template('admin.html', entries=get_db(), used_pairs=get_used_pairs())
 
 
 @app.template_filter('admin_db')
@@ -114,6 +133,13 @@ def get_db():
 	"""Retrieves 
 	"""
 	entries = db.get_db(DB_CURSOR)
+	return entries
+
+
+def get_log_db():
+	"""
+	"""
+	entries = db.get_log_db(DB_CURSOR)
 	return entries
 
 
@@ -140,6 +166,14 @@ def insert_entry_into_database():
 		for item in form_fields:
 			session[item] = request.form[item]
 			entry.append(request.form[item])
+
+		date_added = datetime.now().date()
+		entry.append(date_added)
+
+		if 'username' in session:
+			entry.append(session['username'])
+		else:
+			entry.append('cl')
 
 		print("Inserting entry...")
 		db.insert_entry(DB_CURSOR, entry)

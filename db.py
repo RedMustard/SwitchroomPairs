@@ -23,6 +23,7 @@ DATABASE_TABLES['pairs'] = (
 		customer VARCHAR(96),
 		cust_phone VARCHAR(16),
 		notes VARCHAR(1024),
+		user CHAR(12) NOT NULL,
 		date_added DATE NOT NULL
 	)''')
 
@@ -37,10 +38,10 @@ DATABASE_TABLES['pairs_audit'] = (
 		customer VARCHAR(96),
 		cust_phone VARCHAR(16),
 		notes VARCHAR(1024),
+		user CHAR(12) NOT NULL,
 		date_added DATE NOT NULL,
 		audit_type VARCHAR(8) NOT NULL,
-		audit_date DATE NOT NULL,
-		audit_user CHAR(12) NOT NULL
+		audit_date DATE NOT NULL
 	)''')
 
 DATABASE_TABLES['members'] = (
@@ -72,6 +73,18 @@ def connect_to_database():
 
 	else:
 		print("Connected to database.")
+
+		print("\nDeleting previous tables...\n")
+		try:
+			db_cursor.execute('''DROP TABLE `pairs` ''')
+			print("Pairs table deleted")
+			db_cursor.execute('''DROP TABLE `pairs_audit` ''')
+			print("Pairs_audit table deleted")
+			db_cursor.execute('''DROP TABLE `members` ''')
+			print("Members table deleted\n")
+		except:
+			print("Error dropping table")
+
 		create_database_tables(database)
 
 		return database
@@ -117,23 +130,20 @@ def insert_entry(cursor, entry):
 		cursor - A cursor object for the database to delete from
 		entry - List containing strings for each column in the table
 	"""
-	if len(entry) == 7:
+	if len(entry) == 9:
 		print("\nInserting entry...")
-		
-		date_added = datetime.now().date()
-		entry.append(date_added)
 
 		add_entry = ('''INSERT INTO pairs (
 						circuit_id, type, cl_pair, uo_pair, customer, cust_phone, 
-						notes, date_added) 
-						VALUES (%s, %s, %s, %s, %s, %s, %s, %s)''')
+						notes, date_added, user) 
+						VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)''')
 
 		cursor.execute(add_entry, entry)
 
-	elif len(entry) > 7:
+	elif len(entry) > 9:
 		print("Your entry has too many variables")
 
-	elif len(entry) < 7:
+	elif len(entry) < 9:
 		print("Your entry has too few variables")
 
 	else:
@@ -238,11 +248,12 @@ def get_used_pairs(cursor):
 
 	return pairs
 
+
 def get_db(cursor):
-	"""Retrieves the entire contents of the database.
+	"""Retrieves the entire contents of the 'pairs' database.
 	
 	Keyword Arguments:
-		cursor - A cursor object for the database to be retrieved 
+		cursor - A cursor object for the database to be retrieved from
 
 	Returns:
 		entries - A list containing each database entry
@@ -261,6 +272,28 @@ def get_db(cursor):
 
 	return entries
 
+
+def get_log_db(cursor):
+	"""Retrieves the entire contents of the 'pairs_audit' database.
+
+	Keyword Arguments:
+		cursor - A cursor object for the database to be retrieved from
+
+	Returns:
+		entries - A list containing each database entry
+	"""
+
+	entries = []
+
+	print("Retrieving full log db...")
+	query_database = ('''SELECT * FROM pairs''')
+
+	cursor.execute(query_database)
+
+	for entry in cursor:
+		entries.append(entry)
+
+	return entries
 
 # if __name__ == "__main__":
 	

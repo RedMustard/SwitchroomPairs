@@ -43,14 +43,16 @@
 
 				<!-- Left Column (Form View) -->
 				<div class="col-md-7 form-div">
-					
-						<h3>Please fill out and click Submit when delivering a circuit.</h3>
 						<h4 class="error">
 							{% if (error != None) %}
 								{% print(error) %}
+								<br />
+								<br />
 							{% endif %}
-						</h4>
-						<br />
+						</h4>	
+			
+					<h3>Please fill out and click Submit when delivering a circuit.</h3>
+					<br />
 
 
 					<form action="javascript:void(0);" id="circuitForm">	

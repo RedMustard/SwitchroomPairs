@@ -8,8 +8,9 @@ $("#modal-delete-button").on('click', function(event) {
 		type: "POST",
 		data: entryData,
 		success: function(response) {
-			setTimeout('goToIndex()', 500);
+			setTimeout('reloadPage()', 250);
 		}
+
 	});
 });
 
@@ -31,6 +32,11 @@ function getEntryInfo() {
 }
 
 
-function goToIndex() {
-	window.location = 'index';
+function reloadPage() {
+	console.log(location.pathname);
+	if (location.pathname == '/index' || location.pathname =='/') {
+		window.location = 'index';
+	} else if (location.pathname == '/admin') {
+		window.location = 'admin';
+	}
 }

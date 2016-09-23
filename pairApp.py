@@ -30,8 +30,8 @@ DB_CURSOR = DATABASE.cursor(buffered=True)
 @app.route("/index")
 def index():
 	app.logger.debug("Main page entry")
-
 	error = None
+
 	if 'username' in session:
 		session.pop('username', None)
 
@@ -130,6 +130,9 @@ def log_the_user_in(username):
 	"""
 
 	################################### CHANGE TO SELECT ADMIN USER FROM DB 'is_admin()'
+	# if is_admin(username):
+	# 	return render_template('admin.html', entries=get_db(), used_pairs=get_used_pairs())
+
 	if username == 'admin':
 		return render_template('admin.html', entries=get_db(), used_pairs=get_used_pairs())
 
@@ -192,7 +195,7 @@ def insert_entry_into_database():
 		db.db_commit(DATABASE)
 
 	else:
-		error = 'An error occurred processing your request.'
+		error = '**ERROR: An error occurred processing your request.**'
 		session['error'] = error
 
 	return admin()
@@ -211,15 +214,43 @@ def delete_entry_from_database():
 		print("Getting entry id...")
 		entry_id = db.get_entry_id(DB_CURSOR, cl_pair, uo_pair)
 
-		print("Deleting entry...")
-		db.delete_entry(DB_CURSOR, entry_id)
-		db.db_commit(DATABASE)
+		# If admin is logged in, edit the entry
+		if 'username' in session:
+			print("Deleting entry as admin...")
+			db.delete_entry(DB_CURSOR, entry_id)
+			db.db_commit(DATABASE)
+			return redirect(url_for("admin"))
+
+		# Else, did a centlink user submit the entry? Was it less than 60 minutes ago?
+		else:
+			print("Checking which user submitted entry...")
+			if db.get_entry_author(DB_CURSOR, entry_id) == 'centlink':
+				print("Checking timestamp for std user....")
+				time_now = datetime.now()
+				time_delta = timedelta(hours=1)
+				time_entry = db.get_entry_timestamp(DB_CURSOR, entry_id)
+
+				if time_entry > (time_now - time_delta):
+					print("Entry is less than 1 hour old and can be deleted by centlink user...")
+					db.delete_entry(DB_CURSOR, entry_id)
+					db.db_commit(DATABASE)
+					return redirect(url_for("index"))
+
+				else:
+					error = "**ERROR: This entry is over 1 hour old and cannot be deleted by standard users.**"
+					session['error'] = error
+					return error
+
+			else:
+				error = "**ERROR: An admin created this entry and cannot be deleted by standard users.**"
+				session['error'] = error
+				return error
 
 	else:
-		error = 'An error occurred processing your request.'
+		error = '**ERROR: An error occurred processing your request.**'
 		session['error'] = error
 
-	return index()
+	return redirect(url_for("index"))
 
 
 @app.route("/edit", methods=['POST'])
@@ -250,7 +281,7 @@ def edit_entry_in_database():
 			if db.get_entry_author(DB_CURSOR, entry_id) == 'centlink':
 				print("Checking timestamp for std user....")
 				time_now = datetime.now()
-				time_delta = timedelta(seconds=1)
+				time_delta = timedelta(hours=1)
 				time_entry = db.get_entry_timestamp(DB_CURSOR, entry_id)
 
 				if time_entry > (time_now - time_delta):
@@ -259,17 +290,17 @@ def edit_entry_in_database():
 					return redirect(url_for("index"))
 
 				else:
-					error = "This entry is greater than 1 hour old and cannot be edited by centlink user."
+					error = "**ERROR: This entry is over 1 hour old and cannot be edited by standard users.**"
 					session['error'] = error
 					return redirect(url_for("index"))
 
 			else:
-				error = "Admin created the entry and cannot be edited by centlink user"
+				error = "**ERROR: An admin created the entry and cannot be edited by standard users.**"
 				session['error'] = error
 				return redirect(url_for("index"))
 
 	else:
-		error = 'An error occurred processing your request.'
+		error = '**ERROR: An error occurred processing your request.**'
 		session['error'] = error
 
 	return redirect(url_for("index"))

@@ -42,7 +42,8 @@ DATABASE_TABLES['pairs_audit'] = (
 		date_added DATE NOT NULL,
 		user CHAR(12) NOT NULL,
 		audit_type VARCHAR(8) NOT NULL,
-		audit_date DATE NOT NULL
+		audit_date DATE NOT NULL,
+		audit_user CHAR(12) NOT NULL
 	)''')
 
 DATABASE_TABLES['members'] = (
@@ -80,12 +81,13 @@ def connect_to_database():
 		# try:
 		# 	db_cursor.execute('''DROP TABLE `pairs` ''')
 		# 	print("Pairs table deleted")
-		# 	db_cursor.execute('''DROP TABLE `pairs_audit` ''')
-		# 	print("Pairs_audit table deleted")
+			# db_cursor.execute('''DROP TABLE `pairs_audit` ''')
+			# print("Pairs_audit table deleted")
 		# 	db_cursor.execute('''DROP TABLE `members` ''')
 		# 	print("Members table deleted\n")
 		# except:
-		# 	print("Error dropping table")
+			# print("Error dropping table")
+		######################################################
 
 		create_database_tables(database)
 
@@ -136,8 +138,8 @@ def insert_entry(cursor, entry):
 		print("\nInserting entry...")
 
 		add_entry = ('''INSERT INTO pairs (
-						circuit_id, type, cl_pair, uo_pair, customer, cust_phone, 
-						notes, date_added, time_added, user) 
+						circuit_id, type, cl_pair, uo_pair, customer, 
+						cust_phone, notes, date_added, time_added, user) 
 						VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''')
 
 		cursor.execute(add_entry, entry)
@@ -181,15 +183,15 @@ def edit_entry(cursor, entry_id, entry):
 		entry[4], entry[5], entry[6], entry_id))
 
 
-def get_entry(cursor, entry_id):
-	"""Returns an entry from the database.
+# def get_entry(cursor, entry_id):
+# 	"""Returns an entry from the database.
 
-	Keyword Arguments:
-		cursor - A cursor object for the database to retrieve from
-		entry_id - The database ID number of the entry to be retrieved
-	"""
-	# db_cursor = database.cursor()
-	return
+# 	Keyword Arguments:
+# 		cursor - A cursor object for the database to retrieve from
+# 		entry_id - The database ID number of the entry to be retrieved
+# 	"""
+# 	# db_cursor = database.cursor()
+# 	return
 
 
 def get_entry_id(cursor, cl_pair, uo_pair):
@@ -255,22 +257,6 @@ def get_entry_author(cursor, entry_id):
 	return author[0]
 
 
-
-def get_used_pairs(cursor):
-	"""
-	"""
-	pairs = []
-
-	get_pairs = ('''SELECT cl_pair, uo_pair FROM pairs''')
-	cursor.execute(get_pairs)
-
-	for entry in cursor:
-		pairs.append(entry[0])
-		pairs.append(entry[1])
-
-	return pairs
-
-
 def get_db(cursor):
 	"""Retrieves the entire contents of the 'pairs' database.
 	
@@ -304,7 +290,6 @@ def get_log_db(cursor):
 	Returns:
 		entries - A list containing each database entry
 	"""
-
 	entries = []
 
 	print("Retrieving full log db...")
@@ -317,6 +302,7 @@ def get_log_db(cursor):
 		entries.append(entry)
 
 	return entries
+	
 
 # if __name__ == "__main__":
 	

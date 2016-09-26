@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>NTS Pair App</title>
+		<title>Demarc & Cross-Connect</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- Bootstrap -->
@@ -87,7 +87,7 @@
 								<select class="form-control" name="cl_pair" id="cl-pair" required="required">
 									{% for i in range(1501, 2701) %}
 										{% if (i in used_pairs) %}
-											<option class="disabled-option" value="{{i}}" disabled="true">{{i}}</option>
+											<option class="disabled-option" value="{{i}}" disabled="true">{{i}} -- In use</option>
 										{% else %}
 											<option value="{{i}}">{{i}}</option>
 										{% endif %}
@@ -100,7 +100,7 @@
 								<select class="form-control" name="uo_pair" id="uo-pair" required="required">
 									{% for i in range(001, 601) %}
 										{% if (i in used_pairs) %}
-											<option class="disabled-option" value="{{i}}" disabled="true">{{ '%03d' % i }}</option>
+											<option class="disabled-option" value="{{i}}" disabled="true">{{ '%03d' % i }} -- In use</option>
 										{% else %}
 											<option value="{{i}}">{{ '%03d' % i }}</option>
 										{% endif %}

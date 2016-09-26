@@ -83,7 +83,7 @@ h2 {
 
 .disabled-option {
 	color: grey;
-	text-decoration: line-through;
+	/*text-decoration: line-through;*/
 }
 
 

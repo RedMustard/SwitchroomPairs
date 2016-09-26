@@ -1,5 +1,78 @@
 <html>
 	<head>
+		<title>Demarc & Cross-Connect - Admin Login</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css" integrity="sha384-MIwDKRSSImVFAZCVLtU0LMDdON6KVCrZHyVQQj6e8wIEJkW4tvwqXrbMIya1vriY" crossorigin="anonymous">
+		
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+		<!-- Local -->
+		<link rel="stylesheet" type="text/css" href="static/css/bootstrap-table/bootstrap-table.css">
+		<link rel="stylesheet" type="text/css" href="static/css/pairs.css">
+	</head>
+
+	<body>
+		<!-- Header Bar -->
+		<div class="navbar navbar-uo">
+			<div class="row" id="nav-bar">
+
+				<div class="col-md-2 col-xs-1 nav-logo">
+					<img alt="University of Oregon" title="University of Oregon" src="static/images/uo-logo.png" height="43" width="200" style="margin-top: 5px;" />
+				</div>
+
+				<div class="col-md-8 col-sm-7 col-xs-7 nav-title" align="center">
+					Century Link Demarc & Cross-Connect - Admin Login
+				</div>
+
+				<div class="col-md-2 col-xs-4 nav-link" style="height:50px;" align="right">
+					<a href="/index" style="color: #ffffff;">Home</a>
+				</div>
+			</div>
+		</div>
+
+		
+
+		<!-- Main Container -->
+		<div class="container-fluid containter-main" style="margin-left: 20px;">
+			<h4 class="error">
+				{% if error %}
+					{% print(error) %}
+				{% endif %}
+			</h4>
+			<br />
+			<form action="admin" method="post">
+				<div class="form-group row">
+					<div class="form-group col-md-3">
+						<label>Username:</label>
+						<!-- <br /> -->
+						<input class="form-control" type="text" name="username">
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<div class="form-group col-md-3">
+						<label>Password:</label>
+						<input class="form-control" type="password" name="password">
+					</div>
+				</div>
+				<div class="form-group row" align="right">
+					<div class="form-group col-md-3">
+						<input class="btn btn-sm btn-success form-button submit-button" id="login-button" type="submit" value="Login">
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>
+
+
+
+
+<!-- <html>
+	<head>
 		<title>NTS Pair App - Admin Login</title>
 		<link rel="stylesheet" type="text/css" href="static/css/pairs.css">
 	</head>
@@ -20,4 +93,4 @@
 
 
 	</body>
-</html>
+</html> -->

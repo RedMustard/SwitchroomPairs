@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>NTS Pair App - ADMIN</title>
+		<title>Demarc & Cross-Connect - ADMIN</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- Bootstrap -->
@@ -44,8 +44,16 @@
 
 				<!-- Left Column (Form View) -->
 				<div class="col-md-7 form-div">
-					
-						<h3>Please fill out and click Submit when delivering a circuit.</h3>
+					<h4 class="error">
+						{% if (error != None) %}
+							{% print(error) %}
+							<br />
+							<br />
+						{% endif %}
+					</h4>
+				
+					<h3>Please fill out and click Submit when delivering a circuit.</h3>
+				
 					<br />
 
 					<form action="javascript:void(0);" id="circuitForm">	
@@ -80,7 +88,7 @@
 								<select class="form-control" name="cl_pair" id="cl-pair" required="required">
 									{% for i in range(1501, 2701) %}
 										{% if (i in used_pairs) %}
-											<option class="disabled-option" value="{{i}}" disabled="true">{{i}}</option>
+											<option class="disabled-option" value="{{i}}" disabled="true">{{i}} -- In use</option>
 										{% else %}
 											<option value="{{i}}">{{i}}</option>
 										{% endif %}
@@ -93,7 +101,7 @@
 								<select class="form-control" name="uo_pair" id="uo-pair" required="required">
 									{% for i in range(001, 601) %}
 										{% if (i in used_pairs) %}
-											<option class="disabled-option" value="{{i}}" disabled="true">{{ '%03d' % i }}</option>
+											<option class="disabled-option" value="{{i}}" disabled="true">{{ '%03d' % i }} -- In use</option>
 										{% else %}
 											<option value="{{i}}">{{ '%03d' % i }}</option>
 										{% endif %}

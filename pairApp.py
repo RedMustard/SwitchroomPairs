@@ -85,6 +85,7 @@ def admin_login():
 			return log_the_user_in(request.form['username'])
 		else:
 			error = 'Invalid username/password'
+			session.pop('username', None)
 
 		return render_template('login.html', error=error)
 
@@ -156,9 +157,17 @@ def get_used_pairs():
 	"""Retrieves all pairs stored in the database.
 
 	Returns:
-		pairs - A list containing all used pairs
+		pairs - List containing all pairs
 	"""
-	pairs = db.get_used_pairs(DB_CURSOR)
+	pairs = []
+
+	get_pairs = ('''SELECT cl_pair, uo_pair FROM pairs''')
+	DB_CURSOR.execute(get_pairs)
+
+	for entry in DB_CURSOR:
+		pairs.append(entry[0])
+		pairs.append(entry[1])
+
 	return pairs
 
 

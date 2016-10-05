@@ -35,6 +35,9 @@ def index():
 	if 'username' in session:
 		session.pop('username', None)
 
+	if 'password' in session: 
+		session.pop('password', None)
+
 	if 'error' in session:
 		error = session['error']
 		session.pop('error', None)
@@ -52,6 +55,7 @@ def login():
 @app.route("/logout")
 def logout():
 	session.pop('username', None)
+	session.pop('password', None)
 
 	return redirect(url_for('index'))
 
@@ -64,8 +68,9 @@ def admin():
 	## Else, send to admin page
 	# #########
 
-	if 'username' in session:
-		return log_the_user_in(session['username'])
+	if 'username' and 'password' in session:
+		if is_admin(session['username'], session['password']):
+			return render_template('admin.html', entries=get_db(), used_pairs=get_used_pairs())
 	else:
 		error = 'You are not logged in'
 
@@ -80,21 +85,34 @@ def admin_login():
 
 	if request.method == 'POST':
 		session['username'] = request.form['username']
+		session['password'] = request.form['password']
 
-		if valid_login(request.form['username'], request.form['password']):
-			return log_the_user_in(request.form['username'])
+		if is_admin(request.form['username'], request.form['password']):
+			return render_template('admin.html', entries=get_db(), used_pairs=get_used_pairs())
+
 		else:
 			error = 'Invalid username/password'
 			session.pop('username', None)
+			session.pop('password', None)
 
 		return render_template('login.html', error=error)
 
 
+@app.route("/account")
+def admin_account():
+	if 'username' and 'password' in session:
+		if is_admin(session['username'], session['password']):
+			return render_template('account.html')
+	else:
+		error = 'You are not logged in'
+	return render_template('login.html', error=error)
+
+
 @app.route("/log")
 def db_log():
-	if 'username' in session:
-		# if session['username'] == is_admin()
-		return render_template('log.html', entries=get_log_db())
+	if 'username' and 'password' in session:
+		if is_admin(session['username'], session['password']):
+			return render_template('log.html', entries=get_log_db())
 	else:
 		error = 'You are not logged in'
 
@@ -114,28 +132,45 @@ def page_not_found(error):
 ##	Functions used within templates
 ##
 #####################
-def valid_login(username, password):
+# def valid_login(username, password):
+# 	"""
+# 	"""
+# 	if username == "admin":
+# 		if password == "password":
+# 			return True
+# 		else:
+# 			return False
+# 	else:
+# 		return False
+
+
+def is_admin(username, password):
 	"""
 	"""
-	if username == "admin":
-		if password == "password":
-			return True
-		else:
-			return False
-	else:
+	member = None
+
+	get_credentials = ('''SELECT * FROM members WHERE username = %s AND password = MD5(%s)''')
+	DB_CURSOR.execute(get_credentials, (username, password))
+
+	for entry in DB_CURSOR:
+		member = entry
+
+	if member == None:
 		return False
+	else:
+		return True
 
 
-def log_the_user_in(username):
-	"""
-	"""
+# def log_the_user_in(username, password):
+# 	"""
+# 	"""
 
-	################################### CHANGE TO SELECT ADMIN USER FROM DB 'is_admin()'
-	# if is_admin(username):
+# 	################################### CHANGE TO SELECT ADMIN USER FROM DB 'is_admin()'
+# 	if is_admin(username, password):
+# 		return render_template('admin.html', entries=get_db(), used_pairs=get_used_pairs())
+
+	# if username == 'admin':
 	# 	return render_template('admin.html', entries=get_db(), used_pairs=get_used_pairs())
-
-	if username == 'admin':
-		return render_template('admin.html', entries=get_db(), used_pairs=get_used_pairs())
 
 
 @app.template_filter('admin_db')

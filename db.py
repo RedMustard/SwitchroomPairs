@@ -28,7 +28,6 @@ DATABASE_TABLES['pairs'] = (
 		user CHAR(12) NOT NULL
 	)''')
 
-
 DATABASE_TABLES['pairs_audit'] = (
 	'''CREATE TABLE pairs_audit (
 		entry_id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -86,10 +85,11 @@ def connect_to_database():
 		# 	db_cursor.execute('''DROP TABLE `members` ''')
 		# 	print("Members table deleted\n")
 		# except:
-			# print("Error dropping table")
+		# 	print("Error dropping table")
 		######################################################
 
 		create_database_tables(database)
+		insert_default_member(db_cursor)
 
 		return database
 
@@ -106,6 +106,8 @@ def create_database_tables(database):
 		try:
 			print("Creating table {}: ".format(name), end='')
 			db_cursor.execute(ddl)
+			# if name == "members":
+			# 	insert_default_member(db_cursor)
 		
 		except sql_con.Error as err:
 			if err.errno == sql_con.errorcode.ER_TABLE_EXISTS_ERROR:
@@ -125,6 +127,27 @@ def db_commit(database):
 		database - A MYSQLConnection object
 	"""
 	database.commit()
+
+
+def insert_default_member(cursor):
+	"""Inserts a default member into the members database.
+	"""
+	username = "admin"
+	password = "password"
+
+	member = [username, password]
+
+	print("Inserted default member...")
+	insert_member = ('''INSERT INTO members VALUES (%s, MD5(%s)) ''')
+
+	cursor.execute(insert_member, member)
+
+
+	# get_member = ('''SELECT * FROM members ''')
+	# cursor.execute(get_member)
+
+	# for entry in cursor:
+	# 	print(entry)
 
 
 def insert_entry(cursor, entry):

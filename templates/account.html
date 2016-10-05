@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Demarc & Cross-Connect - Admin Login</title>
+		<title>Demarc & Cross-Connect - Admin Account Settings</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!-- Bootstrap -->
@@ -24,11 +24,11 @@
 				</div>
 
 				<div class="col-md-8 col-sm-7 col-xs-7 nav-title" align="center">
-					Century Link Demarc & Cross-Connect - Admin Login
+					Century Link Demarc & Cross-Connect - Admin Account Settings
 				</div>
 
 				<div class="col-md-2 col-xs-4 nav-link" style="height:50px;" align="right">
-					<a href="/index" style="color: #ffffff;">Home</a>
+					<a href="/admin" style="color: #ffffff;">Home</a>
 				</div>
 			</div>
 		</div>
@@ -43,10 +43,11 @@
 				{% endif %}
 			</h4>
 			<br />
+			<h3>Change admin password:</h3>
 			<form action="admin" method="post">
 				<div class="form-group row">
 					<div class="form-group col-md-3">
-						<label>Username:</label>
+						<label>Old Password:</label>
 						<!-- <br /> -->
 						<input class="form-control" type="text" name="username">
 					</div>
@@ -54,7 +55,14 @@
 
 				<div class="form-group row">
 					<div class="form-group col-md-3">
-						<label>Password:</label>
+						<label>New Password:</label>
+						<input class="form-control" type="password" name="password">
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<div class="form-group col-md-3">
+						<label>Confirm New Password:</label>
 						<input class="form-control" type="password" name="password">
 					</div>
 				</div>

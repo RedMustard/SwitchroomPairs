@@ -11,13 +11,15 @@ import config as cfg
 import uuid 
 import db
 
+DATABASE = db.connect_to_database()
+DB_CURSOR = DATABASE.cursor(buffered=True)
+
 app = flask.Flask(__name__)
 app.secret_key = str(uuid.uuid4())
 app.debug = cfg.DEBUG
 app.logger.setLevel(logging.DEBUG)
 
-DATABASE = db.connect_to_database()
-DB_CURSOR = DATABASE.cursor(buffered=True)
+
 
 
 ##########
@@ -63,7 +65,7 @@ def logout():
 def admin():
 	app.logger.debug("Admin page entry")
 
-	if 'username' and 'password' in session:
+	if 'username' in session and 'password' in session:
 		if is_admin(session['username'], session['password']):
 			return render_template('admin.html', entries=get_db(), used_pairs=get_used_pairs())
 	else:
@@ -95,7 +97,7 @@ def admin_login():
 
 @app.route("/account")
 def admin_account():
-	if 'username' and 'password' in session:
+	if 'username' in session and 'password' in session:
 		if is_admin(session['username'], session['password']):
 			return render_template('account.html')
 	else:
@@ -103,9 +105,53 @@ def admin_account():
 	return render_template('login.html', error=error)
 
 
+@app.route("/update-account", methods=['POST'])
+def update_account():
+	app.logger.debug("Admin password change attempt")
+
+	error = None
+
+	if request.method == 'POST':
+		old_pass = request.form['old-password']
+		new_pass = request.form['new-password']
+		confirm_new_pass = request.form['verify-new-password']
+
+		if new_pass != confirm_new_pass:
+			error = "Your new password and confirmation password did not match. Please try again."
+			return render_template('account.html', error=error)
+
+		if 'username' in session and 'password' in session:
+			if is_admin(session['username'], old_pass):
+				print(new_pass)
+				# update_admin_pass(old_pass, new_pass)
+				update_member = ('''UPDATE members SET password = %s WHERE username = %s''')
+				DB_CURSOR.execute(update_member, (new_pass, session['username']))
+				return render_template('admin.html')
+
+		else:
+			error = 'You are not logged in'
+			return render_template('login.html', error=error)
+
+
+
+def update_admin_pass(old_pass, new_pass):
+	"""
+	"""
+	# get_member = ('''SELECT * FROM members''')
+	# DB_CURSOR.execute(get_member)
+
+	# for entry in DB_CURSOR:
+	# 	print(entry)
+	# print("Updating password...")
+	# update_member = ('''UPDATE members SET password = %s WHERE username = %s AND password = MD5%s''')
+	# DB_CURSOR.execute(update_member, (new_pass, session['username'], old_pass))
+	# print("Password is updated.")
+
+
+
 @app.route("/log")
 def db_log():
-	if 'username' and 'password' in session:
+	if 'username' in session and 'password' in session:
 		if is_admin(session['username'], session['password']):
 			return render_template('log.html', entries=get_log_db())
 	else:
@@ -140,8 +186,8 @@ def is_admin(username, password):
 	"""
 	member = None
 
-	get_credentials = ('''SELECT * FROM members WHERE username = %s AND password = MD5(%s)''')
-	DB_CURSOR.execute(get_credentials, (username, password))
+	get_member = ('''SELECT * FROM members WHERE username = %s AND password = %s''')
+	DB_CURSOR.execute(get_member, (username, password))
 
 	for entry in DB_CURSOR:
 		member = entry

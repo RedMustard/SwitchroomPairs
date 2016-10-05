@@ -47,6 +47,7 @@ DATABASE_TABLES['pairs_audit'] = (
 
 DATABASE_TABLES['members'] = (
 	'''CREATE TABLE members (
+		entry_id INT(11) AUTO_INCREMENT PRIMARY KEY,
 		username VARCHAR(10) NOT NULL,
 		password VARCHAR(40) NOT NULL
 	)''')
@@ -76,20 +77,20 @@ def connect_to_database():
 		print("Connected to database.")
 
 		################## DELETE TABLES #####################
-		# print("\nDeleting previous tables...\n")
-		# try:
-		# 	db_cursor.execute('''DROP TABLE `pairs` ''')
-		# 	print("Pairs table deleted")
-			# db_cursor.execute('''DROP TABLE `pairs_audit` ''')
-			# print("Pairs_audit table deleted")
-		# 	db_cursor.execute('''DROP TABLE `members` ''')
-		# 	print("Members table deleted\n")
-		# except:
-		# 	print("Error dropping table")
+		print("\nDeleting previous tables...\n")
+		try:
+			db_cursor.execute('''DROP TABLE `pairs` ''')
+			print("Pairs table deleted")
+			db_cursor.execute('''DROP TABLE `pairs_audit` ''')
+			print("Pairs_audit table deleted")
+			db_cursor.execute('''DROP TABLE `members` ''')
+			print("Members table deleted\n")
+		except:
+			print("Error dropping table")
 		######################################################
 
 		create_database_tables(database)
-		insert_default_member(db_cursor)
+		
 
 		return database
 
@@ -106,8 +107,7 @@ def create_database_tables(database):
 		try:
 			print("Creating table {}: ".format(name), end='')
 			db_cursor.execute(ddl)
-			# if name == "members":
-			# 	insert_default_member(db_cursor)
+			
 		
 		except sql_con.Error as err:
 			if err.errno == sql_con.errorcode.ER_TABLE_EXISTS_ERROR:
@@ -118,6 +118,8 @@ def create_database_tables(database):
 
 		else:
 			print("OK")
+
+	insert_default_member(db_cursor)
 
 
 def db_commit(database):
@@ -135,12 +137,22 @@ def insert_default_member(cursor):
 	username = "admin"
 	password = "password"
 
-	member = [username, password]
+	member = None
 
-	print("Inserted default member...")
-	insert_member = ('''INSERT INTO members VALUES (%s, MD5(%s)) ''')
+	get_member = ('''SELECT username, password FROM members WHERE username = %s''')
+	cursor.execute(get_member, (username,))
 
-	cursor.execute(insert_member, member)
+	for entry in cursor:
+		member = entry
+
+		print(member)
+	if member == None:
+		member = [username, password]
+
+		print("Inserted default member...")
+		insert_member = ('''INSERT INTO members (username, password) VALUES (%s, %s) ''')
+
+		cursor.execute(insert_member, member)
 
 
 	# get_member = ('''SELECT * FROM members ''')
@@ -326,26 +338,3 @@ def get_log_db(cursor):
 
 	return entries
 	
-
-# if __name__ == "__main__":
-	
-# 	database = connect_to_database()
-# 	db_cursor = database.cursor()
-
-
-# 	entry1 = ["543543535..n", "DSL", "1648", "208", "NTS", "5415555555", "Lorem Ipsum"]
-# 	entry2 = ["5412226688", "Tel. #", "1501", "008", "Sam McSamface", "", ""]
-# 	entry3 = ["5412226688", "Tel. #", "1501", "008", "Sam McSamface", ""]
-# 	entry4 = ["5412226688", "Tel. #", "1501", "008", "Sam McSamface", "", "", ""]
-
-# 	insert_entry(database, entry1)
-# 	get_all_entries(database)
-# 	print('\n')
-# 	insert_entry(database, entry2)
-# 	get_all_entries(database)
-# 	print('\n')
-# 	insert_entry(database, entry3)
-# 	get_all_entries(database)
-# 	print('\n')
-# 	insert_entry(database, entry4)
-# 	get_all_entries(database)

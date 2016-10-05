@@ -20,7 +20,6 @@ DATABASE = db.connect_to_database()
 DB_CURSOR = DATABASE.cursor(buffered=True)
 
 
-
 ##########
 ##
 ##  PAGES
@@ -63,10 +62,6 @@ def logout():
 @app.route("/admin")
 def admin():
 	app.logger.debug("Admin page entry")
-	## INSERT LOGIN LOGIC ##
-	## If request isn't POST and session cookie is expired, send to login page
-	## Else, send to admin page
-	# #########
 
 	if 'username' and 'password' in session:
 		if is_admin(session['username'], session['password']):
@@ -132,20 +127,16 @@ def page_not_found(error):
 ##	Functions used within templates
 ##
 #####################
-# def valid_login(username, password):
-# 	"""
-# 	"""
-# 	if username == "admin":
-# 		if password == "password":
-# 			return True
-# 		else:
-# 			return False
-# 	else:
-# 		return False
-
-
 def is_admin(username, password):
-	"""
+	"""Authenticates a user based on a given username and password.
+
+	Keyword Arguments:
+		username - String containing the username to be authenticated
+		password - String containing the password to be authenticated
+
+	Returns:
+		True - User is an admin
+		False - User is not an admin
 	"""
 	member = None
 
@@ -161,28 +152,22 @@ def is_admin(username, password):
 		return True
 
 
-# def log_the_user_in(username, password):
-# 	"""
-# 	"""
-
-# 	################################### CHANGE TO SELECT ADMIN USER FROM DB 'is_admin()'
-# 	if is_admin(username, password):
-# 		return render_template('admin.html', entries=get_db(), used_pairs=get_used_pairs())
-
-	# if username == 'admin':
-	# 	return render_template('admin.html', entries=get_db(), used_pairs=get_used_pairs())
-
-
 @app.template_filter('admin_db')
 def get_db():
-	"""Retrieves 
+	"""Retrieves the entire contents of the 'pairs' table.
+
+	Returns:
+		entries - List containing each row of the table
 	"""
 	entries = db.get_db(DB_CURSOR)
 	return entries
 
 
 def get_log_db():
-	"""
+	"""Retrieves the entire contents of the 'pairs_audit' table.
+
+	Returns:
+		entries - List containing each row of the table
 	"""
 	entries = db.get_log_db(DB_CURSOR)
 	return entries
@@ -208,7 +193,7 @@ def get_used_pairs():
 
 @app.route("/submit", methods=['POST'])
 def insert_entry_into_database():
-	"""
+	"""Inserts an entry into the 'pairs' table.
 	"""
 	form_fields = ['circuit_id', 'circuit_type', 'cl_pair', 'uo_pair', 
 		'customer_name', 'customer_phone', 'notes']
@@ -247,7 +232,7 @@ def insert_entry_into_database():
 
 @app.route("/delete", methods=['POST'])
 def delete_entry_from_database():
-	"""
+	"""Deletes an entry from the 'pairs' table.
 	"""
 	error = None
 
@@ -299,7 +284,7 @@ def delete_entry_from_database():
 
 @app.route("/edit", methods=['POST'])
 def edit_entry_in_database():
-	"""
+	"""Edits an entry in the 'pairs' table.
 	"""
 	form_fields = ['customer_name', 'cl_pair', 'circuit_type', 'circuit_id', 
 		'customer_phone', 'uo_pair', 'notes']

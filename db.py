@@ -119,7 +119,7 @@ def create_database_tables(database):
 		else:
 			print("OK")
 
-	insert_default_member(db_cursor)
+	insert_default_member(db_cursor) ## KEEPS HANGING ONCE HITTING THIS
 
 
 def db_commit(database):
@@ -144,13 +144,13 @@ def insert_default_member(cursor):
 
 	for entry in cursor:
 		member = entry
-
 		print(member)
+
 	if member == None:
 		member = [username, password]
 
 		print("Inserted default member...")
-		insert_member = ('''INSERT INTO members (username, password) VALUES (%s, %s) ''')
+		insert_member = ('''INSERT INTO members (username, password) VALUES (%s, MD5(%s)) ''')
 
 		cursor.execute(insert_member, member)
 

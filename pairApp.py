@@ -122,10 +122,9 @@ def update_account():
 
 		if 'username' in session and 'password' in session:
 			if is_admin(session['username'], old_pass):
-				print(new_pass)
-				# update_admin_pass(old_pass, new_pass)
-				update_member = ('''UPDATE members SET password = %s WHERE username = %s''')
+				update_member = ('''UPDATE members SET password = MD5(%s) WHERE username = %s''')
 				DB_CURSOR.execute(update_member, (new_pass, session['username']))
+				session['password'] = new_pass
 				return render_template('admin.html')
 
 		else:
@@ -134,7 +133,7 @@ def update_account():
 
 
 
-def update_admin_pass(old_pass, new_pass):
+# def update_admin_pass(old_pass, new_pass):
 	"""
 	"""
 	# get_member = ('''SELECT * FROM members''')
@@ -151,6 +150,8 @@ def update_admin_pass(old_pass, new_pass):
 
 @app.route("/log")
 def db_log():
+	error = None
+
 	if 'username' in session and 'password' in session:
 		if is_admin(session['username'], session['password']):
 			return render_template('log.html', entries=get_log_db())
@@ -186,7 +187,7 @@ def is_admin(username, password):
 	"""
 	member = None
 
-	get_member = ('''SELECT * FROM members WHERE username = %s AND password = %s''')
+	get_member = ('''SELECT * FROM members WHERE username = %s AND password = MD5(%s)''')
 	DB_CURSOR.execute(get_member, (username, password))
 
 	for entry in DB_CURSOR:
@@ -195,6 +196,8 @@ def is_admin(username, password):
 	if member == None:
 		return False
 	else:
+		print(member)
+		# session['password'] = password
 		return True
 
 

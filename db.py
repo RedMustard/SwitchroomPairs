@@ -158,6 +158,21 @@ def insert_default_member(cursor):
 		cursor.execute(insert_member, member)
 
 
+# def create_audit_trigger(cursor):
+# 	"""
+# 	"""
+# 	insert_trigger = ('''CREATE TRIGGER log_entry_insert AFTER INSERT ON pairs
+# 		FOR EACH ROW BEGIN
+# 			INSERT INTO pairs_audit (circuit_id, type, cl_pair, uo_pair,
+# 			customer, cust_phone, notes, date_added, user, audit_type,
+# 			audit_date, audit_user)
+# 			VALUES(OLD.circuit_id, OLD.type, OLD.cl_pair, OLD.uo_pair, 
+# 			OLD.customer, OLD.cust_phone, OLD.notes, OLD.date_added, OLD.user,
+# 			"Insert", )''')
+
+
+
+
 def insert_entry(cursor, entry):
 	"""Inserts an entry into the database.
 

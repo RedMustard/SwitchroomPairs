@@ -19,6 +19,14 @@ h4.error {
 	font-style: normal;
 }
 
+.message {
+	font-size: 12pt;
+	font-weight: 600;
+	font-style: normal;
+	color: green;
+}
+
+
 h3 {
 	font-weight: 600;
 	font-size: 12pt;

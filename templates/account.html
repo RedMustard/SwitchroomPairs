@@ -44,9 +44,15 @@
 			<h4 class="error">
 				{% if error %}
 					{% print(error + "\n") %}
-					{% print("\n\n") %}
 				{% endif %}
 			</h4>
+			
+			<h4 class="message">
+				{% if message %}
+					{% print(message) %}
+				{% endif %}
+			</h4>
+			<br />
 			<h3>Change admin password:</h3>
 			<br />
 			<form action="update-account" method="post">

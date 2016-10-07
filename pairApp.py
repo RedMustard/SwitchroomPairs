@@ -130,22 +130,26 @@ def update_account():
 		if 'username' in session and 'password' in session:
 			if is_admin(session['username'], old_pass):
 				if old_pass == new_pass:
-					error = "Your new password cannot be the same as the old password."
+					error = ("Your new password cannot be the same as the " + 
+						"old password.")
 					return render_template('account.html', error=error)
 				else:	
 					update_member = ('''UPDATE members SET password = MD5(%s) 
 						WHERE username = %s''')
-					DB_CURSOR.execute(update_member, (new_pass, session['username']))
+					DB_CURSOR.execute(update_member, (new_pass, 
+						session['username']))
+					db.db_commit(DATABASE)
 					session['password'] = new_pass
 					
-					return render_template('admin.html')
+					message = "Your password has been successfully changed"
+					return render_template('account.html', message=message)
 
 			else:
 				error = "The old password is incorrect. Please try again."
 				return render_template('account.html', error=error)
 
 		else:
-			error = 'You are not logged in'
+			error = 'You are not logged in.'
 			return render_template('login.html', error=error)
 	else:
 		error = "An unexpected error occurred. Please try again."
@@ -154,8 +158,6 @@ def update_account():
 
 @app.route("/update-account")
 def update_account_without_post():
-	"""
-	"""
 	error = None
 
 	if 'username' in session and 'password' in session:
@@ -175,7 +177,7 @@ def db_log():
 		if is_admin(session['username'], session['password']):
 			return render_template('log.html', entries=get_log_db())
 	else:
-		error = 'You are not logged in'
+		error = 'You are not logged in.'
 
 	return render_template('login.html', error=error)
 
@@ -329,13 +331,11 @@ def delete_entry_from_database():
 						"cannot be deleted by standard users.**")
 					session['error'] = error
 					return error
-
 			else:
 				error = ("**ERROR: An admin created this entry and cannot be " + 
 					"deleted by standard users.**")
 				session['error'] = error
 				return error
-
 	else:
 		error = '**ERROR: An error occurred processing your request.**'
 		session['error'] = error
@@ -361,6 +361,7 @@ def edit_entry_in_database():
 		# If admin is logged in, edit the entry
 		if 'username' in session:
 			db.edit_entry(DB_CURSOR, entry_id, entry)
+			db.db_commit(DATABASE)
 			return redirect(url_for("admin"))
 
 		# Else, did a centlink user submit the entry? Was it less than 60 
@@ -374,6 +375,7 @@ def edit_entry_in_database():
 
 				if time_entry > (time_now - time_delta):
 					db.edit_entry(DB_CURSOR, entry_id, entry)
+					db.db_commit(DATABASE)
 					return redirect(url_for("index"))
 
 				else:
@@ -381,13 +383,11 @@ def edit_entry_in_database():
 						"cannot be edited by standard users.**")
 					session['error'] = error
 					return redirect(url_for("index"))
-
 			else:
 				error = ("**ERROR: An admin created the entry and cannot be " + 
 					"edited by standard users.**")
 				session['error'] = error
 				return redirect(url_for("index"))
-
 	else:
 		error = '**ERROR: An error occurred processing your request.**'
 		session['error'] = error

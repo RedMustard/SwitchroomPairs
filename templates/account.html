@@ -29,6 +29,10 @@
 
 				<div class="col-md-2 col-xs-4 nav-link" style="height:50px;" align="right">
 					<a href="/admin" style="color: #ffffff;">Home</a>
+					|
+					<a href="/log" style="color: #ffffff;">DB Log</a>
+					|
+					<a href="logout" style="color: #ffffff;">Logout</a>
 				</div>
 			</div>
 		</div>
@@ -39,11 +43,10 @@
 		<div class="container-fluid containter-main" style="margin-left: 20px;">
 			<h4 class="error">
 				{% if error %}
-					{% print(error) %}
+					{% print(error + "\n") %}
+					{% print("\n\n") %}
 				{% endif %}
 			</h4>
-			<br />
-			<br />
 			<h3>Change admin password:</h3>
 			<br />
 			<form action="update-account" method="post">
@@ -51,7 +54,7 @@
 					<div class="form-group col-md-3">
 						<label>Old Password:<h4>*</h4></label>
 						<!-- <br /> -->
-						<input class="form-control" type="text" name="old-password" required>
+						<input class="form-control" type="password" name="old-password" required>
 					</div>
 				</div>
 

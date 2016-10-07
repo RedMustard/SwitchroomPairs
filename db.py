@@ -77,16 +77,16 @@ def connect_to_database():
 		print("Connected to database.")
 
 		################## DELETE TABLES #####################
-		print("\nDeleting previous tables...\n")
-		try:
-			db_cursor.execute('''DROP TABLE `pairs` ''')
-			print("Pairs table deleted")
-			db_cursor.execute('''DROP TABLE `pairs_audit` ''')
-			print("Pairs_audit table deleted")
-			db_cursor.execute('''DROP TABLE `members` ''')
-			print("Members table deleted\n")
-		except:
-			print("Error dropping table")
+		# print("\nDeleting previous tables...\n")
+		# try:
+		# 	db_cursor.execute('''DROP TABLE `pairs` ''')
+		# 	print("Pairs table deleted")
+		# 	db_cursor.execute('''DROP TABLE `pairs_audit` ''')
+		# 	print("Pairs_audit table deleted")
+		# 	db_cursor.execute('''DROP TABLE `members` ''')
+		# 	print("Members table deleted\n")
+		# except:
+		# 	print("Error dropping table")
 		######################################################
 
 		create_database_tables(database)
@@ -119,7 +119,8 @@ def create_database_tables(database):
 		else:
 			print("OK")
 
-	insert_default_member(db_cursor) ## KEEPS HANGING ONCE HITTING THIS
+			if name == "members":
+				insert_default_member(db_cursor)
 
 
 def db_commit(database):
@@ -139,7 +140,8 @@ def insert_default_member(cursor):
 
 	member = None
 
-	get_member = ('''SELECT username, password FROM members WHERE username = %s''')
+	get_member = ('''SELECT username, password FROM members 
+		WHERE username = %s''')
 	cursor.execute(get_member, (username,))
 
 	for entry in cursor:
@@ -150,16 +152,10 @@ def insert_default_member(cursor):
 		member = [username, password]
 
 		print("Inserted default member...")
-		insert_member = ('''INSERT INTO members (username, password) VALUES (%s, MD5(%s)) ''')
+		insert_member = ('''INSERT INTO members (username, password) 
+			VALUES (%s, MD5(%s)) ''')
 
 		cursor.execute(insert_member, member)
-
-
-	# get_member = ('''SELECT * FROM members ''')
-	# cursor.execute(get_member)
-
-	# for entry in cursor:
-	# 	print(entry)
 
 
 def insert_entry(cursor, entry):
@@ -218,24 +214,12 @@ def edit_entry(cursor, entry_id, entry):
 		entry[4], entry[5], entry[6], entry_id))
 
 
-# def get_entry(cursor, entry_id):
-# 	"""Returns an entry from the database.
-
-# 	Keyword Arguments:
-# 		cursor - A cursor object for the database to retrieve from
-# 		entry_id - The database ID number of the entry to be retrieved
-# 	"""
-# 	# db_cursor = database.cursor()
-# 	return
-
-
 def get_entry_id(cursor, cl_pair, uo_pair):
-	"""Retrieves an entry ID of an entry based on the Circuit ID, CL Pair, and
+	"""Retrieves an entry ID of an entry based on the CL Pair, and
 		UO Pair.
 
 	Keyword Arguments:
 		cursor - A cursor object for the database to retrieve from
-		circuit_id - A string containing the Circuit ID
 		cl_pair - A string containing the CL Pair
 		uo_pair - A string containing the UO Pair
 
@@ -337,4 +321,3 @@ def get_log_db(cursor):
 		entries.append(entry)
 
 	return entries
-	

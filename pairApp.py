@@ -1,6 +1,5 @@
 """
 """
-
 import flask
 from flask import render_template, session, redirect, url_for, escape, request
 from datetime import date, time, datetime, timedelta
@@ -18,8 +17,6 @@ app = flask.Flask(__name__)
 app.secret_key = str(uuid.uuid4())
 app.debug = cfg.DEBUG
 app.logger.setLevel(logging.DEBUG)
-
-
 
 
 ##########
@@ -43,13 +40,13 @@ def index():
 		error = session['error']
 		session.pop('error', None)
 
-	return render_template('index.html', error=error, entries=get_db(), used_pairs=get_used_pairs())
+	return render_template('index.html', error=error, entries=get_db(), 
+		used_pairs=get_used_pairs())
 
 
 @app.route("/login")
 def login():
 	app.logger.debug("Login page entry")
-
 	return render_template('login.html')
 
 
@@ -57,21 +54,22 @@ def login():
 def logout():
 	session.pop('username', None)
 	session.pop('password', None)
-
 	return redirect(url_for('index'))
 
 
 @app.route("/admin")
 def admin():
 	app.logger.debug("Admin page entry")
+	
+	error = None
 
 	if 'username' in session and 'password' in session:
 		if is_admin(session['username'], session['password']):
-			return render_template('admin.html', entries=get_db(), used_pairs=get_used_pairs())
+			return render_template('admin.html', entries=get_db(), 
+				used_pairs=get_used_pairs())
 	else:
 		error = 'You are not logged in'
-
-	return render_template('login.html', error=error)
+		return render_template('login.html', error=error)
 
 
 @app.route("/admin", methods=['POST'])
@@ -85,24 +83,30 @@ def admin_login():
 		session['password'] = request.form['password']
 
 		if is_admin(request.form['username'], request.form['password']):
-			return render_template('admin.html', entries=get_db(), used_pairs=get_used_pairs())
+			return render_template('admin.html', entries=get_db(), 
+				used_pairs=get_used_pairs())
 
 		else:
 			error = 'Invalid username/password'
 			session.pop('username', None)
 			session.pop('password', None)
 
-		return render_template('login.html', error=error)
+			return render_template('login.html', error=error)
+	else:
+		error = "An unexpected error occurred. Please try again."
+		return render_template("login.html")
 
 
 @app.route("/account")
 def admin_account():
+	error = None
+
 	if 'username' in session and 'password' in session:
 		if is_admin(session['username'], session['password']):
 			return render_template('account.html')
 	else:
 		error = 'You are not logged in'
-	return render_template('login.html', error=error)
+		return render_template('login.html', error=error)
 
 
 @app.route("/update-account", methods=['POST'])
@@ -117,35 +121,50 @@ def update_account():
 		confirm_new_pass = request.form['verify-new-password']
 
 		if new_pass != confirm_new_pass:
-			error = "Your new password and confirmation password did not match. Please try again."
+			error = ("Your new password and confirmation password did not " + 
+				"match. Please try again.")
 			return render_template('account.html', error=error)
 
+		# If the admin is currently logged in, verify the old password is 
+		#	correct and then update with the new password
 		if 'username' in session and 'password' in session:
 			if is_admin(session['username'], old_pass):
-				update_member = ('''UPDATE members SET password = MD5(%s) WHERE username = %s''')
-				DB_CURSOR.execute(update_member, (new_pass, session['username']))
-				session['password'] = new_pass
-				return render_template('admin.html')
+				if old_pass == new_pass:
+					error = "Your new password cannot be the same as the old password."
+					return render_template('account.html', error=error)
+				else:	
+					update_member = ('''UPDATE members SET password = MD5(%s) 
+						WHERE username = %s''')
+					DB_CURSOR.execute(update_member, (new_pass, session['username']))
+					session['password'] = new_pass
+					
+					return render_template('admin.html')
+
+			else:
+				error = "The old password is incorrect. Please try again."
+				return render_template('account.html', error=error)
 
 		else:
 			error = 'You are not logged in'
 			return render_template('login.html', error=error)
+	else:
+		error = "An unexpected error occurred. Please try again."
+		return render_template("account.html", error=error)
 
 
-
-# def update_admin_pass(old_pass, new_pass):
+@app.route("/update-account")
+def update_account_without_post():
 	"""
 	"""
-	# get_member = ('''SELECT * FROM members''')
-	# DB_CURSOR.execute(get_member)
+	error = None
 
-	# for entry in DB_CURSOR:
-	# 	print(entry)
-	# print("Updating password...")
-	# update_member = ('''UPDATE members SET password = %s WHERE username = %s AND password = MD5%s''')
-	# DB_CURSOR.execute(update_member, (new_pass, session['username'], old_pass))
-	# print("Password is updated.")
+	if 'username' in session and 'password' in session:
+		if is_admin(session['username'], session['password']):
+			return render_template("account.html")
 
+	else:
+		error = "You are not logged in."
+		return render_template("login.html", error=error)
 
 
 @app.route("/log")
@@ -187,7 +206,8 @@ def is_admin(username, password):
 	"""
 	member = None
 
-	get_member = ('''SELECT * FROM members WHERE username = %s AND password = MD5(%s)''')
+	get_member = ('''SELECT * FROM members WHERE username = %s AND 
+		password = MD5(%s)''')
 	DB_CURSOR.execute(get_member, (username, password))
 
 	for entry in DB_CURSOR:
@@ -196,8 +216,6 @@ def is_admin(username, password):
 	if member == None:
 		return False
 	else:
-		print(member)
-		# session['password'] = password
 		return True
 
 
@@ -248,7 +266,7 @@ def insert_entry_into_database():
 		'customer_name', 'customer_phone', 'notes']
 	entry = []
 	error = None
-	print("submit sent")
+	
 	if request.method == 'POST':
 		for item in form_fields:
 			session[item] = request.form[item]
@@ -256,9 +274,6 @@ def insert_entry_into_database():
 
 		date_added = datetime.now().date()
 		time_added = datetime.now()
-
-		print(datetime.now())
-		print("TIME ADDED: {}".format(time_added))
 
 		entry.append(date_added)
 		entry.append(time_added)
@@ -268,7 +283,6 @@ def insert_entry_into_database():
 		else:
 			entry.append('centlink')
 
-		print("Inserting entry...")
 		db.insert_entry(DB_CURSOR, entry)
 		db.db_commit(DATABASE)
 
@@ -289,38 +303,36 @@ def delete_entry_from_database():
 		cl_pair = request.form['cl_pair']
 		uo_pair = request.form['uo_pair']
 
-		print("Getting entry id...")
 		entry_id = db.get_entry_id(DB_CURSOR, cl_pair, uo_pair)
 
 		# If admin is logged in, edit the entry
 		if 'username' in session:
-			print("Deleting entry as admin...")
 			db.delete_entry(DB_CURSOR, entry_id)
 			db.db_commit(DATABASE)
 			return redirect(url_for("admin"))
 
-		# Else, did a centlink user submit the entry? Was it less than 60 minutes ago?
+		# Else, did a centlink user submit the entry? Was it less than 60 
+		#	minutes ago?
 		else:
-			print("Checking which user submitted entry...")
 			if db.get_entry_author(DB_CURSOR, entry_id) == 'centlink':
-				print("Checking timestamp for std user....")
 				time_now = datetime.now()
 				time_delta = timedelta(hours=1)
 				time_entry = db.get_entry_timestamp(DB_CURSOR, entry_id)
 
 				if time_entry > (time_now - time_delta):
-					print("Entry is less than 1 hour old and can be deleted by centlink user...")
 					db.delete_entry(DB_CURSOR, entry_id)
 					db.db_commit(DATABASE)
 					return redirect(url_for("index"))
 
 				else:
-					error = "**ERROR: This entry is over 1 hour old and cannot be deleted by standard users.**"
+					error = ("**ERROR: This entry is over 1 hour old and " + 
+						"cannot be deleted by standard users.**")
 					session['error'] = error
 					return error
 
 			else:
-				error = "**ERROR: An admin created this entry and cannot be deleted by standard users.**"
+				error = ("**ERROR: An admin created this entry and cannot be " + 
+					"deleted by standard users.**")
 				session['error'] = error
 				return error
 
@@ -344,36 +356,35 @@ def edit_entry_in_database():
 		for field in form_fields:
 			entry.append(request.form[field])
 
-		print("Getting entry id...")	
 		entry_id = db.get_entry_id(DB_CURSOR, entry[1], entry[5])
 
 		# If admin is logged in, edit the entry
 		if 'username' in session:
-			print("Editing entry as admin...")
 			db.edit_entry(DB_CURSOR, entry_id, entry)
 			return redirect(url_for("admin"))
 
-		# Else, did a centlink user submit the entry? Was it less than 60 minutes ago?
+		# Else, did a centlink user submit the entry? Was it less than 60 
+		#	minutes ago?
 		else:
 			print("Checking which user submitted entry...")
 			if db.get_entry_author(DB_CURSOR, entry_id) == 'centlink':
-				print("Checking timestamp for std user....")
 				time_now = datetime.now()
 				time_delta = timedelta(hours=1)
 				time_entry = db.get_entry_timestamp(DB_CURSOR, entry_id)
 
 				if time_entry > (time_now - time_delta):
-					print("Entry is less than 1 hour old and can be edited by centlink user...")
 					db.edit_entry(DB_CURSOR, entry_id, entry)
 					return redirect(url_for("index"))
 
 				else:
-					error = "**ERROR: This entry is over 1 hour old and cannot be edited by standard users.**"
+					error = ("**ERROR: This entry is over 1 hour old and " + 
+						"cannot be edited by standard users.**")
 					session['error'] = error
 					return redirect(url_for("index"))
 
 			else:
-				error = "**ERROR: An admin created the entry and cannot be edited by standard users.**"
+				error = ("**ERROR: An admin created the entry and cannot be " + 
+					"edited by standard users.**")
 				session['error'] = error
 				return redirect(url_for("index"))
 

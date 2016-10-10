@@ -39,7 +39,6 @@ DATABASE_TABLES['pairs_audit'] = (
 		cust_phone VARCHAR(16),
 		notes VARCHAR(1024),
 		date_added DATE NOT NULL,
-		user CHAR(12) NOT NULL,
 		audit_type VARCHAR(8) NOT NULL,
 		audit_date DATE NOT NULL,
 		audit_user CHAR(12) NOT NULL
@@ -122,6 +121,8 @@ def create_database_tables(database):
 			if name == "members":
 				insert_default_member(db_cursor)
 
+	# create_audit_trigger(db_cursor)			
+
 
 def db_commit(database):
 	"""Permanently saves any change to the database.
@@ -158,18 +159,21 @@ def insert_default_member(cursor):
 		cursor.execute(insert_member, member)
 
 
-# def create_audit_trigger(cursor):
-# 	"""
-# 	"""
-# 	insert_trigger = ('''CREATE TRIGGER log_entry_insert AFTER INSERT ON pairs
-# 		FOR EACH ROW BEGIN
-# 			INSERT INTO pairs_audit (circuit_id, type, cl_pair, uo_pair,
-# 			customer, cust_phone, notes, date_added, user, audit_type,
-# 			audit_date, audit_user)
-# 			VALUES(OLD.circuit_id, OLD.type, OLD.cl_pair, OLD.uo_pair, 
-# 			OLD.customer, OLD.cust_phone, OLD.notes, OLD.date_added, OLD.user,
-# 			"Insert", )''')
-
+def create_audit_trigger(cursor):
+	"""
+	"""
+	insert_trigger = ('''CREATE TRIGGER log_entry_insert AFTER INSERT ON pairs
+		FOR EACH ROW
+		BEGIN
+			INSERT INTO pairs_audit (circuit_id, type, cl_pair, uo_pair,
+			customer, cust_phone, notes, date_added, user, audit_type,
+			audit_date, audit_user)
+			VALUES(NEW.circuit_id, NEW.type, NEW.cl_pair, NEW.uo_pair, 
+			NEW.customer, NEW.cust_phone, NEW.notes, NEW.date_added, NEW.user,
+			"Insert", NEW.time_added, NEW.user)
+		END
+		''')
+	cursor.executemany(insert_trigger)
 
 
 
@@ -189,6 +193,7 @@ def insert_entry(cursor, entry):
 						VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''')
 
 		cursor.execute(add_entry, entry)
+		__insert_entry_audit_insert(cursor, entry)
 
 	elif len(entry) > 10:
 		print("Your entry has too many variables")
@@ -198,6 +203,20 @@ def insert_entry(cursor, entry):
 
 	else:
 		print("An unexpected error occurred")
+
+
+def __insert_entry_audit_insert(cursor, entry):
+	"""
+	"""
+	insert_entry = ('''INSERT INTO pairs_audit (
+						circuit_id, type, cl_pair, uo_pair, customer, 
+						cust_phone, notes, date_added, audit_type, 
+						audit_date, audit_user) 
+						VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''')
+
+	cursor.execute(insert_entry, (entry[0], entry[1], entry[2], entry[3], 
+		entry[4], entry[5],entry[6],entry[7], "Insert", entry[7], 
+		entry[9]))
 
 
 def delete_entry(cursor, entry_id):
@@ -211,7 +230,13 @@ def delete_entry(cursor, entry_id):
 	cursor.execute(delete_query, (entry_id,))
 
 
-def edit_entry(cursor, entry_id, entry):
+def __delete_entry_audit_insert(cursor):
+	"""
+	"""
+	return
+
+
+def edit_entry(cursor, entry_id, entry, user):
 	"""Edits an entry in the database.
 
 	Keyword Arguments:
@@ -227,6 +252,31 @@ def edit_entry(cursor, entry_id, entry):
 	print("editing entry")
 	cursor.execute(edit_query, (entry[0], entry[1], entry[2], entry[3], 
 		entry[4], entry[5], entry[6], entry_id))
+
+	__edit_entry_audit_insert(cursor, entry, entry_id, user)
+
+
+def __edit_entry_audit_insert(cursor, entry, entry_id, user):
+	"""
+	"""
+	date_now = datetime.now().date()
+
+	get_date_added = ('''SELECT date_added FROM pairs WHERE entry_id = %s''')
+	cursor.execute(get_date_added, (entry_id,))
+
+	for item in cursor:
+		date_added = item
+
+
+	insert_entry = ('''INSERT INTO pairs_audit (
+		customer, cl_pair, type, circuit_id, cust_phone, uo_pair, notes,
+		date_added, audit_type, audit_date, audit_user) 
+		VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''')
+
+	# print(entry)
+
+	cursor.execute(insert_entry, (entry[0], entry[1], entry[2], entry[3], 
+		entry[4], entry[5], entry[6], date_added[0], "Edit", date_now, user))
 
 
 def get_entry_id(cursor, cl_pair, uo_pair):
@@ -328,7 +378,8 @@ def get_log_db(cursor):
 
 	print("Retrieving full log db...")
 	query_database = ('''SELECT circuit_id, type, cl_pair, uo_pair, customer, 
-		cust_phone, notes, date_added, user FROM pairs''')
+						cust_phone, notes, date_added, audit_type, 
+						audit_date, audit_user FROM pairs_audit''')
 
 	cursor.execute(query_database)
 

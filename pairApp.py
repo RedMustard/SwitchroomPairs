@@ -360,7 +360,7 @@ def edit_entry_in_database():
 
 		# If admin is logged in, edit the entry
 		if 'username' in session:
-			db.edit_entry(DB_CURSOR, entry_id, entry)
+			db.edit_entry(DB_CURSOR, entry_id, entry, "admin")
 			db.db_commit(DATABASE)
 			return redirect(url_for("admin"))
 
@@ -374,7 +374,7 @@ def edit_entry_in_database():
 				time_entry = db.get_entry_timestamp(DB_CURSOR, entry_id)
 
 				if time_entry > (time_now - time_delta):
-					db.edit_entry(DB_CURSOR, entry_id, entry)
+					db.edit_entry(DB_CURSOR, entry_id, entry, "centlink")
 					db.db_commit(DATABASE)
 					return redirect(url_for("index"))
 

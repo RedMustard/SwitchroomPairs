@@ -206,7 +206,8 @@ def insert_entry(cursor, entry):
 
 
 def __insert_entry_audit_insert(cursor, entry):
-	"""
+	"""Inserts an entry into pairs_audit whenever an insert is made in the 
+		pairs table.
 	"""
 	insert_entry = ('''INSERT INTO pairs_audit (
 						circuit_id, type, cl_pair, uo_pair, customer, 
@@ -219,21 +220,38 @@ def __insert_entry_audit_insert(cursor, entry):
 		entry[9]))
 
 
-def delete_entry(cursor, entry_id):
+def delete_entry(cursor, entry_id, user):
 	"""Deletes an entry in the database.
 
 	Keyword Arguments:
 		cursor - A cursor object for the database to delete from
 		entry_id - The database ID number of the entry to be retrieved
 	"""
+	__delete_entry_audit_insert(cursor, entry_id, user)
+
 	delete_query = ('''DELETE FROM pairs WHERE entry_id = %s''')
 	cursor.execute(delete_query, (entry_id,))
 
+	# __delete_entry_audit_insert(cursor, entry_id)
 
-def __delete_entry_audit_insert(cursor):
+
+def __delete_entry_audit_insert(cursor, entry_id, user):
+	"""Inserts an entry into pairs_audit whenever a delete is made in the 
+		pairs table.
 	"""
-	"""
-	return
+	entry = get_entry(cursor, entry_id)
+	print(entry)
+	date_now = datetime.now().date()
+
+	insert_entry = ('''INSERT INTO pairs_audit (
+						circuit_id, type, cl_pair, uo_pair, customer,
+						cust_phone, notes, date_added, audit_type, audit_date,
+						audit_user)
+						VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''')
+
+	cursor.execute(insert_entry, (entry[0], entry[1], entry[2], entry[3], 
+		entry[4], entry[5],entry[6],entry[7], "Delete", date_now, 
+		user))
 
 
 def edit_entry(cursor, entry_id, entry, user):
@@ -257,26 +275,41 @@ def edit_entry(cursor, entry_id, entry, user):
 
 
 def __edit_entry_audit_insert(cursor, entry, entry_id, user):
-	"""
+	"""Inserts an entry into pairs_audit whenever an update is made in the
+		pairs table.
 	"""
 	date_now = datetime.now().date()
-
-	get_date_added = ('''SELECT date_added FROM pairs WHERE entry_id = %s''')
-	cursor.execute(get_date_added, (entry_id,))
-
-	for item in cursor:
-		date_added = item
-
+	date_added = get_entry_datestamp(cursor, entry_id)
 
 	insert_entry = ('''INSERT INTO pairs_audit (
 		customer, cl_pair, type, circuit_id, cust_phone, uo_pair, notes,
 		date_added, audit_type, audit_date, audit_user) 
 		VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''')
 
-	# print(entry)
-
 	cursor.execute(insert_entry, (entry[0], entry[1], entry[2], entry[3], 
-		entry[4], entry[5], entry[6], date_added[0], "Edit", date_now, user))
+		entry[4], entry[5], entry[6], date_added, "Edit", date_now, user))
+
+
+def get_entry(cursor, entry_id):
+	"""Retrieves an entry from the pairs table with the given entry_id.
+
+	Keyword argument:
+		cursor - A cursor object for the database to retrieve from
+		entry_id - The ID number of the entry to retrieve
+
+	Returns:
+		entry - List containing the entry information.
+	"""
+	entry = []
+
+	get_entry = ('''SELECT circuit_id, type, cl_pair, uo_pair, customer, 
+		cust_phone, notes, date_added FROM pairs WHERE entry_id = %s''')
+	cursor.execute(get_entry, (entry_id,))
+
+	for item in cursor:
+		entry.append(item)
+
+	return entry[0]
 
 
 def get_entry_id(cursor, cl_pair, uo_pair):
@@ -307,7 +340,7 @@ def get_entry_timestamp(cursor, entry_id):
 
 	Keyword Arguments:
 		cursor - A cursor object for the database to retrieve from
-		entry_id - The database ID number of the entry to retrieve the timestamp
+		entry_id - The ID number of the entry to retrieve the timestamp
 	
 	Returns:
 		timestamp - A time object
@@ -319,6 +352,25 @@ def get_entry_timestamp(cursor, entry_id):
 		timestamp = entry
 	
 	return timestamp[0]
+
+
+def get_entry_datestamp(cursor, entry_id):
+	"""Retrieves the insertion datestamp for an entry.
+
+	Keyword arguments:
+		cursor - A cursor object for the database to retrieve from
+		entry_id - The ID number of the entry to retrieve the datestamp
+
+	Returns:
+		datestamp - A date object
+	"""
+	get_date_added = ('''SELECT date_added FROM pairs WHERE entry_id = %s''')
+	cursor.execute(get_date_added, (entry_id,))
+
+	for item in cursor:
+		date_added = item
+
+	return date_added[0]
 
 
 def get_entry_author(cursor, entry_id):

@@ -74,7 +74,7 @@ def connect_to_database():
 
 	else:
 		print("Connected to database.")
-
+		
 		################## DELETE TABLES #####################
 		# print("\nDeleting previous tables...\n")
 		# try:
@@ -89,7 +89,6 @@ def connect_to_database():
 		######################################################
 
 		create_database_tables(database)
-		
 
 		return database
 
@@ -120,8 +119,6 @@ def create_database_tables(database):
 
 			if name == "members":
 				insert_default_member(db_cursor)
-
-	# create_audit_trigger(db_cursor)			
 
 
 def db_commit(database):
@@ -157,24 +154,6 @@ def insert_default_member(cursor):
 			VALUES (%s, MD5(%s)) ''')
 
 		cursor.execute(insert_member, member)
-
-
-def create_audit_trigger(cursor):
-	"""
-	"""
-	insert_trigger = ('''CREATE TRIGGER log_entry_insert AFTER INSERT ON pairs
-		FOR EACH ROW
-		BEGIN
-			INSERT INTO pairs_audit (circuit_id, type, cl_pair, uo_pair,
-			customer, cust_phone, notes, date_added, user, audit_type,
-			audit_date, audit_user)
-			VALUES(NEW.circuit_id, NEW.type, NEW.cl_pair, NEW.uo_pair, 
-			NEW.customer, NEW.cust_phone, NEW.notes, NEW.date_added, NEW.user,
-			"Insert", NEW.time_added, NEW.user)
-		END
-		''')
-	cursor.executemany(insert_trigger)
-
 
 
 def insert_entry(cursor, entry):
@@ -231,8 +210,6 @@ def delete_entry(cursor, entry_id, user):
 
 	delete_query = ('''DELETE FROM pairs WHERE entry_id = %s''')
 	cursor.execute(delete_query, (entry_id,))
-
-	# __delete_entry_audit_insert(cursor, entry_id)
 
 
 def __delete_entry_audit_insert(cursor, entry_id, user):

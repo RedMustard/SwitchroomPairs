@@ -309,7 +309,8 @@ def delete_entry_from_database():
 
 		# If admin is logged in, edit the entry
 		if 'username' in session:
-			db.delete_entry(DB_CURSOR, entry_id, "admin")
+			user = "admin"
+			db.delete_entry(DB_CURSOR, entry_id, user)
 			db.db_commit(DATABASE)
 			return redirect(url_for("admin"))
 
@@ -322,7 +323,8 @@ def delete_entry_from_database():
 				time_entry = db.get_entry_timestamp(DB_CURSOR, entry_id)
 
 				if time_entry > (time_now - time_delta):
-					db.delete_entry(DB_CURSOR, entry_id, "centlink")
+					user = "centlink"
+					db.delete_entry(DB_CURSOR, entry_id, user)
 					db.db_commit(DATABASE)
 					return redirect(url_for("index"))
 
@@ -360,7 +362,8 @@ def edit_entry_in_database():
 
 		# If admin is logged in, edit the entry
 		if 'username' in session:
-			db.edit_entry(DB_CURSOR, entry_id, entry, "admin")
+			user = "adming"
+			db.edit_entry(DB_CURSOR, entry_id, entry, user)
 			db.db_commit(DATABASE)
 			return redirect(url_for("admin"))
 
@@ -374,7 +377,8 @@ def edit_entry_in_database():
 				time_entry = db.get_entry_timestamp(DB_CURSOR, entry_id)
 
 				if time_entry > (time_now - time_delta):
-					db.edit_entry(DB_CURSOR, entry_id, entry, "centlink")
+					user = "centlink"
+					db.edit_entry(DB_CURSOR, entry_id, entry, user)
 					db.db_commit(DATABASE)
 					return redirect(url_for("index"))
 

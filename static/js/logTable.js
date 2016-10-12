@@ -17,10 +17,23 @@ window.icons = {
 	print: 'fa-print',
 	export: 'fa-external-link',
 	columns: 'fa-th-list',
-	refresh: 'fa-refresh'
+	refresh: 'fa-refresh',
+	toggle: 'fa-columns'
 };
 
 
+// var toggleButton = document.querySelector('[title="Toggle"]');
+// toggleButton
+var $toggleButton = $('[name="toggle"]');
+// $toggleButton.css('pedding-top', '10px');
+// $toggleButton.css('pedding-top', '10px');
+// $toggleButton.style.padding-top = "10px";
+// $toggleButton.style.padding-bottom = "10px";
+// $toggleButton.outerHTML += 'style="padding-top: 10px; padding-bottom: 10px;"'
+console.log($toggleButton);
+
+
+// console.log(toggleButton)
 // Highlight table row on click
 $table.on('click', 'tbody tr', function(event) {
 	var $row = $(this).closest("tr");

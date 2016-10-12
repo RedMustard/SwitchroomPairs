@@ -14,17 +14,17 @@
         csv: 'CSV',
         txt: 'TXT',
         sql: 'SQL',
-        doc: 'MS-Word',
-        excel: 'MS-Excel',
+        doc: 'WORD',
+        excel: 'EXCEL',
         powerpoint: 'MS-Powerpoint',
         pdf: 'PDF'
     };
 
     $.extend($.fn.bootstrapTable.defaults, {
         showExport: false,
-        exportDataType: 'basic', // basic, all, selected
+        exportDataType: 'all', // basic, all, selected
         // 'json', 'xml', 'png', 'csv', 'txt', 'sql', 'doc', 'excel', 'powerpoint', 'pdf'
-        exportTypes: ['json', 'xml', 'csv', 'txt', 'sql', 'excel'],
+        exportTypes: ['excel', 'doc', 'txt', 'json', 'xml', 'csv', 'sql'],
         exportOptions: {}
     });
 
@@ -81,8 +81,8 @@
                 }
                 $.each(exportTypes, function (i, type) {
                     if (TYPE_NAME.hasOwnProperty(type)) {
-                        $menu.append(['<li data-type="' + type + '">',
-                                '<a href="javascript:void(0)">',
+                        $menu.append(['<li class="export-options-li" data-type="' + type + '">',
+                                '<a class="export-options" href="javascript:void(0)">',
                                     TYPE_NAME[type],
                                 '</a>',
                             '</li>'].join(''));

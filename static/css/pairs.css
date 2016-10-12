@@ -166,3 +166,27 @@ h2 {
 	padding-top: 10px;
 	text-align: right;
 }
+
+
+
+button[name=toggle] {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+a.export-options {
+	margin-left: 20px;
+	margin-right: 20px;
+	width: 100%;
+	color: #333;
+}
+
+.export-options:hover {
+	text-decoration: none;
+}
+
+.export-options-li:hover {
+	color: green;
+	text-decoration: none;
+	background-color: #f5f5f5;
+}

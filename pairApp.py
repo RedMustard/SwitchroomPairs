@@ -362,7 +362,7 @@ def edit_entry_in_database():
 
 		# If admin is logged in, edit the entry
 		if 'username' in session:
-			user = "adming"
+			user = "admin"
 			db.edit_entry(DB_CURSOR, entry_id, entry, user)
 			db.db_commit(DATABASE)
 			return redirect(url_for("admin"))

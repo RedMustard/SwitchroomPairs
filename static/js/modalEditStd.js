@@ -10,6 +10,9 @@ function setEditFormInputs() {
 
 	for (var i = 0; i < modalFields.length; i++) {
 		currentFormField = document.getElementById(formFields[i]).innerText;
+		if (formFields[i] == "uo-pair-info") {	
+			currentFormField = parseInt(currentFormField, 10);
+		} 
 		document.getElementById(modalFields[i]).value = currentFormField;
 	}
 }

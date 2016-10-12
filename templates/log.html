@@ -71,9 +71,15 @@
 						<tbody>
 							{% for entry in entries %}
 								<tr >
+								{% set i = 0 %}
 								{% for col in entry %}
 									<td>
-									{% print(col) %}
+									{% if (i == 3) %}
+										{% print('%03d' % col) %}
+									{% else %}
+										{% print(col) %}
+									{% endif %}
+									{% set i = i+1 %}
 									</td>
 								{% endfor %}
 								</tr>

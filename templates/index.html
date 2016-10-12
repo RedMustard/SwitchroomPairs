@@ -225,7 +225,11 @@
 								{% for col in entry %}
 									{% if (i != 0 and i != 4 and i != 5 and i != 7) %}
 										<td>
-										{% print(col) %}
+										{% if (i == 3) %}
+											{% print('%03d' % col) %}
+										{% else %}
+											{% print(col) %}
+										{% endif %}
 										</td>
 									{% endif %}
 									{% set i = i+1 %}

@@ -87,7 +87,7 @@ def admin_login():
 				used_pairs=get_used_pairs())
 
 		else:
-			error = 'Invalid username/password'
+			error = 'Invalid username or password. Please try again.'
 			session.pop('username', None)
 			session.pop('password', None)
 

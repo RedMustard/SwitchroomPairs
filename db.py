@@ -144,12 +144,10 @@ def insert_default_member(cursor):
 
 	for entry in cursor:
 		member = entry
-		print(member)
 
 	if member == None:
 		member = [username, password]
 
-		print("Inserted default member...")
 		insert_member = ('''INSERT INTO members (username, password) 
 			VALUES (%s, MD5(%s)) ''')
 
@@ -164,8 +162,6 @@ def insert_entry(cursor, entry):
 		entry - List containing strings for each column in the table
 	"""
 	if len(entry) == 10:
-		print("\nInserting entry...")
-
 		add_entry = ('''INSERT INTO pairs (
 						circuit_id, type, cl_pair, uo_pair, customer, 
 						cust_phone, notes, date_added, time_added, user) 
@@ -217,7 +213,6 @@ def __delete_entry_audit_insert(cursor, entry_id, user):
 		pairs table.
 	"""
 	entry = get_entry(cursor, entry_id)
-	print(entry)
 	date_now = datetime.now().date()
 
 	insert_entry = ('''INSERT INTO pairs_audit (
@@ -244,7 +239,6 @@ def edit_entry(cursor, entry_id, entry, user):
 		type = %s, circuit_id = %s, cust_phone = %s, uo_pair = %s, 
 		notes = %s WHERE entry_id = %s''')
 
-	print("editing entry")
 	cursor.execute(edit_query, (entry[0], entry[1], entry[2], entry[3], 
 		entry[4], entry[5], entry[6], entry_id))
 
@@ -381,8 +375,6 @@ def get_db(cursor):
 	"""
 	entries = []
 
-	print("\nRetrieving full db...")
-
 	query_database = ('''SELECT circuit_id, type, cl_pair, uo_pair, customer, 
 		cust_phone, notes, date_added FROM pairs''')
 
@@ -405,7 +397,6 @@ def get_log_db(cursor):
 	"""
 	entries = []
 
-	print("Retrieving full log db...")
 	query_database = ('''SELECT circuit_id, type, cl_pair, uo_pair, customer, 
 						cust_phone, notes, date_added, audit_type, 
 						audit_date, audit_user FROM pairs_audit''')

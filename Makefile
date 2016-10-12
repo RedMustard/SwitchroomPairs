@@ -8,7 +8,7 @@
 # Configuration options
 #
 # Edit to use most recent version of Pyvenv on platform  
-PYVENV = pyvenv-3.4
+PYVENV = pyvenv-3.4 --without-pip
 
 
 # A locally installed copy of browserify
@@ -17,7 +17,11 @@ PYVENV = pyvenv-3.4
 #
 #  The files we generate at build-time
 # 
-DERIVED = static/js/*.min.js static/js/node_modules
+DERIVED = static/js/*.min.js
+
+
+all:
+	(cd static/js; make all)
 
 ##
 ## Install in a new environment:
@@ -27,8 +31,9 @@ DERIVED = static/js/*.min.js static/js/node_modules
 ##     
 install:
 	$(PYVENV)  env
+	make env/bin/pip
 	(.  env/bin/activate; pip install -r requirements.txt)
-	(cd static/js ; npm install)
+	# (cd static/js ; npm install)
 	# $(BROWSERIFY) static/js/adDatabaseTable.js >static/js/adDatabaseTable.min.js
 	# $(BROWSERIFY) static/js/logTable.js >static/js/logTable.min.js
 	# $(BROWSERIFY) static/js/modalDelete.js >static/js/modalDelete.min.js
@@ -38,6 +43,11 @@ install:
 	# $(BROWSERIFY) static/js/stdDatabaseTable.js >static/js/stdDatabaseTable.min.js
 	# $(BROWSERIFY) static/js/bootstrap-table/extras/export/bootstrap-table-export.js >static/js/bootstrap-table/extras/export/bootstrap-table-export.min.js
 	# $(BROWSERIFY) static/js/bootstrap-table/extras/print/bootstrap-table-print.js >static/js/bootstrap-table/extras/print/bootstrap-table-print.min.js
+
+env/bin/pip: env/bin/activate
+	echo ""
+	(. env/bin/activate; curl https://bootstrap.pypa.io/get-pip.py | python)
+
 
 dist:
 	pip freeze >requirements.txt

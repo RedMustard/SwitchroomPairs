@@ -12,7 +12,7 @@ PYVENV = pyvenv-3.4
 
 
 # A locally installed copy of browserify
-BROWSERIFY=static/js/node_modules/browserify/bin/cmd.js
+# BROWSERIFY=static/js/node_modules/browserify/bin/cmd.js
 
 #
 #  The files we generate at build-time
@@ -29,7 +29,15 @@ install:
 	$(PYVENV)  env
 	(.  env/bin/activate; pip install -r requirements.txt)
 	(cd static/js ; npm install)
-	$(BROWSERIFY) static/js/busy.js >static/js/busy.min.js
+	# $(BROWSERIFY) static/js/adDatabaseTable.js >static/js/adDatabaseTable.min.js
+	# $(BROWSERIFY) static/js/logTable.js >static/js/logTable.min.js
+	# $(BROWSERIFY) static/js/modalDelete.js >static/js/modalDelete.min.js
+	# $(BROWSERIFY) static/js/modalEdit.js >static/js/modalEdit.min.js
+	# $(BROWSERIFY) static/js/modalEditStd.js >static/js/modalEditStd.min.js
+	# $(BROWSERIFY) static/js/modalSubmit.js >static/js/modalSubmit.min.js
+	# $(BROWSERIFY) static/js/stdDatabaseTable.js >static/js/stdDatabaseTable.min.js
+	# $(BROWSERIFY) static/js/bootstrap-table/extras/export/bootstrap-table-export.js >static/js/bootstrap-table/extras/export/bootstrap-table-export.min.js
+	# $(BROWSERIFY) static/js/bootstrap-table/extras/print/bootstrap-table-print.js >static/js/bootstrap-table/extras/print/bootstrap-table-print.min.js
 
 dist:
 	pip freeze >requirements.txt
@@ -46,4 +54,4 @@ clean:
 
 ## Combine and minify javascript files with browserify
 %.min.js:	%.js
-$(BROWSERIFY) $< > $@
+	$(BROWSERIFY) $< > $@

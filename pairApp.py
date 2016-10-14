@@ -370,7 +370,6 @@ def edit_entry_in_database():
 		# Else, did a centlink user submit the entry? Was it less than 60 
 		#	minutes ago?
 		else:
-			print("Checking which user submitted entry...")
 			if db.get_entry_author(DB_CURSOR, entry_id) == 'centlink':
 				time_now = datetime.now()
 				time_delta = timedelta(hours=1)

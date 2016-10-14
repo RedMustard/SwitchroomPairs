@@ -86,7 +86,7 @@
 							<div class="form-group col-md-4">
 								<label>CenturyLink Pair:<h4> *</h4></label>
 								<select class="form-control" name="cl_pair" id="cl-pair" required="required">
-									{% for i in range(1501, 2701) %}
+									{% for i in range(1501, 2401) %}
 										{% if (i in used_pairs) %}
 											<option class="disabled-option" value="{{i}}" disabled="true">{{i}} -- In use</option>
 										{% else %}
@@ -356,7 +356,7 @@
 									<div class="form-group col-md-5">
 										<label>CenturyLink Pair:<h4> *</h4></label>
 										<select class="form-control" name="cl_pair" id="edit-cl-pair" required="required" disabled>
-											{% for i in range(1501, 2701) %}
+											{% for i in range(1501, 2401) %}
 											<option value="{{i}}">{{i}}</option>
 											{% endfor %}
 										</select>

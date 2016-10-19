@@ -7,7 +7,6 @@ from datetime import date, time, datetime, timedelta
 import json
 import logging
 import config as cfg
-import uuid 
 import db
 
 DATABASE = db.connect_to_database()

@@ -3,6 +3,8 @@ Duplicate this file and name 'config.py'.
 Then, in the new file, fill in the following information.
 """
 
+import uuid 
+
 ## Local development environment
 sql_config_dictionary = {
 	'user': 'INSERT DATABASE USERNAME',

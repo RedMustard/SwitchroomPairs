@@ -40,14 +40,14 @@ def index():
 		error = session['error']
 		session.pop('error', None)
 
-	return render_template('index.html', error=error, entries=get_db(), 
+	return render_template('/index.html', error=error, entries=get_db(), 
 		used_pairs=get_used_pairs())
 
 
 @app.route("/login")
 def login():
 	app.logger.debug("Login page entry")
-	return render_template('login.html')
+	return render_template('/login.html')
 
 
 @app.route("/logout")
@@ -65,11 +65,11 @@ def admin():
 
 	if 'username' in session and 'password' in session:
 		if is_admin(session['username'], session['password']):
-			return render_template('admin.html', entries=get_db(), 
+			return render_template('/admin.html', entries=get_db(), 
 				used_pairs=get_used_pairs())
 	else:
 		error = 'You are not logged in'
-		return render_template('login.html', error=error)
+		return render_template('/login.html', error=error)
 
 
 @app.route("/admin", methods=['POST'])
@@ -83,7 +83,7 @@ def admin_login():
 		session['password'] = request.form['password']
 
 		if is_admin(request.form['username'], request.form['password']):
-			return render_template('admin.html', entries=get_db(), 
+			return render_template('/admin.html', entries=get_db(), 
 				used_pairs=get_used_pairs())
 
 		else:
@@ -91,10 +91,10 @@ def admin_login():
 			session.pop('username', None)
 			session.pop('password', None)
 
-			return render_template('login.html', error=error)
+			return render_template('/login.html', error=error)
 	else:
 		error = "An unexpected error occurred. Please try again."
-		return render_template("login.html")
+		return render_template("/login.html")
 
 
 @app.route("/account")
@@ -103,10 +103,10 @@ def admin_account():
 
 	if 'username' in session and 'password' in session:
 		if is_admin(session['username'], session['password']):
-			return render_template('account.html')
+			return render_template('/account.html')
 	else:
 		error = 'You are not logged in'
-		return render_template('login.html', error=error)
+		return render_template('/login.html', error=error)
 
 
 @app.route("/update-account", methods=['POST'])
@@ -123,7 +123,7 @@ def update_account():
 		if new_pass != confirm_new_pass:
 			error = ("Your new password and confirmation password did not " + 
 				"match. Please try again.")
-			return render_template('account.html', error=error)
+			return render_template('/account.html', error=error)
 
 		# If the admin is currently logged in, verify the old password is 
 		#	correct and then update with the new password
@@ -132,7 +132,7 @@ def update_account():
 				if old_pass == new_pass:
 					error = ("Your new password cannot be the same as the " + 
 						"old password.")
-					return render_template('account.html', error=error)
+					return render_template('/account.html', error=error)
 				else:	
 					update_member = ('''UPDATE members SET password = MD5(%s) 
 						WHERE username = %s''')
@@ -142,18 +142,18 @@ def update_account():
 					session['password'] = new_pass
 					
 					message = "Your password has been successfully changed"
-					return render_template('account.html', message=message)
+					return render_template('/account.html', message=message)
 
 			else:
 				error = "The old password is incorrect. Please try again."
-				return render_template('account.html', error=error)
+				return render_template('/account.html', error=error)
 
 		else:
 			error = 'You are not logged in.'
-			return render_template('login.html', error=error)
+			return render_template('/login.html', error=error)
 	else:
 		error = "An unexpected error occurred. Please try again."
-		return render_template("account.html", error=error)
+		return render_template("/account.html", error=error)
 
 
 @app.route("/update-account")
@@ -162,11 +162,11 @@ def update_account_without_post():
 
 	if 'username' in session and 'password' in session:
 		if is_admin(session['username'], session['password']):
-			return render_template("account.html")
+			return render_template("/account.html")
 
 	else:
 		error = "You are not logged in."
-		return render_template("login.html", error=error)
+		return render_template("/login.html", error=error)
 
 
 @app.route("/log")
@@ -175,11 +175,11 @@ def db_log():
 
 	if 'username' in session and 'password' in session:
 		if is_admin(session['username'], session['password']):
-			return render_template('log.html', entries=get_log_db())
+			return render_template('/log.html', entries=get_log_db())
 	else:
 		error = 'You are not logged in.'
 
-	return render_template('login.html', error=error)
+	return render_template('/login.html', error=error)
 
 
 @app.errorhandler(404)

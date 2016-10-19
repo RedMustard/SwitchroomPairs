@@ -4,7 +4,7 @@ $("#modal-delete-button").on('click', function(event) {
 	$('#delete-modal').modal('hide');
 
 	$.ajax({
-		url: "/delete",
+		url: "delete",
 		type: "POST",
 		data: entryData,
 		success: function(response) {

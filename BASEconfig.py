@@ -14,4 +14,5 @@ sql_config_dictionary = {
 
 PORT=5000
 DEBUG=False
+KEY=str(uuid.uuid4())
 

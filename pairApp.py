@@ -14,7 +14,7 @@ DATABASE = db.connect_to_database()
 DB_CURSOR = DATABASE.cursor(buffered=True)
 
 app = flask.Flask(__name__)
-app.secret_key = str(uuid.uuid4())
+app.secret_key = cfg.KEY
 app.debug = cfg.DEBUG
 app.logger.setLevel(logging.DEBUG)
 
@@ -400,7 +400,7 @@ def edit_entry_in_database():
 
 if __name__ == "__main__":
 	import uuid
-	app.secret_key = str(uuid.uuid4())
+	app.secret_key = cfg.KEY
 	app.debug = cfg.DEBUG
 	app.logger.setLevel(logging.DEBUG)
 	app.run(port=cfg.PORT)

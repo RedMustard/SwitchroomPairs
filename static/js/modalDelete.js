@@ -38,4 +38,5 @@ function reloadPage() {
 		window.location = 'admin';
 	} else if ((location.href.indexOf('index') > -1) || (location.href.indexOf('/') > -1)) {
 		window.location = 'index';
+	}
 }

@@ -34,9 +34,9 @@ function getEntryInfo() {
 
 function reloadPage() {
 	console.log(location.pathname);
-	if (location.pathname == '/index' || location.pathname =='/') {
+	if ((location.href.indexOf('index') > -1) || (location.href.indexOf('/') > -1)) {
 		window.location = 'index';
-	} else if (location.pathname == '/admin') {
+	} else if (location.href.indexOf('/admin') > -1) {
 		window.location = 'admin';
 	}
 }

@@ -3,8 +3,6 @@ Duplicate this file and name 'config.py'.
 Then, in the new file, fill in the following information.
 """
 
-import uuid 
-
 ## Local development environment
 sql_config_dictionary = {
 	'user': 'INSERT DATABASE USERNAME',
@@ -16,5 +14,12 @@ sql_config_dictionary = {
 
 PORT=5000
 DEBUG=False
-KEY=str(uuid.uuid4())
 
+##################################
+## Generating a strong app key:
+##
+## 		Run a python interpreter and type the following in:
+##			import os
+##			os.urandom(24) 
+##
+KEY='INSERT APP KEY' 

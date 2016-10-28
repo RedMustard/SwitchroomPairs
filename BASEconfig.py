@@ -1,6 +1,6 @@
 """
 Duplicate this file and name 'config.py'.
-Then, in the new file, fill in the following information.
+Then, in the new file, fill in the missing information.
 """
 
 ## Local development environment
@@ -12,8 +12,9 @@ sql_config_dictionary = {
 	'raise_on_warnings': True
 }
 
-PORT=5000
-DEBUG=False
+PORT=5000 ## Port for Flask server
+DEBUG=False ## Development debug mode on or off
+
 
 ##################################
 ## Generating a strong app key:
@@ -22,4 +23,4 @@ DEBUG=False
 ##			import os
 ##			os.urandom(24) 
 ##
-KEY='INSERT APP KEY' 
+KEY='INSERT APP KEY' ## For use with Flask session cookies

@@ -165,7 +165,7 @@ def insert_entry(cursor, entry):
 		add_entry = ('''INSERT INTO pairs (
 						circuit_id, type, cl_pair, uo_pair, customer, 
 						cust_phone, notes, date_added, time_added, user) 
-						VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''')
+						VALUES (%s, %s, CAST(%s AS UNSIGNED), CAST(%s AS UNSIGNED), %s, %s, %s, %s, %s, %s)''')
 
 		cursor.execute(add_entry, entry)
 		__insert_entry_audit_insert(cursor, entry)
@@ -188,7 +188,7 @@ def __insert_entry_audit_insert(cursor, entry):
 						circuit_id, type, cl_pair, uo_pair, customer, 
 						cust_phone, notes, date_added, audit_type, 
 						audit_date, audit_user) 
-						VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''')
+						VALUES (%s, %s, CAST(%s AS UNSIGNED), CAST(%s AS UNSIGNED), %s, %s, %s, %s, %s, %s, %s)''')
 
 	cursor.execute(insert_entry, (entry[0], entry[1], entry[2], entry[3], 
 		entry[4], entry[5],entry[6],entry[7], "Insert", entry[7], 

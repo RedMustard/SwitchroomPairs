@@ -5,6 +5,8 @@ Demarcation & Cross-Connect app.
 """
 import flask
 from flask import render_template, session, redirect, url_for, escape, request
+import flask_mail
+from flask_mail import Mail, Message
 from datetime import date, time, datetime, timedelta
 
 import json
@@ -19,7 +21,7 @@ app = flask.Flask(__name__)
 app.secret_key = cfg.KEY
 app.debug = cfg.DEBUG
 app.logger.setLevel(logging.DEBUG)
-
+mail = Mail(app)
 
 ##########
 ##
@@ -42,8 +44,21 @@ def index():
 		error = session['error']
 		session.pop('error', None)
 
+	send_email()
+
 	return render_template('/index.html', error=error, entries=get_db(), 
 		used_pairs=get_used_pairs())
+
+
+
+def send_email():
+	"""
+	"""
+	msg = Message("Test email when index is loaded",
+			recipients=["ttb@uoregon.edu"])
+
+	msg.body = "This is a test email from Flask Mail for the pair app."
+	mail.send(msg)
 
 
 @app.route("/login")

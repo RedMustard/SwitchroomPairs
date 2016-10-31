@@ -3,7 +3,7 @@ Duplicate this file and name 'config.py'.
 Then, in the new file, fill in the missing information.
 """
 
-## Local development environment
+## MySQL Settings
 sql_config_dictionary = {
 	'user': 'INSERT DATABASE USERNAME',
 	'password': 'INSERT DATABASE PASSWORD',
@@ -12,6 +12,8 @@ sql_config_dictionary = {
 	'raise_on_warnings': True
 }
 
+
+## App Settings
 PORT=5000 ## Port for Flask server
 DEBUG=False ## Development debug mode on or off
 
@@ -24,3 +26,9 @@ DEBUG=False ## Development debug mode on or off
 ##			os.urandom(24) 
 ##
 KEY='INSERT APP KEY' ## For use with Flask session cookies
+
+
+## Mail Settings
+MAIL_SERVER='INSERT OUTGOING MAIL SERVER'
+MAIL_PORT=25
+MAIL_DEFAULT_SENDER='INSERT SENDER EMAIL'

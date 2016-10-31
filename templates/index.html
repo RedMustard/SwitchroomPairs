@@ -99,6 +99,7 @@
 							<div class="form-group col-md-4">
 								<label>UO Cross-Connect Pair:<h4> *</h4></label>
 								<select class="form-control" name="uo_pair" id="uo-pair" required="required">
+									<option value="0">N/A</option>
 									{% for i in range(001, 601) %}
 										{% if (i in used_pairs) %}
 											<option class="disabled-option" value="{{i}}" disabled="true">{{ '%03d' % i }} -- In use</option>
@@ -226,7 +227,11 @@
 									{% if (i != 0 and i != 4 and i != 5 and i != 7) %}
 										<td>
 										{% if (i == 3) %}
-											{% print('%03d' % col) %}
+											{% if (col == 0) %}
+												{% print('N/A') %}	
+											{% else %}
+												{% print('%03d' % col) %}
+											{% endif %}
 										{% else %}
 											{% print(col) %}
 										{% endif %}
@@ -365,6 +370,7 @@
 									<div class="form-group col-md-5">
 										<label>UO Cross-Connect Pair:<h4> *</h4></label>
 										<select class="form-control" name="uo_pair" id="edit-uo-pair" required="required" disabled>
+											<option value="0">N/A</option>
 											{% for i in range(001, 601) %}
 											<option value="{{i}}">{{ '%03d' % i }}</option>
 											{% endfor %}

@@ -1,4 +1,7 @@
-"""
+"""Century Link Demarcation & Cross-Connect Server
+
+This program functions as the server for the University of Oregon/Century Link 
+Demarcation & Cross-Connect app.
 """
 import flask
 from flask import render_template, session, redirect, url_for, escape, request

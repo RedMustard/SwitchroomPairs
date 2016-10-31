@@ -1,9 +1,9 @@
-"""Switchroom Pairs Database API
+"""Century Link Demarcation & Cross-Connect Database API
 
 Author: Travis Barnes, Aug 08 2016
 
 This program functions as the API for manipulating the MySQL backend for the 
-University of Oregon Switchroom Pairs app.
+University of Oregon/Century Link Demarcation & Cross-Connect app.
 """
 
 from datetime import date, time, datetime

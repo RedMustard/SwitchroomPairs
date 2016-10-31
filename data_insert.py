@@ -43,33 +43,6 @@ def parse_csv_data(file):
 	return entries
 
 
-# def insert_entry(entry):
-# 	"""Inserts an entry into the database.
-
-# 	Keyword Arguments:
-# 		cursor - A cursor object for the database to delete from
-# 		entry - List containing strings for each column in the table
-# 	"""
-
-# 	if len(entry) == 10:
-# 		add_entry = ('''INSERT INTO pairs (
-# 						circuit_id, type, cl_pair, uo_pair, customer, 
-# 						cust_phone, notes, date_added, time_added, user) 
-# 						VALUES (%s, %s, CAST(%s AS UNSIGNED), CAST(%s AS UNSIGNED), %s, %s, %s, %s, %s, %s)''')
-
-# 		DB_CURSOR.execute(add_entry, entry)
-# 		# __insert_entry_audit_insert(DB_CURSOR, entry)
-
-# 	elif len(entry) > 10:
-# 		print("Your entry has too many variables")
-
-# 	elif len(entry) < 10:
-# 		print("Your entry has too few variables")
-
-# 	else:
-# 		print("An unexpected error occurred")
-
-
 if __name__ == "__main__":
 	for entry in parse_csv_data(open_file())[1:]:
 		date_added = datetime.now().date()
@@ -81,8 +54,7 @@ if __name__ == "__main__":
 		if entry[0] != "":
 			print("Inserting entry...")
 			db.insert_entry(DB_CURSOR, entry)
-			# insert_entry(entry)
-		# 
 			print(entry)
 			print("\n")
+
 	db.db_commit(DATABASE)

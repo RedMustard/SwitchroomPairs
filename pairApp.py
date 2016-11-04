@@ -21,7 +21,9 @@ app = flask.Flask(__name__)
 app.secret_key = cfg.KEY
 app.debug = cfg.DEBUG
 app.logger.setLevel(logging.DEBUG)
+app.config.update(**cfg.mail_config_dictionary)
 mail = Mail(app)
+
 
 ##########
 ##
@@ -44,21 +46,8 @@ def index():
 		error = session['error']
 		session.pop('error', None)
 
-	send_email()
-
 	return render_template('/index.html', error=error, entries=get_db(), 
 		used_pairs=get_used_pairs())
-
-
-
-def send_email():
-	"""
-	"""
-	msg = Message("Test email when index is loaded",
-			recipients=["ttb@uoregon.edu"])
-
-	msg.body = "This is a test email from Flask Mail for the pair app."
-	mail.send(msg)
 
 
 @app.route("/login")
@@ -277,6 +266,45 @@ def get_used_pairs():
 	return pairs
 
 
+def __send_email(action, entry_data):
+	"""Sends an email whenever the database is updated by centlink users.
+	"""
+	msg = Message("Demarcation database {} performed".format(action),
+			recipients=["ttb@uoregon.edu"])
+
+	if action == "insert" or action == "edit":
+		msg.body = ("An {} has been performed on the demarc ".format(action) +
+				"database with the following information: \n\n" + 
+				"Circuit ID: {} \n".format(entry_data[0] if action=="insert" 
+					else entry_data[3]) +
+				"Circuit Type: {} \n".format(entry_data[1] if action=="insert" 
+					else entry_data[2]) +
+				"Century Link Pair: {} \n".format(entry_data[2] if action=="insert" 
+					else entry_data[1]) +
+				"UO Cross-Connect Pair: {} \n".format(
+					"N/A" if int(entry_data[3] if action=="insert" else entry_data[5]) == 0 
+						else '%03d' % int(entry_data[3] if action=="insert" else entry_data[5])) +
+				"Customer Name: {} \n".format(entry_data[4] if action=="insert" 
+					else entry_data[0]) +
+				"Customer Phone: {} \n".format(entry_data[5] if action=="insert" 
+					else entry_data[4]) +
+				"Notes: {} \n".format(entry_data[6]))
+
+	elif action == "delete":
+		msg.body = ("A {} has been performed on the demarc ".format(action) +
+				"database with the following information: \n\n" + 
+				"Century Link Pair: {} \n".format(entry_data[0]) +
+				"UO Cross-Connect Pair: {} \n".format(
+					"N/A" if int(entry_data[1]) == 0 
+						else '%03d' % int(entry_data[1])))
+
+	else:
+		msg.body = """An error occured compiling the body of this message.
+			Check the log database in order to determine what was changed."""
+
+	mail.send(msg)
+
+
 @app.route("/submit", methods=['POST'])
 def insert_entry_into_database():
 	"""Inserts an entry into the 'pairs' table.
@@ -301,6 +329,7 @@ def insert_entry_into_database():
 			entry.append(session['username'])
 		else:
 			entry.append('centlink')
+			__send_email("insert", entry)
 
 		db.insert_entry(DB_CURSOR, entry)
 		db.db_commit(DATABASE)
@@ -322,6 +351,9 @@ def delete_entry_from_database():
 		cl_pair = request.form['cl_pair']
 		uo_pair = request.form['uo_pair']
 
+		if uo_pair == "N/A":
+			uo_pair = 0
+
 		entry_id = db.get_entry_id(DB_CURSOR, cl_pair, uo_pair)
 
 		# If admin is logged in, edit the entry
@@ -341,8 +373,10 @@ def delete_entry_from_database():
 
 				if time_entry > (time_now - time_delta):
 					user = "centlink"
+					entry = [cl_pair, uo_pair]
 					db.delete_entry(DB_CURSOR, entry_id, user)
 					db.db_commit(DATABASE)
+					__send_email("delete", entry)
 					return redirect(url_for("index"))
 
 				else:
@@ -396,6 +430,7 @@ def edit_entry_in_database():
 					user = "centlink"
 					db.edit_entry(DB_CURSOR, entry_id, entry, user)
 					db.db_commit(DATABASE)
+					__send_email("edit", entry)
 					return redirect(url_for("index"))
 
 				else:

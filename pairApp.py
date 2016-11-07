@@ -2,7 +2,11 @@
 
 This program functions as the server for the University of Oregon/Century Link 
 Demarcation & Cross-Connect app.
+
+This server uses Flask to serve webpages. Flask documentation is available at:
+	http://flask.pocoo.org/docs/0.11/
 """
+
 import flask
 from flask import render_template, session, redirect, url_for, escape, request
 import flask_mail
@@ -27,7 +31,7 @@ mail = Mail(app)
 
 ##########
 ##
-##  PAGES
+##  WEB PAGES
 ##
 ##########
 @app.route("/")
@@ -105,6 +109,7 @@ def admin_login():
 
 @app.route("/account")
 def admin_account():
+	app.logger.debug("Admin account page entry")
 	error = None
 
 	if 'username' in session and 'password' in session:
@@ -115,9 +120,9 @@ def admin_account():
 		return render_template('/login.html', error=error)
 
 
-@app.route("/update-account", methods=['POST'])
+@app.route("/update-account", methods=['POST']) 
 def update_account():
-	app.logger.debug("Admin password change attempt")
+	app.logger.debug("Admin account update attempt")
 
 	error = None
 
@@ -162,8 +167,9 @@ def update_account():
 		return render_template("/account.html", error=error)
 
 
-@app.route("/update-account")
+@app.route("/update-account") 
 def update_account_without_post():
+	app.logger.debug("Admin account update without POST attempt")
 	error = None
 
 	if 'username' in session and 'password' in session:
@@ -177,6 +183,7 @@ def update_account_without_post():
 
 @app.route("/log")
 def db_log():
+	app.logger.debug("Log page entry")
 	error = None
 
 	if 'username' in session and 'password' in session:
@@ -198,7 +205,7 @@ def page_not_found(error):
 
 #####################
 ##
-##	Functions used within templates
+##	Functions used within pages
 ##
 #####################
 def is_admin(username, password):
@@ -281,9 +288,11 @@ def __send_email(action, entry_data):
 					else entry_data[2]) +
 				"Century Link Pair: {} \n".format(entry_data[2] if action=="insert" 
 					else entry_data[1]) +
-				"UO Cross-Connect Pair: {} \n".format(
-					"N/A" if int(entry_data[3] if action=="insert" else entry_data[5]) == 0 
-						else '%03d' % int(entry_data[3] if action=="insert" else entry_data[5])) +
+				"UO Cross-Connect Pair: {} \n".format("N/A" 
+					if int(entry_data[3] if action=="insert" else entry_data[5]
+							) == 0 
+					else '%03d' % int(entry_data[3] if action=="insert" 
+										else entry_data[5])) +
 				"Customer Name: {} \n".format(entry_data[4] if action=="insert" 
 					else entry_data[0]) +
 				"Customer Phone: {} \n".format(entry_data[5] if action=="insert" 

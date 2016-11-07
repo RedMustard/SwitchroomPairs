@@ -39,6 +39,9 @@ def open_file():
 def parse_csv_data(file):
 	"""Parses a CSV file containing a batch of entries.
 
+	Keyword Arguments:
+		file - An opened CSV file
+
 	Returns:
 		entries - List containing parsed entry data
 	"""

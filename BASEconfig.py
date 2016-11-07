@@ -28,10 +28,10 @@ DEBUG=False ## Development debug mode on or off
 KEY='INSERT APP KEY' ## For use with Flask session cookies
 
 
-## Mail Settings
+## Flask-Mail Settings
 mail_config_dictionary = {
 	'MAIL_SERVER': 'INSERT OUTGOING MAIL SERVER',
-	'MAIL_PORT': 587,
+	'MAIL_PORT': 25,
 	'MAIL_USERNAME': 'INSERT USERNAME',
 	'MAIL_PASSWORD': 'INSERT PASSWORD',
 	'MAIL_DEFAULT_SENDER': 'INSERT EMAIL OF SENDER',

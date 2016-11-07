@@ -49,7 +49,7 @@ function getHeight() {
 	var navHeight = $('#nav-bar').outerHeight(true);
 	var formHeight = $('#field-container').outerHeight(true);
 	var toolbarHeight = $('#toolbar').outerHeight(true);
-	var bottomMargin = 70;
+	var bottomMargin = 100;
 
 	if (windowWidth < 768) {
 		return 500;

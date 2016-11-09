@@ -53,7 +53,6 @@ SwitchroomPairs														-- Main folder containing all folders and files
 			modalSubmit.js 											-- JS script for managing submit window (submission confirmation)
 			stdDatabaseTable.js 									-- JS script for managing database table on index.html
 
-
 	templates 														-- Folder containing html files
 		account.html												-- HTML page for Admin account settings
 		admin.html													-- HTML page for Admin version of app

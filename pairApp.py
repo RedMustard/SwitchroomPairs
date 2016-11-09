@@ -277,7 +277,7 @@ def __send_email(action, entry_data):
 	"""Sends an email whenever the database is updated by centlink users.
 	"""
 	msg = Message("Demarcation database {} performed".format(action),
-			recipients=["ttb@uoregon.edu"])
+			recipients=cfg.MAIL_RECIPIENT)
 
 	if action == "insert" or action == "edit":
 		msg.body = ("An {} has been performed on the demarc ".format(action) +

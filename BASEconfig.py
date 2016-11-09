@@ -32,9 +32,11 @@ KEY='INSERT APP KEY' ## For use with Flask session cookies
 mail_config_dictionary = {
 	'MAIL_SERVER': 'INSERT OUTGOING MAIL SERVER',
 	'MAIL_PORT': 25,
-	'MAIL_USERNAME': 'INSERT USERNAME',
-	'MAIL_PASSWORD': 'INSERT PASSWORD',
+	'MAIL_USERNAME': 'INSERT USERNAME',   # Delete this line if no login is needed
+	'MAIL_PASSWORD': 'INSERT PASSWORD',   # Delete this line if no login is needed
 	'MAIL_DEFAULT_SENDER': 'INSERT EMAIL OF SENDER',
 	'MAIL_USE_TLS': True,
 	'MAIL_USE_SSL': False
 }
+
+MAIL_RECIPIENT = "INSERT EMAIL OF RECIPIENT"

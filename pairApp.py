@@ -76,7 +76,7 @@ def admin():
 	if 'username' in session and 'password' in session:
 		if is_admin(session['username'], session['password']):
 			return render_template('/admin.html', entries=get_db(), 
-				used_pairs=get_used_pairs())
+				used_pairs=get_used_pairs(), error=error)
 	else:
 		error = 'You are not logged in'
 		return render_template('/login.html', error=error)
@@ -94,7 +94,7 @@ def admin_login():
 
 		if is_admin(request.form['username'], request.form['password']):
 			return render_template('/admin.html', entries=get_db(), 
-				used_pairs=get_used_pairs())
+				used_pairs=get_used_pairs(), error=error)
 
 		else:
 			error = 'Invalid username or password. Please try again.'

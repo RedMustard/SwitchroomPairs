@@ -38,11 +38,15 @@
 
 		<!-- Main Container -->
 		<div class="container-fluid containter-main" style="margin-left: 20px;">
+			
 			<h4 class="error">
 				{% if error %}
+				<div class="alert alert-danger" role="alert">
 					{% print(error) %}
+				</div>
 				{% endif %}
 			</h4>
+
 			<br />
 			<form action="admin" method="post">
 				<div class="form-group row">

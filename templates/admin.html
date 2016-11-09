@@ -49,8 +49,9 @@
 				<div class="col-md-7 form-div">
 					<h4 class="error">
 						{% if (error != None) %}
-							{% print(error) %}
-							<br />
+							<div class="alert alert-danger" role="alert">
+								{% print(error) %}
+							</div>
 							<br />
 						{% endif %}
 					</h4>

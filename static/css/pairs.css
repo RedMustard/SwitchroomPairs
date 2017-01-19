@@ -26,6 +26,11 @@ h4.error {
 	color: green;
 }
 
+h1 {
+	font-size: 16pt;
+	font-weight: bold;
+	text-align: center;
+}
 
 h3 {
 	font-weight: 600;
@@ -102,9 +107,15 @@ h2 {
 }
 
 .info-div {
-	border-left-style: solid; 
+	border-left-style: solid;
+	border-top-style: solid;
+	border-bottom-style: solid; 
 	border-width: 1px; 
 	border-color: #E5E5E5;
+	background-color: #F2F5DD;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-top: -20px;
 }
 
 

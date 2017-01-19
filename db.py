@@ -80,9 +80,9 @@ def connect_to_database():
 		# try:
 		# 	db_cursor.execute('''DROP TABLE `pairs` ''')
 		# 	print("Pairs table deleted")
-		# 	db_cursor.execute('''DROP TABLE `pairs_audit` ''')
-		# 	print("Pairs_audit table deleted")
-		# 	db_cursor.execute('''DROP TABLE `members` ''')
+			# db_cursor.execute('''DROP TABLE `pairs_audit` ''')
+			# print("Pairs_audit table deleted")
+			# db_cursor.execute('''DROP TABLE `members` ''')
 		# 	print("Members table deleted\n")
 		# except:
 		# 	print("Error dropping table")
@@ -299,7 +299,7 @@ def get_entry_id(cursor, cl_pair, uo_pair):
 	Returns:
 		entry_id - The retrieved ID number for the given entry
 	"""
-	get_id = ('''SELECT entry_id FROM pairs WHERE cl_pair = %s OR 
+	get_id = ('''SELECT entry_id FROM pairs WHERE cl_pair = %s AND 
 		uo_pair = %s''')
 
 	cursor.execute(get_id, (cl_pair, uo_pair))
